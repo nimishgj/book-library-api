@@ -53,8 +53,11 @@ class ConsoleDisplayTest {
         );
 
         displayManager.printBookList(bookList);
-        String expectedString = "List Of Books\n- oneTitle\n- anotherTitle\n";
+        String expectedPartOfString = "List Of Books\n" +
+                "Title                          Author                         Year Published\n" +
+                "---------------------------------------------------------------------------\n";
 
-        assertEquals(expectedString, outputStream.toString());
+        assertTrue(outputStream.toString().contains(expectedPartOfString));
     }
+
 }

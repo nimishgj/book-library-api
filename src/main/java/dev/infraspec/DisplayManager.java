@@ -15,8 +15,11 @@ public class DisplayManager {
 
     public void printBookList(List<Book> books) {
         print("List Of Books");
+        System.out.printf("%-30s %-30s %-10s\n", "Title", "Author", "Year Published");
+        System.out.println("---------------------------------------------------------------------------");
         for (Book book : books) {
-            print("- " + book.getTitle());
+            print(book.toString());
         }
+        System.out.println();
     }
 }
