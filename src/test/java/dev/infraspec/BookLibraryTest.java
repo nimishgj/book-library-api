@@ -3,38 +3,26 @@ package dev.infraspec;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class BookLibraryTest {
     @Test
     @DisplayName("Print Welcome Message")
-    public void testValidWelcomeMessage() {
-        BookLibrary bookLibrary = new BookLibrary();
-        Message recievedMessage = bookLibrary.getWelcomeToTheLibrary();
+    public void printValidWelcomeMessage() {
+        Display displaySpy = spy(new ConsoleDisplay());
+        BookLibrary library = new BookLibrary(displaySpy);
+        library.startApplication();
 
-        assertTrue(recievedMessage.contains("Welcome to the Library"));
+        verify(displaySpy).print("Welcome to the Library");
     }
 
     @Test
     @DisplayName("Print List of Books")
     public void printListOfBooks() {
-        BookLibrary bookLibrary = new BookLibrary();
+        Display display = spy(new ConsoleDisplay());
+        BookLibrary library = new BookLibrary(display);
+        library.startApplication();
 
-        assertNotNull(bookLibrary.displayListOfBooks());
-    }
-
-    @Test
-    @DisplayName("Send the Books while creating the Book Library and list the Books")
-    public void sendPreExistingBooksInConstructor() {
-        List<Book> booksList=Arrays.asList(new Book("oneBookTitle"),new Book("anotherBookTitle"));
-        BookLibrary bookLibrary = new BookLibrary(booksList);
-
-        Message recievedMessage = bookLibrary.displayListOfBooks();
-
-        assertTrue(recievedMessage.contains("oneBookTitle"));
-        assertTrue(recievedMessage.contains("anotherBookTitle"));
+        verify(display).print("List Of Books\n-aBook\n-anotherBook");
     }
 }

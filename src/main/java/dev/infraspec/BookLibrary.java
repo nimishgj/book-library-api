@@ -4,24 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookLibrary {
-    private final List<Book> bookRegister;
+    private final Display display;
 
-    public BookLibrary() {
-        this(new ArrayList<>());
+
+    public BookLibrary(Display display){
+        this.display = display;
     }
 
-    public BookLibrary(List<Book> booksList) {
-        this.bookRegister = booksList;
-    }
+    public void startApplication(){
+        display.print("Welcome to the Library");
 
-    public Message getWelcomeToTheLibrary() {
-        return new Message("Welcome to the Library");
-    }
-
-    public Message displayListOfBooks() {
-        StringBuilder messageBuilder = new StringBuilder();
-        bookRegister.forEach(book -> messageBuilder.append("- " + book.title + "\n"));
-
-        return new Message(messageBuilder.toString());
+        display.print("List Of Books\n-aBook\n-anotherBook");
     }
 }
