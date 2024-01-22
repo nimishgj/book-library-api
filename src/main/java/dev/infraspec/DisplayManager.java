@@ -1,6 +1,6 @@
 package dev.infraspec;
 
-public class ConsoleDisplay {
+public class DisplayManager {
 
 
     public void print(String printable) {

@@ -19,7 +19,7 @@ class ConsoleDisplayTest {
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+        DisplayManager consoleDisplay = new DisplayManager();
         consoleDisplay.printWelcomeMessage();
 
         assertEquals("Welcome to the Library\n", outputStream.toString());
@@ -32,7 +32,7 @@ class ConsoleDisplayTest {
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        ConsoleDisplay consoleDisplay = new ConsoleDisplay();
+        DisplayManager consoleDisplay = new DisplayManager();
         String message = "Random Message";
         consoleDisplay.print(message);
 

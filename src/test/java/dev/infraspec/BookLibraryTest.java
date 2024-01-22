@@ -9,7 +9,7 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Print Welcome Message")
     public void printValidWelcomeMessage() {
-        ConsoleDisplay displaySpy = spy(new ConsoleDisplay());
+        DisplayManager displaySpy = spy(new DisplayManager());
         BookLibrary library = new BookLibrary(displaySpy);
         library.startApplication();
 
@@ -19,7 +19,7 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Print List of Books")
     public void printListOfBooks() {
-        ConsoleDisplay display = spy(new ConsoleDisplay());
+        DisplayManager display = spy(new DisplayManager());
         BookLibrary library = new BookLibrary(display);
         library.startApplication();
 

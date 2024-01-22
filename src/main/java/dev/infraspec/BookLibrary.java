@@ -1,10 +1,10 @@
 package dev.infraspec;
 
 public class BookLibrary {
-    private final ConsoleDisplay display;
+    private final DisplayManager display;
 
 
-    public BookLibrary(ConsoleDisplay display) {
+    public BookLibrary(DisplayManager display) {
         this.display = display;
     }
 
