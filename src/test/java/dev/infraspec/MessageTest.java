@@ -11,7 +11,7 @@ class MessageTest {
 
     @Test
     @DisplayName("contains should return true when given string is contained")
-    void contains_shouldReturnTrue_whenGivenStringIsContained() {
+    void henGivenStringIsContained() {
         Message message = new Message("Hello, World!");
 
         boolean result = message.contains("Hello");
@@ -21,7 +21,7 @@ class MessageTest {
 
     @Test
     @DisplayName("contains should return false when given string is not contained")
-    void contains_shouldReturnFalse_whenGivenStringIsNotContained() {
+    void whenGivenStringIsNotContained() {
         Message message = new Message("Hello, World!");
 
         boolean result = message.contains("Random String");

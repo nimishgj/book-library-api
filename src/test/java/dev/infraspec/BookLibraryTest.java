@@ -3,7 +3,10 @@ package dev.infraspec;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookLibraryTest {
     @Test
@@ -19,8 +22,19 @@ public class BookLibraryTest {
     @DisplayName("Print List of Books")
     public void printListOfBooks() {
         BookLibrary bookLibrary = new BookLibrary();
+
+        assertNotNull(bookLibrary.displayListOfBooks());
+    }
+
+    @Test
+    @DisplayName("Send the Books while creating the Book Library and list the Books")
+    public void sendPreExistingBooksInConstructor() {
+        List<Book> booksList=Arrays.asList(new Book("oneBookTitle"),new Book("anotherBookTitle"));
+        BookLibrary bookLibrary = new BookLibrary(booksList);
+
         Message recievedMessage = bookLibrary.displayListOfBooks();
 
-        assertTrue(recievedMessage.contains("List Of Books -\n-REMOTE\n-REWORK"));
+        assertTrue(recievedMessage.contains("oneBookTitle"));
+        assertTrue(recievedMessage.contains("anotherBookTitle"));
     }
 }

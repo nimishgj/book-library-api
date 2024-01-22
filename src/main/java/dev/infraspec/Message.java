@@ -9,5 +9,4 @@ public class Message {
     public boolean contains(String givenString) {
         return this.message.contains(givenString);
     }
-
 }
