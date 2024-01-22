@@ -1,9 +1,13 @@
 package dev.infraspec;
 
-public class ConsoleDisplay implements Display{
+public class ConsoleDisplay {
 
-    @Override
+
     public void print(String printable) {
         System.out.println(printable);
+    }
+
+    public void printWelcomeMessage() {
+        System.out.println("Welcome to the Library");
     }
 }

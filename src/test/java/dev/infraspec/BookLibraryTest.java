@@ -9,17 +9,17 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Print Welcome Message")
     public void printValidWelcomeMessage() {
-        Display displaySpy = spy(new ConsoleDisplay());
+        ConsoleDisplay displaySpy = spy(new ConsoleDisplay());
         BookLibrary library = new BookLibrary(displaySpy);
         library.startApplication();
 
-        verify(displaySpy).print("Welcome to the Library");
+        verify(displaySpy).printWelcomeMessage();
     }
 
     @Test
     @DisplayName("Print List of Books")
     public void printListOfBooks() {
-        Display display = spy(new ConsoleDisplay());
+        ConsoleDisplay display = spy(new ConsoleDisplay());
         BookLibrary library = new BookLibrary(display);
         library.startApplication();
 
