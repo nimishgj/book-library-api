@@ -9,10 +9,7 @@ public class BookLibrary {
 
 
     public BookLibrary(DisplayManager display) {
-        this(display, new BookRepository(Arrays.asList(
-                new Book("title"),
-                new Book("anotherTitle")
-        )));
+        this(display, BookRepository.defaultBookRepository());
     }
 
     public BookLibrary(DisplayManager display, BookRepository bookRepository) {
