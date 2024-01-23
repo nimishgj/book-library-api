@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BookRepository {
 
-    public static final BookRepository defaultBookRepository() {
+    public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
                 new Book("oneDefault"),
                 new Book("anotherDefault")

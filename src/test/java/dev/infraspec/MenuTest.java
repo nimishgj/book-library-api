@@ -4,11 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,16 +51,16 @@ public class MenuTest {
         assertEquals("Main Menu:\n1. ListBooksOption\n2. ListBooksOption\n", outputStream.toString());
     }
 
-    //@Test
-    //@DisplayName("Calls the options execution method")
-    //void callOptionExecuteMethod() {
-    //    Option oneOption = spy(new ListBooksOption());
-    //    Menu menu = new Menu(Collections.singletonList(oneOption));
-//
-    //    ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-    //    System.setIn(inputStream);
-    //    menu.run();
-//
-    //    verify(oneOption).execute(anyList());
-    //}
+    @Test
+    @DisplayName("Calls the options execution method")
+    void callOptionExecuteMethod() {
+        Option oneOption = spy(new ListBooksOption());
+        Option anotherOneOption = spy(new ListBooksOption());
+
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption)));
+        menu.run();
+
+        verify(oneOption, times(1)).execute(anyList());
+        verify(anotherOneOption, times(0)).execute(anyList());
+    }
 }
