@@ -3,11 +3,12 @@ package dev.infraspec;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,7 +41,7 @@ public class MenuTest {
 
     @Test
     @DisplayName("Display options passed to menu")
-    void diaplayMenuOptions(){
+    void displayMenuOptions(){
         Option oneOption = new ListBooksOption();
         Option anotherOption = new ListBooksOption();
         List<Option> options = Arrays.asList(oneOption,anotherOption);
@@ -48,6 +49,23 @@ public class MenuTest {
 
         menu.displayOptions();
 
-        assertEquals("Main Menu:\n1. ListBooksOption\n2. ListBooksOption\n",outputStream.toString());
+        assertEquals("Main Menu:\n1. ListBooksOption\n2. ListBooksOption\n", outputStream.toString());
+    }
+
+    @Test
+    @DisplayName("Get the User Choice")
+    void getUserChoice() {
+        Option option = new ListBooksOption();
+        Menu menu = new Menu(Collections.singletonList(option));
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
+        System.setIn(inputStream);
+
+        int actualChoice = menu.getUserChoice();
+
+        System.setIn(System.in);
+        int expectedChoice = 1;
+
+        assertEquals(expectedChoice,actualChoice);
     }
 }

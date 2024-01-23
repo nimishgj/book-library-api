@@ -1,6 +1,7 @@
 package dev.infraspec;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Menu {
     private final List<Option> options;
@@ -16,5 +17,11 @@ public class Menu {
         for (int i = 0; i < options.size(); i++) {
             displayManager.print((i + 1) + ". " + options.get(i).getClass().getSimpleName());
         }
+    }
+
+    public int getUserChoice() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your choice: ");
+        return scanner.nextInt();
     }
 }
