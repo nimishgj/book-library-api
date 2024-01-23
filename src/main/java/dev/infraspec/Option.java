@@ -1,5 +1,7 @@
 package dev.infraspec;
 
+import java.util.List;
+
 public interface Option {
-    void execute();
+    public void execute(List<Book> ts);
 }

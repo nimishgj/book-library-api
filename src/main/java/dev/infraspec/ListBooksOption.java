@@ -1,8 +1,11 @@
 package dev.infraspec;
 
-public class ListBooksOption implements Option {
-    @Override
-    public void execute() {
+import java.util.List;
 
+public class ListBooksOption implements Option {
+
+    @Override
+    public void execute(List<Book> books) {
+        new DisplayManager().printBookList(books);
     }
 }
