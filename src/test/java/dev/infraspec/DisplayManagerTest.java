@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,10 +65,10 @@ class DisplayManagerTest {
     @Test
     @DisplayName("Get the input from stream")
     void getInput(){
-        DisplayManager displayManager = new DisplayManager();
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-        System.setIn(inputStream);
+
+        DisplayManager displayManager = new DisplayManager(new Scanner(inputStream));
 
         int gave = displayManager.getIntInput();
 

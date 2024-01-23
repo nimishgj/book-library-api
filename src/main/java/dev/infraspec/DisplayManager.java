@@ -4,7 +4,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DisplayManager {
+    private final Scanner scanner;
 
+    public DisplayManager() {
+        this(new Scanner(System.in));
+    }
+
+    public DisplayManager(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void print(String printable) {
         System.out.println(printable);
@@ -25,7 +33,6 @@ public class DisplayManager {
     }
 
     public int getIntInput() {
-        Scanner input = new Scanner(System.in);
-        return input.nextInt();
+        return scanner.nextInt();
     }
 }
