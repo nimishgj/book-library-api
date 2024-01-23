@@ -1,6 +1,7 @@
 package dev.infraspec;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class DisplayManager {
 
@@ -21,5 +22,10 @@ public class DisplayManager {
             print(book.toString());
         }
         System.out.println();
+    }
+
+    public int getIntInput() {
+        Scanner input = new Scanner(System.in);
+        return input.nextInt();
     }
 }

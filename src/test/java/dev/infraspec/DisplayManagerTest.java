@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConsoleDisplayTest {
+class DisplayManagerTest {
     PrintStream originalSystemOut;
     ByteArrayOutputStream outputStream;
 
@@ -60,4 +61,18 @@ class ConsoleDisplayTest {
         assertTrue(outputStream.toString().contains(expectedPartOfString));
     }
 
+    @Test
+    @DisplayName("Get the input from stream")
+    void getInput(){
+        DisplayManager displayManager = new DisplayManager();
+
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
+        System.setIn(inputStream);
+
+        int gave = displayManager.getIntInput();
+
+        System.setIn(System.in);
+
+        assertEquals(gave,1);
+    }
 }
