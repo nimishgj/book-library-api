@@ -1,15 +1,22 @@
 package dev.infraspec;
 
 import java.util.List;
-import java.util.Scanner;
+
+import static dev.infraspec.BookRepository.defaultBookRepository;
 
 public class Menu {
     private final List<Option> options;
     private final DisplayManager displayManager;
+    private final List<Book> books;
 
     public Menu(List<Option> options) {
-         displayManager = new DisplayManager();
+        this(options, defaultBookRepository());
+    }
+
+    public Menu(List<Option> options, BookRepository bookRepository) {
+        displayManager = new DisplayManager();
         this.options = options;
+        this.books = bookRepository.getAllBooks();
     }
 
     public void displayOptions() {
@@ -19,9 +26,17 @@ public class Menu {
         }
     }
 
-    public int getUserChoice() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter your choice: ");
-        return scanner.nextInt();
+    private int getUserChoice() {
+        displayManager.print("Enter your choice: ");
+        return displayManager.getIntInput();
+    }
+
+    public void run() {
+        int userChoice;
+        do {
+            displayOptions();
+            userChoice = getUserChoice();
+            options.get(userChoice - 1).execute(books);
+        } while (userChoice != 0);
     }
 }

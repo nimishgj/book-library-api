@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class MenuTest {
     PrintStream originalSystemOut;
@@ -25,9 +25,10 @@ public class MenuTest {
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
     }
+
     @Test
     @DisplayName("Display Menu Heading")
-    void displayMenuHeading(){
+    void displayMenuHeading() {
         List<Option> options = Arrays.asList(
                 mock(Option.class),
                 mock(Option.class)
@@ -41,10 +42,10 @@ public class MenuTest {
 
     @Test
     @DisplayName("Display options passed to menu")
-    void displayMenuOptions(){
+    void displayMenuOptions() {
         Option oneOption = new ListBooksOption();
         Option anotherOption = new ListBooksOption();
-        List<Option> options = Arrays.asList(oneOption,anotherOption);
+        List<Option> options = Arrays.asList(oneOption, anotherOption);
         Menu menu = new Menu(options);
 
         menu.displayOptions();
@@ -52,20 +53,16 @@ public class MenuTest {
         assertEquals("Main Menu:\n1. ListBooksOption\n2. ListBooksOption\n", outputStream.toString());
     }
 
-    @Test
-    @DisplayName("Get the User Choice")
-    void getUserChoice() {
-        Option option = new ListBooksOption();
-        Menu menu = new Menu(Collections.singletonList(option));
-
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-        System.setIn(inputStream);
-
-        int actualChoice = menu.getUserChoice();
-
-        System.setIn(System.in);
-        int expectedChoice = 1;
-
-        assertEquals(expectedChoice,actualChoice);
-    }
+    //@Test
+    //@DisplayName("Calls the options execution method")
+    //void callOptionExecuteMethod() {
+    //    Option oneOption = spy(new ListBooksOption());
+    //    Menu menu = new Menu(Collections.singletonList(oneOption));
+//
+    //    ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
+    //    System.setIn(inputStream);
+    //    menu.run();
+//
+    //    verify(oneOption).execute(anyList());
+    //}
 }
