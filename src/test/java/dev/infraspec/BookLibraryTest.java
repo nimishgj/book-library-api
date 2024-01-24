@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class BookLibraryTest {
+    private final ConsoleManager consoleManager = mock(ConsoleManager.class);
+    private final Menu menu = mock(Menu.class);
+    private final BookLibrary bookLibrary = new BookLibrary(consoleManager, BookRepository.defaultBookRepository(), menu);
     @Test
     @DisplayName("Display Welcome Message")
     public void printValidWelcomeMessage() {
-        ConsoleManager displaySpy = mock(ConsoleManager.class);
-        Menu menu = mock(Menu.class);
-        BookLibrary library = spy(new BookLibrary(displaySpy, BookRepository.defaultBookRepository(), menu));
+        BookLibrary library = spy(bookLibrary);
         library.startApplication();
 
         verify(library, times(1)).printWelcomeMessage();
@@ -20,11 +21,7 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Display menu to user")
     void displayMenu() {
-        ConsoleManager displaySpy = mock(ConsoleManager.class);
-        Menu menu = mock(Menu.class);
-        BookLibrary library = new BookLibrary(displaySpy, BookRepository.defaultBookRepository(), menu);
-
-        library.startApplication();
+        bookLibrary.startApplication();
 
         verify(menu).run();
     }
