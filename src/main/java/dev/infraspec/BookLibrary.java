@@ -8,16 +8,18 @@ public class BookLibrary {
     private final BookRepository bookRepository;
     private final Menu menu;
 
-
-    public BookLibrary(DisplayManager display) {
-        this(display, BookRepository.defaultBookRepository(),new Menu(List.of()));
+    public BookLibrary() {
+        this.display = new DisplayManager();
+        this.bookRepository = BookRepository.defaultBookRepository();
+        this.menu = new Menu(Arrays.asList(new ListBooksOption()), this.bookRepository, this.display);
     }
 
-    public BookLibrary(DisplayManager display, BookRepository bookRepository,Menu menu) {
+    public BookLibrary(DisplayManager display, BookRepository bookRepository, Menu menu) {
         this.display = display;
         this.bookRepository = bookRepository;
         this.menu = menu;
     }
+
     public void startApplication() {
         printWelcomeMessage();
 

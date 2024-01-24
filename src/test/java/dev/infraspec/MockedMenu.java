@@ -1,16 +1,11 @@
 package dev.infraspec;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static dev.infraspec.BookRepository.defaultBookRepository;
 
 public class MockedMenu extends Menu {
     private final List<Option> options;
     private List<Book> books = new ArrayList<>();
-
     private int choice;
 
     public MockedMenu(List<Option> options) {
@@ -22,8 +17,7 @@ public class MockedMenu extends Menu {
     public void displayOptions() {
     }
 
-
-     int getUserChoice() {
+    int getUserChoice() {
         choice++;
         return choice;
     }

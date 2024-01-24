@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BookRepository {
+    private final List<Book> books;
 
     public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
@@ -11,8 +12,6 @@ public class BookRepository {
                 new Book("anotherDefault")
         ));
     }
-
-    private final List<Book> books;
 
     public BookRepository(List<Book> books) {
         this.books = books;

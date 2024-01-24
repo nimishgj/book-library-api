@@ -64,16 +64,13 @@ class DisplayManagerTest {
 
     @Test
     @DisplayName("Get the input from stream")
-    void getInput(){
-
+    void getInput() {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-
         DisplayManager displayManager = new DisplayManager(new Scanner(inputStream));
 
         int gave = displayManager.getIntInput();
-
         System.setIn(System.in);
 
-        assertEquals(gave,1);
+        assertEquals(gave, 1);
     }
 }

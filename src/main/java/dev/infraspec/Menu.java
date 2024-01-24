@@ -10,10 +10,10 @@ public class Menu {
     private final List<Book> books;
 
     public Menu(List<Option> options) {
-        this(options, defaultBookRepository(),new DisplayManager());
+        this(options, defaultBookRepository(), new DisplayManager());
     }
 
-    public Menu(List<Option> options, BookRepository bookRepository,DisplayManager displayManager) {
+    public Menu(List<Option> options, BookRepository bookRepository, DisplayManager displayManager) {
         this.displayManager = displayManager;
         this.options = options;
         this.books = bookRepository.getAllBooks();
@@ -40,6 +40,6 @@ public class Menu {
             displayManager.print("");
             options.get(userChoice).execute(books);
             displayManager.print("");
-        } while (userChoice+1 != 0);
+        } while (userChoice >= 0);
     }
 }

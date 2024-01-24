@@ -6,12 +6,13 @@ public class Book {
     private final int yearPublished;
 
     public Book(String title) {
-        this(title,"UNKNOWN",0000);
+        this(title, "UNKNOWN", 0000);
     }
-    public Book(String title,String author,int yearPublished){
-        this.title=title;
-        this.author=author;
-        this.yearPublished=yearPublished;
+
+    public Book(String title, String author, int yearPublished) {
+        this.title = title;
+        this.author = author;
+        this.yearPublished = yearPublished;
     }
 
     public String getTitle() {
