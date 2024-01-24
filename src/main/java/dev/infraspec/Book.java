@@ -15,10 +15,6 @@ public class Book {
         this.yearPublished = yearPublished;
     }
 
-    public String getTitle() {
-        return this.title;
-    }
-
     @Override
     public String toString() {
         return String.format("%-30s %-30s %-10d", title, author, yearPublished);

@@ -3,20 +3,18 @@ package dev.infraspec;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.exit;
-
 public class MockedMenu extends Menu {
     private final List<Option> options;
 
-    private final DisplayManager displayManager;
+    private final ConsoleManager displayManager;
     private List<Book> books = new ArrayList<>();
     private int choice;
 
-    public MockedMenu(List<Option> options,DisplayManager displayManager) {
+    public MockedMenu(List<Option> options, ConsoleManager displayManager) {
         super(List.of());
         this.options = options;
         this.choice = 0;
-        this.displayManager= displayManager;
+        this.displayManager = displayManager;
     }
 
     public void displayOptions() {
@@ -32,7 +30,7 @@ public class MockedMenu extends Menu {
         do {
             displayOptions();
             userChoice = getUserChoice();
-            if (!isValidOption(userChoice)){
+            if (!isValidOption(userChoice)) {
                 return;
             }
             executeOption(userChoice);
@@ -40,11 +38,11 @@ public class MockedMenu extends Menu {
     }
 
     private void executeOption(int userChoice) {
-            options.get(userChoice - 1).execute(books);
+        options.get(userChoice - 1).execute(books);
     }
 
     private boolean isValidOption(int userChoice) {
-        if(userChoice >= 0 && userChoice  - 1 < options.size()) {
+        if (userChoice >= 0 && userChoice - 1 < options.size()) {
             return true;
         }
         displayManager.print("Invalid Option");

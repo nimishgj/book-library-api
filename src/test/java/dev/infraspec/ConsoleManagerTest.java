@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DisplayManagerTest {
+class ConsoleManagerTest {
     PrintStream originalSystemOut;
     ByteArrayOutputStream outputStream;
 
@@ -27,7 +27,7 @@ class DisplayManagerTest {
     @Test
     @DisplayName("Print valid Welcome Message")
     void printWelcomeMessage() {
-        DisplayManager displayManager = new DisplayManager();
+        ConsoleManager displayManager = new ConsoleManager();
 
         displayManager.printWelcomeMessage();
 
@@ -37,7 +37,7 @@ class DisplayManagerTest {
     @Test
     @DisplayName("Print valid message")
     void printMessage() {
-        DisplayManager displayManager = new DisplayManager();
+        ConsoleManager displayManager = new ConsoleManager();
         String message = "Random Message";
 
         displayManager.print(message);
@@ -48,7 +48,7 @@ class DisplayManagerTest {
     @Test
     @DisplayName("Print List Of Books")
     void printListOfBooks() {
-        DisplayManager displayManager = new DisplayManager();
+        ConsoleManager displayManager = new ConsoleManager();
         List<Book> bookList = Arrays.asList(
                 new Book("oneTitle"),
                 new Book("anotherTitle")
@@ -66,7 +66,7 @@ class DisplayManagerTest {
     @DisplayName("Get the input from stream")
     void getInput() {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-        DisplayManager displayManager = new DisplayManager(new Scanner(inputStream));
+        ConsoleManager displayManager = new ConsoleManager(new Scanner(inputStream));
 
         int gave = displayManager.getIntInput();
         System.setIn(System.in);

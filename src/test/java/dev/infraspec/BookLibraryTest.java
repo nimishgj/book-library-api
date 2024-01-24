@@ -9,7 +9,7 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Display Welcome Message")
     public void printValidWelcomeMessage() {
-        DisplayManager displaySpy = mock(DisplayManager.class);
+        ConsoleManager displaySpy = mock(ConsoleManager.class);
         Menu menu = mock(Menu.class);
         BookLibrary library = spy(new BookLibrary(displaySpy, BookRepository.defaultBookRepository(), menu));
         library.startApplication();
@@ -20,7 +20,7 @@ public class BookLibraryTest {
     @Test
     @DisplayName("Display menu to user")
     void displayMenu() {
-        DisplayManager displaySpy = mock(DisplayManager.class);
+        ConsoleManager displaySpy = mock(ConsoleManager.class);
         Menu menu = mock(Menu.class);
         BookLibrary library = new BookLibrary(displaySpy, BookRepository.defaultBookRepository(), menu);
 

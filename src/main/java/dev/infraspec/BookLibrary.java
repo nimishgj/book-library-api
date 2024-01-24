@@ -1,20 +1,19 @@
 package dev.infraspec;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class BookLibrary {
-    private final DisplayManager display;
+    private final ConsoleManager display;
     private final BookRepository bookRepository;
     private final Menu menu;
 
     public BookLibrary() {
-        this.display = new DisplayManager();
+        this.display = new ConsoleManager();
         this.bookRepository = BookRepository.defaultBookRepository();
-        this.menu = new Menu(Arrays.asList(new ListBooksOption(),new ExitOption()), this.bookRepository, this.display);
+        this.menu = new Menu(Arrays.asList(new ListBooksOption(), new ExitOption()), this.bookRepository, this.display);
     }
 
-    public BookLibrary(DisplayManager display, BookRepository bookRepository, Menu menu) {
+    public BookLibrary(ConsoleManager display, BookRepository bookRepository, Menu menu) {
         this.display = display;
         this.bookRepository = bookRepository;
         this.menu = menu;

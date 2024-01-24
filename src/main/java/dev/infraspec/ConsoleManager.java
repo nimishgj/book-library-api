@@ -3,14 +3,14 @@ package dev.infraspec;
 import java.util.List;
 import java.util.Scanner;
 
-public class DisplayManager {
+public class ConsoleManager {
     private final Scanner scanner;
 
-    public DisplayManager() {
+    public ConsoleManager() {
         this(new Scanner(System.in));
     }
 
-    public DisplayManager(Scanner scanner) {
+    public ConsoleManager(Scanner scanner) {
         this.scanner = scanner;
     }
 

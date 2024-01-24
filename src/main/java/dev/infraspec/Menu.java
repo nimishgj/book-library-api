@@ -6,14 +6,14 @@ import static dev.infraspec.BookRepository.defaultBookRepository;
 
 public class Menu {
     private final List<Option> options;
-    private final DisplayManager displayManager;
+    private final ConsoleManager displayManager;
     private final List<Book> books;
 
     public Menu(List<Option> options) {
-        this(options, defaultBookRepository(), new DisplayManager());
+        this(options, defaultBookRepository(), new ConsoleManager());
     }
 
-    public Menu(List<Option> options, BookRepository bookRepository, DisplayManager displayManager) {
+    public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.displayManager = displayManager;
         this.options = options;
         this.books = bookRepository.getAllBooks();
@@ -37,7 +37,7 @@ public class Menu {
         do {
             displayOptions();
             userChoice = getUserChoice() - 1;
-            if(!isValidUserChoice(userChoice)){
+            if (!isValidUserChoice(userChoice)) {
                 continue;
             }
             executeUserChoiceOption(userChoice);
@@ -45,9 +45,9 @@ public class Menu {
     }
 
     private void executeUserChoiceOption(int userChoice) {
-            displayManager.print("");
-            options.get(userChoice).execute(books);
-            displayManager.print("");
+        displayManager.print("");
+        options.get(userChoice).execute(books);
+        displayManager.print("");
     }
 
     private boolean isValidUserChoice(int userChoice) {

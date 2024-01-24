@@ -58,7 +58,7 @@ public class MenuTest {
         Option oneOption = spy(new ListBooksOption());
         Option anotherOneOption = spy(new ListBooksOption());
 
-        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption),new DisplayManager()));
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption), new ConsoleManager()));
         menu.run();
 
         verify(oneOption, times(1)).execute(anyList());
@@ -66,24 +66,25 @@ public class MenuTest {
 
     @Test
     @DisplayName("Display Invalid Option Provided")
-    void invalidOption(){
+    void invalidOption() {
         Option oneOption = spy(new ListBooksOption());
-        DisplayManager displayManager = spy(new DisplayManager());
+        ConsoleManager displayManager = spy(new ConsoleManager());
 
-        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption),displayManager));
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption), displayManager));
         menu.run();
 
-        verify(displayManager,times(1)).print("Invalid Option");
+        verify(displayManager, times(1)).print("Invalid Option");
     }
+
     @Test
     @DisplayName("Exit the Application")
     void exitOption() {
         Option exitOption = mock(ExitOption.class);
-        DisplayManager displayManager = spy(new DisplayManager());
+        ConsoleManager displayManager = spy(new ConsoleManager());
 
-        Menu menu = spy(new MockedMenu(Collections.singletonList(exitOption),displayManager));
+        Menu menu = spy(new MockedMenu(Collections.singletonList(exitOption), displayManager));
         menu.run();
 
-        verify(exitOption).execute(anyList());
+        verify(exitOption).execute(any());
     }
 }
