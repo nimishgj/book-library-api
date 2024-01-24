@@ -1,4 +1,8 @@
-package dev.infraspec;
+package dev.infraspec.options;
+
+import dev.infraspec.Book;
+import dev.infraspec.ConsoleManager;
+import dev.infraspec.Option;
 
 import java.util.List;
 

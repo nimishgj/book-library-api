@@ -34,14 +34,14 @@ public class Menu {
 
     public void run() {
         int userChoice;
-        do {
+        while (true) {
             displayOptions();
             userChoice = getUserChoice() - 1;
             if (!isValidUserChoice(userChoice)) {
                 continue;
             }
             executeUserChoiceOption(userChoice);
-        } while (true);
+        }
     }
 
     private void executeUserChoiceOption(int userChoice) {

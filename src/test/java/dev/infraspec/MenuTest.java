@@ -1,5 +1,8 @@
 package dev.infraspec;
 
+import dev.infraspec.options.CheckoutOption;
+import dev.infraspec.options.ExitOption;
+import dev.infraspec.options.ListBooksOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,5 +89,17 @@ public class MenuTest {
         menu.run();
 
         verify(exitOption).execute(any());
+    }
+
+    @Test
+    @DisplayName("Checkout a book")
+    void isCheckingOutBook() {
+        Option checkoutOption = mock(CheckoutOption.class);
+        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(checkoutOption), new ConsoleManager());
+
+        Menu menu = spy(mockedMenu);
+        menu.run();
+
+        verify(checkoutOption).execute(any());
     }
 }

@@ -29,11 +29,14 @@ public class ConsoleManager {
     }
 
     public void printBookList(List<Book> books) {
-        print("List Of Books");
-        System.out.printf("%-30s %-30s %-10s\n", "Title", "Author", "Year Published");
+        print("List Of Books:");
+        print("");
+        System.out.printf("%-5s %-30s %-30s %-10s\n", "Id", "Title", "Author", "Year Published");
         print("---------------------------------------------------------------------------");
         for (Book book : books) {
-            print(book.toString());
+            if(book.toString() != null){
+                print(book.toString());
+            }
         }
         print("");
         printLineSeparater();
