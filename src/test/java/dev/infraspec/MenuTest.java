@@ -48,7 +48,7 @@ public class MenuTest {
 
         menu.displayOptions();
 
-        assertEquals("Main Menu:\n1. ListBooksOption\n2. ListBooksOption\n", outputStream.toString());
+        assertEquals("Main Menu:\n\n1. ListBooksOption\n2. ListBooksOption\n", outputStream.toString());
     }
 
     @Test

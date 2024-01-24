@@ -19,17 +19,24 @@ public class DisplayManager {
     }
 
     public void printWelcomeMessage() {
-        System.out.println("Welcome to the Library");
+        printLineSeparater();
+        print("Welcome to the Library");
+        printLineSeparater();
+    }
+
+    private void printLineSeparater() {
+        print("**********************************************************************");
     }
 
     public void printBookList(List<Book> books) {
         print("List Of Books");
         System.out.printf("%-30s %-30s %-10s\n", "Title", "Author", "Year Published");
-        System.out.println("---------------------------------------------------------------------------");
+        print("---------------------------------------------------------------------------");
         for (Book book : books) {
             print(book.toString());
         }
-        System.out.println();
+        print("");
+        printLineSeparater();
     }
 
     public int getIntInput() {

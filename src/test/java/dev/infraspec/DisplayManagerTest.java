@@ -31,7 +31,7 @@ class DisplayManagerTest {
 
         displayManager.printWelcomeMessage();
 
-        assertEquals("Welcome to the Library\n", outputStream.toString());
+        assertEquals("**********************************************************************\nWelcome to the Library\n**********************************************************************\n", outputStream.toString());
     }
 
     @Test
