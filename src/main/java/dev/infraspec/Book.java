@@ -1,15 +1,19 @@
 package dev.infraspec;
 
+import java.util.Random;
+
 public class Book {
     private final String title;
     private final String author;
     private final int yearPublished;
+    private final int bookId;
 
     public Book(String title) {
-        this(title, "UNKNOWN", 0000);
+        this(new Random().nextInt(90)*10,title, "UNKNOWN", 0000);
     }
 
-    public Book(String title, String author, int yearPublished) {
+    public Book(int bookId,String title, String author, int yearPublished) {
+        this.bookId=bookId;
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
@@ -17,6 +21,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return String.format("%-30s %-30s %-10d", title, author, yearPublished);
+        return String.format("%-5d %-30s %-30s %-10d",bookId, title, author, yearPublished);
     }
 }
