@@ -3,18 +3,18 @@ package dev.infraspec;
 import java.util.Arrays;
 
 public class BookLibrary {
-    private final ConsoleManager display;
+    private final ConsoleManager consoleManager;
     private final BookRepository bookRepository;
     private final Menu menu;
 
     public BookLibrary() {
-        this.display = new ConsoleManager();
+        this.consoleManager = new ConsoleManager();
         this.bookRepository = BookRepository.defaultBookRepository();
-        this.menu = new Menu(Arrays.asList(new ListBooksOption(), new ExitOption()), this.bookRepository, this.display);
+        this.menu = new Menu(Arrays.asList(new ListBooksOption(), new ExitOption()), this.bookRepository, this.consoleManager);
     }
 
     public BookLibrary(ConsoleManager display, BookRepository bookRepository, Menu menu) {
-        this.display = display;
+        this.consoleManager = display;
         this.bookRepository = bookRepository;
         this.menu = menu;
     }
@@ -26,6 +26,6 @@ public class BookLibrary {
     }
 
     public void printWelcomeMessage() {
-        display.printWelcomeMessage();
+        consoleManager.printWelcomeMessage();
     }
 }

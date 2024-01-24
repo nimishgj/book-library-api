@@ -80,9 +80,9 @@ public class MenuTest {
     @DisplayName("Exit the Application")
     void exitOption() {
         Option exitOption = mock(ExitOption.class);
-        ConsoleManager displayManager = spy(new ConsoleManager());
+        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(exitOption), new ConsoleManager());
 
-        Menu menu = spy(new MockedMenu(Collections.singletonList(exitOption), displayManager));
+        Menu menu = spy(mockedMenu);
         menu.run();
 
         verify(exitOption).execute(any());

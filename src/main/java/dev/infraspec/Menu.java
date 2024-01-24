@@ -6,7 +6,7 @@ import static dev.infraspec.BookRepository.defaultBookRepository;
 
 public class Menu {
     private final List<Option> options;
-    private final ConsoleManager displayManager;
+    private final ConsoleManager consoleManager;
     private final List<Book> books;
 
     public Menu(List<Option> options) {
@@ -14,22 +14,22 @@ public class Menu {
     }
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
-        this.displayManager = displayManager;
+        this.consoleManager = displayManager;
         this.options = options;
         this.books = bookRepository.getAllBooks();
     }
 
     public void displayOptions() {
-        displayManager.print("Main Menu:");
-        displayManager.print("");
+        consoleManager.print("Main Menu:");
+        consoleManager.print("");
         for (int i = 0; i < options.size(); i++) {
-            displayManager.print((i + 1) + ". " + options.get(i).getClass().getSimpleName());
+            consoleManager.print((i + 1) + ". " + options.get(i).getClass().getSimpleName());
         }
     }
 
     private int getUserChoice() {
-        displayManager.print("Enter your choice: ");
-        return displayManager.getIntInput();
+        consoleManager.print("Enter your choice: ");
+        return consoleManager.getIntInput();
     }
 
     public void run() {
@@ -45,17 +45,17 @@ public class Menu {
     }
 
     private void executeUserChoiceOption(int userChoice) {
-        displayManager.print("");
+        consoleManager.print("");
         options.get(userChoice).execute(books);
-        displayManager.print("");
+        consoleManager.print("");
     }
 
     private boolean isValidUserChoice(int userChoice) {
         if (userChoice >= 0 && userChoice < options.size()) {
             return true;
         }
-        displayManager.print("Select a valid option!");
-        displayManager.print("");
+        consoleManager.print("Select a valid option!");
+        consoleManager.print("");
         return false;
     }
 }
