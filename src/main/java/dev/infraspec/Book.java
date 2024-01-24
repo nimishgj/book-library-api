@@ -9,10 +9,6 @@ public class Book {
     private final int bookId;
     public boolean checkOutStatus;
 
-    public Book(String title) {
-        this(new Random().nextInt(90) * 10, title, "UNKNOWN", 0000);
-    }
-
     public Book(int bookId, String title, String author, int yearPublished) {
         this.bookId = bookId;
         this.title = title;

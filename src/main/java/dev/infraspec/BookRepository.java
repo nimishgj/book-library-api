@@ -8,8 +8,8 @@ public class BookRepository {
 
     public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
-                new Book("oneDefault"),
-                new Book("anotherDefault")
+                new Book(1,"someTitle","someAuthor",1982),
+                new Book(2,"randomTitle","randomAuthor",1989)
         ));
     }
 

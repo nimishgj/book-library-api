@@ -6,10 +6,6 @@ import java.util.Scanner;
 public class ConsoleManager {
     private final Scanner scanner;
 
-    public ConsoleManager() {
-        this(new Scanner(System.in));
-    }
-
     public ConsoleManager(Scanner scanner) {
         this.scanner = scanner;
     }

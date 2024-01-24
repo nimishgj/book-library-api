@@ -27,7 +27,7 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print valid Welcome Message")
     void printWelcomeMessage() {
-        ConsoleManager displayManager = new ConsoleManager();
+        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
 
         displayManager.printWelcomeMessage();
 
@@ -37,7 +37,7 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print valid message")
     void printMessage() {
-        ConsoleManager displayManager = new ConsoleManager();
+        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
         String message = "Random Message";
 
         displayManager.print(message);
@@ -48,10 +48,10 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print List Of Books")
     void printListOfBooks() {
-        ConsoleManager displayManager = new ConsoleManager();
+        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
         List<Book> bookList = Arrays.asList(
-                new Book("oneTitle"),
-                new Book("anotherTitle")
+                new Book(1,"someTitle","someAuthor",1982),
+                new Book(2,"randomTitle","randomAuthor",1989)
         );
 
         displayManager.printBookList(bookList);

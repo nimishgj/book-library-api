@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,7 +36,7 @@ public class MenuTest {
                 mock(Option.class),
                 mock(Option.class)
         );
-        Menu menu = new Menu(options);
+        Menu menu = new Menu(options,BookRepository.defaultBookRepository(),new ConsoleManager(new Scanner(System.in)));
 
         menu.displayOptions();
 
@@ -45,10 +46,10 @@ public class MenuTest {
     @Test
     @DisplayName("Display options passed to menu")
     void displayMenuOptions() {
-        Option oneOption = new ListBooksOption();
-        Option anotherOption = new ListBooksOption();
+        Option oneOption = new ListBooksOption(new ConsoleManager(new Scanner(System.in)));
+        Option anotherOption = new ListBooksOption(new ConsoleManager(new Scanner(System.in)));
         List<Option> options = Arrays.asList(oneOption, anotherOption);
-        Menu menu = new Menu(options);
+        Menu menu = new Menu(options,BookRepository.defaultBookRepository(),new ConsoleManager(new Scanner(System.in)));
 
         menu.displayOptions();
 
@@ -58,10 +59,10 @@ public class MenuTest {
     @Test
     @DisplayName("Calls the options execution method")
     void callOptionExecuteMethod() {
-        Option oneOption = spy(new ListBooksOption());
-        Option anotherOneOption = spy(new ListBooksOption());
+        Option oneOption = spy(new ListBooksOption(new ConsoleManager(new Scanner(System.in))));
+        Option anotherOneOption = spy(new ListBooksOption(new ConsoleManager(new Scanner(System.in))));
 
-        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption), new ConsoleManager()));
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption), new ConsoleManager(new Scanner(System.in))));
         menu.run();
 
         verify(oneOption, times(1)).execute(anyList());
@@ -70,8 +71,8 @@ public class MenuTest {
     @Test
     @DisplayName("Display Invalid Option Provided")
     void invalidOption() {
-        Option oneOption = spy(new ListBooksOption());
-        ConsoleManager displayManager = spy(new ConsoleManager());
+        Option oneOption = spy(new ListBooksOption(new ConsoleManager(new Scanner(System.in))));
+        ConsoleManager displayManager = spy(new ConsoleManager(new Scanner(System.in)));
 
         Menu menu = spy(new MockedMenu(Arrays.asList(oneOption), displayManager));
         menu.run();
@@ -83,7 +84,7 @@ public class MenuTest {
     @DisplayName("Exit the Application")
     void exitOption() {
         Option exitOption = mock(ExitOption.class);
-        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(exitOption), new ConsoleManager());
+        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(exitOption), new ConsoleManager(new Scanner(System.in)));
 
         Menu menu = spy(mockedMenu);
         menu.run();
@@ -95,7 +96,7 @@ public class MenuTest {
     @DisplayName("Checkout a book")
     void isCheckingOutBook() {
         Option checkoutOption = mock(CheckoutOption.class);
-        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(checkoutOption), new ConsoleManager());
+        MockedMenu mockedMenu = new MockedMenu(Collections.singletonList(checkoutOption), new ConsoleManager(new Scanner(System.in)));
 
         Menu menu = spy(mockedMenu);
         menu.run();

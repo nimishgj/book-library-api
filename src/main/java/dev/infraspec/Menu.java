@@ -1,6 +1,7 @@
 package dev.infraspec;
 
 import java.util.List;
+import java.util.Scanner;
 
 import static dev.infraspec.BookRepository.defaultBookRepository;
 
@@ -9,9 +10,6 @@ public class Menu {
     private final ConsoleManager consoleManager;
     private final List<Book> books;
 
-    public Menu(List<Option> options) {
-        this(options, defaultBookRepository(), new ConsoleManager());
-    }
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;

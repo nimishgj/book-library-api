@@ -11,7 +11,7 @@ public class MockedMenu extends Menu {
     private int choice;
 
     public MockedMenu(List<Option> options, ConsoleManager displayManager) {
-        super(List.of());
+        super(List.of(),BookRepository.defaultBookRepository(),displayManager);
         this.options = options;
         this.choice = 0;
         this.displayManager = displayManager;

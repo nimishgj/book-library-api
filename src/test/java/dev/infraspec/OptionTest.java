@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -25,7 +26,7 @@ class OptionTest {
             ByteArrayOutputStream outputStream;
             outputStream = new ByteArrayOutputStream();
             System.setOut(new PrintStream(outputStream));
-            ListBooksOption listBooksOption = new ListBooksOption();
+            ListBooksOption listBooksOption = new ListBooksOption(new ConsoleManager(new Scanner(System.in)));
 
             listBooksOption.execute(Arrays.asList(new Book(1, "someTitle", "someAuthor", 1992)));
 
