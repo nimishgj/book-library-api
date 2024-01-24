@@ -37,9 +37,25 @@ public class Menu {
         do {
             displayOptions();
             userChoice = getUserChoice() - 1;
+            if(!isValidUserChoice(userChoice)){
+                continue;
+            }
+            executeUserChoiceOption(userChoice);
+        } while (true);
+    }
+
+    private void executeUserChoiceOption(int userChoice) {
             displayManager.print("");
             options.get(userChoice).execute(books);
             displayManager.print("");
-        } while (userChoice >= 0);
+    }
+
+    private boolean isValidUserChoice(int userChoice) {
+        if (userChoice >= 0 && userChoice < options.size()) {
+            return true;
+        }
+        displayManager.print("Select a valid option!");
+        displayManager.print("");
+        return false;
     }
 }

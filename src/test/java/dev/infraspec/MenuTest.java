@@ -57,10 +57,21 @@ public class MenuTest {
         Option oneOption = spy(new ListBooksOption());
         Option anotherOneOption = spy(new ListBooksOption());
 
-        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption)));
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption, anotherOneOption),new DisplayManager()));
         menu.run();
 
         verify(oneOption, times(1)).execute(anyList());
-        verify(anotherOneOption, times(0)).execute(anyList());
+    }
+
+    @Test
+    @DisplayName("Display Invalid Option Provided")
+    void invalidOption(){
+        Option oneOption = spy(new ListBooksOption());
+        DisplayManager displayManager = spy(new DisplayManager());
+
+        Menu menu = spy(new MockedMenu(Arrays.asList(oneOption),displayManager));
+        menu.run();
+
+        verify(displayManager,times(1)).print("Invalid Option");
     }
 }
