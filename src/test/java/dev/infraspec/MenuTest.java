@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,5 +74,16 @@ public class MenuTest {
         menu.run();
 
         verify(displayManager,times(1)).print("Invalid Option");
+    }
+    @Test
+    @DisplayName("Exit the Application")
+    void exitOption() {
+        Option exitOption = mock(ExitOption.class);
+        DisplayManager displayManager = spy(new DisplayManager());
+
+        Menu menu = spy(new MockedMenu(Collections.singletonList(exitOption),displayManager));
+        menu.run();
+
+        verify(exitOption).execute(anyList());
     }
 }

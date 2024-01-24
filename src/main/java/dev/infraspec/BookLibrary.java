@@ -11,7 +11,7 @@ public class BookLibrary {
     public BookLibrary() {
         this.display = new DisplayManager();
         this.bookRepository = BookRepository.defaultBookRepository();
-        this.menu = new Menu(Arrays.asList(new ListBooksOption()), this.bookRepository, this.display);
+        this.menu = new Menu(Arrays.asList(new ListBooksOption(),new ExitOption()), this.bookRepository, this.display);
     }
 
     public BookLibrary(DisplayManager display, BookRepository bookRepository, Menu menu) {

@@ -24,7 +24,6 @@ public class MockedMenu extends Menu {
 
     int getUserChoice() {
         choice++;
-
         return choice;
     }
 
