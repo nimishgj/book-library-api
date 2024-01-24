@@ -34,7 +34,7 @@ public class ConsoleManager {
         System.out.printf("%-5s %-30s %-30s %-10s\n", "Id", "Title", "Author", "Year Published");
         print("---------------------------------------------------------------------------");
         for (Book book : books) {
-            if(book.toString() != null){
+            if (book.toString() != null) {
                 print(book.toString());
             }
         }

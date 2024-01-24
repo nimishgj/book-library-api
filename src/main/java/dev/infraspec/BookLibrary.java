@@ -14,7 +14,7 @@ public class BookLibrary {
     public BookLibrary() {
         this.consoleManager = new ConsoleManager();
         this.bookRepository = BookRepository.defaultBookRepository();
-        this.menu = new Menu(Arrays.asList(new ListBooksOption(), new ExitOption(),new CheckoutOption()), this.bookRepository, this.consoleManager);
+        this.menu = new Menu(Arrays.asList(new ListBooksOption(), new ExitOption(), new CheckoutOption()), this.bookRepository, this.consoleManager);
     }
 
     public BookLibrary(ConsoleManager display, BookRepository bookRepository, Menu menu) {

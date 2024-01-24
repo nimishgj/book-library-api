@@ -4,13 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookRepositoryTest {
     @Nested
     @DisplayName("Book Repository Test")
-    class bookRepository{
+    class bookRepository {
         @Test
         @DisplayName("Default Repository is not null")
         void defaultRepository() {
@@ -20,13 +19,30 @@ public class BookRepositoryTest {
 
     @Nested
     @DisplayName("Book Test")
-    class book{
+    class book {
         @Test
         @DisplayName("Book toString method Override")
-        void bookToString(){
-            Book book = new Book(1,"someTitle","someAuthor",1982);
+        void bookToString() {
+            Book book = new Book(1, "someTitle", "someAuthor", 1982);
 
-            assertEquals(String.format("%-5d %-30s %-30s %-10d",1, "someTitle", "someAuthor", 1982),book.toString());
+            assertEquals(String.format("%-5d %-30s %-30s %-10d", 1, "someTitle", "someAuthor", 1982), book.toString());
+        }
+
+        @Test
+        @DisplayName("Check Book Id")
+        void checkBokId() {
+            Book book = new Book(1, "someTitle", "someAuthor", 1982);
+
+            assertTrue(book.isBookId(1));
+        }
+
+        @Test
+        @DisplayName("Set Checkout Status")
+        void setCheckoutStatus() {
+            Book book = new Book(1, "someTitle", "someAuthor", 1982);
+            book.setCheckOutStatus(true);
+
+            assertTrue(book.checkOutStatus);
         }
     }
 }
