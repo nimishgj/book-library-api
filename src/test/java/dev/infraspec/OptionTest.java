@@ -49,9 +49,10 @@ class OptionTest {
 
             when(consoleManager.getIntInput()).thenReturn(1);
             Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-            checkoutOption.execute(new BookRepository(List.of(oneBook)));
+            BookRepository bookRepository = spy(new BookRepository(List.of(oneBook)));
+            checkoutOption.execute(bookRepository);
 
-            assertTrue(oneBook.checkOutStatus);
+            verify(bookRepository).checkoutBook(oneBook);
         }
     }
 }

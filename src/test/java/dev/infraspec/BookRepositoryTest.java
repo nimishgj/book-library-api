@@ -35,14 +35,5 @@ public class BookRepositoryTest {
 
             assertTrue(book.isBookId(1));
         }
-
-        @Test
-        @DisplayName("Set Checkout Status")
-        void setCheckoutStatus() {
-            Book book = new Book(1, "someTitle", "someAuthor", 1982);
-            book.setCheckOutStatus(true);
-
-            assertTrue(book.checkOutStatus);
-        }
     }
 }
