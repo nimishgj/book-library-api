@@ -16,6 +16,10 @@ public class CheckoutBookCommand implements Command {
 
     @Override
     public void execute(BookRepository bookRepository) {
+        if(bookRepository == null) {
+            consoleManager.print("Error: Null BookRepository Provided");
+            return;
+        }
         List<Book> allAvailableBooks = bookRepository.getAllAvailableBooks();
         consoleManager.printBookList(allAvailableBooks);
         consoleManager.print("Enter the Book Id you want to Checkout:");
