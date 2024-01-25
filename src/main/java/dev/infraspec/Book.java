@@ -1,7 +1,5 @@
 package dev.infraspec;
 
-import java.util.Random;
-
 public class Book {
     private final String title;
     private final String author;
@@ -20,7 +18,7 @@ public class Book {
         return String.format("%-5d %-30s %-30s %-10d", bookId, title, author, yearPublished);
     }
 
-    public boolean isBookId(int choice) {
+    public boolean matchesBookId(int choice) {
         return this.bookId == choice;
     }
 }

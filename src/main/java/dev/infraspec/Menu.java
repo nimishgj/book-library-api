@@ -6,6 +6,9 @@ public class Menu {
     private final List<Option> options;
     private final ConsoleManager consoleManager;
     private final BookRepository bookRepository;
+    private final String INVALID_OPTION_STRING = "Select a valid option!";
+    private final String CHOICE_INPUT_OPTION_STRING = "Enter your choice: ";
+    private final String MENU_OPTION_STRING = "Main Menu:";
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
@@ -14,7 +17,7 @@ public class Menu {
     }
 
     public void displayOptions() {
-        consoleManager.print("Main Menu:");
+        consoleManager.print(MENU_OPTION_STRING);
         consoleManager.print("");
         for (int i = 0; i < options.size(); i++) {
             consoleManager.print((i + 1) + ". " + options.get(i).getClass().getSimpleName());
@@ -22,7 +25,7 @@ public class Menu {
     }
 
     private int getUserChoice() {
-        consoleManager.print("Enter your choice: ");
+        consoleManager.print(CHOICE_INPUT_OPTION_STRING);
         return consoleManager.getIntInput();
     }
 
@@ -48,7 +51,7 @@ public class Menu {
         if (userChoice >= 0 && userChoice < options.size()) {
             return true;
         }
-        consoleManager.print("Select a valid option!");
+        consoleManager.print(INVALID_OPTION_STRING);
         consoleManager.print("");
         return false;
     }

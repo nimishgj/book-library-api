@@ -33,7 +33,7 @@ public class BookRepositoryTest {
         void checkBokId() {
             Book book = new Book(1, "someTitle", "someAuthor", 1982);
 
-            assertTrue(book.isBookId(1));
+            assertTrue(book.matchesBookId(1));
         }
     }
 }

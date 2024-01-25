@@ -23,7 +23,7 @@ public class CheckoutOption implements Option {
         int choice = consoleManager.getIntInput();
 
         allAvailableBooks.stream()
-                .filter(book -> book.isBookId(choice))
+                .filter(book -> book.matchesBookId(choice))
                 .forEach(bookRepository::checkoutBook);
     }
 }

@@ -56,7 +56,7 @@ class ConsoleManagerTest {
         displayManager.printBookList(bookList);
         String expectedPartOfString = "List Of Books:\n\n" +
                 "Id    Title                          Author                         Year Published\n" +
-                "---------------------------------------------------------------------------\n";
+                "-------------------------------------------------------------------------------------\n";
 
         assertTrue(outputStream.toString().contains(expectedPartOfString));
     }
