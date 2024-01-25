@@ -24,7 +24,7 @@ class OptionTest {
             BookRepository bookRepository = BookRepository.defaultBookRepository();
             listBooksOption.execute(bookRepository);
 
-            verify(consoleManagerMock).printBookList(bookRepository.getAllBooks());
+            verify(consoleManagerMock).printBookList(bookRepository.getAllAvailableBooks());
         }
     }
 

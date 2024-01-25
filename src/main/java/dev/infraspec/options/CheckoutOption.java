@@ -12,12 +12,12 @@ public class CheckoutOption implements Option {
 
     @Override
     public void execute(BookRepository bookRepository) {
-        consoleManager.printBookList(bookRepository.getAllBooks());
+        consoleManager.printBookList(bookRepository.getAllAvailableBooks());
         consoleManager.print("Enter the Book Id you want to Checkout:");
 
         int choice = consoleManager.getIntInput();
 
-        bookRepository.getAllBooks().stream()
+        bookRepository.getAllAvailableBooks().stream()
                 .filter(book -> book.isBookId(choice))
                 .forEach(book -> book.setCheckOutStatus(true));
     }

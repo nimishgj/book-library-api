@@ -13,6 +13,6 @@ public class ListBooksOption implements Option {
 
     @Override
     public void execute(BookRepository bookRepository) {
-        consoleManager.printBookList(bookRepository.getAllBooks());
+        consoleManager.printBookList(bookRepository.getAllAvailableBooks());
     }
 }
