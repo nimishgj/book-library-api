@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class ConsoleManagerTest {
     PrintStream originalSystemOut;
     ByteArrayOutputStream outputStream;
-    private final ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
+    private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
 
     @BeforeEach
     public void setup() {
@@ -29,7 +30,7 @@ class ConsoleManagerTest {
     @DisplayName("Print valid Welcome Message")
     void printWelcomeMessage() {
 
-        displayManager.printWelcomeMessage();
+        consoleManager.printWelcomeMessage();
 
         assertEquals("**********************************************************************\nWelcome to the Library\n**********************************************************************\n", outputStream.toString());
     }
@@ -39,7 +40,7 @@ class ConsoleManagerTest {
     void printMessage() {
         String message = "Random Message";
 
-        displayManager.print(message);
+        consoleManager.print(message);
 
         assertEquals(message + "\n", outputStream.toString());
     }
@@ -71,5 +72,25 @@ class ConsoleManagerTest {
         System.setIn(System.in);
 
         assertEquals(gave, 1);
+    }
+
+    @Test
+    @DisplayName("Print no book available when book list is empty")
+    void printEmpty() {
+        ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
+        consoleManager.printBookList(List.of());
+
+        String expectedpartOfString = "No Books are Available\n";
+
+        assertTrue(outputStream.toString().contains(expectedpartOfString));
+    }
+
+    @Test
+    @DisplayName("Does't print if null is provided")
+    void noPrintMessage(){
+        ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
+        consoleManager.print(null);
+
+        assertNotNull(outputStream.toString());
     }
 }

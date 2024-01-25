@@ -27,7 +27,7 @@ public class CheckoutBookCommand implements Command {
         int choice = consoleManager.getIntInput();
 
         allAvailableBooks.stream()
-                .filter(book -> book.matchesBookId(choice))
+                .filter(book -> book.matchesId(choice))
                 .forEach(bookRepository::checkoutBook);
     }
 }

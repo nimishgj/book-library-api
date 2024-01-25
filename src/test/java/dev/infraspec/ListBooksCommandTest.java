@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 @DisplayName("List Books Option")
 class ListBooksCommandTest {
     @Test
-    void testbook() {
+    void textbook() {
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
         dev.infraspec.options.ListBooksCommand listBooksOption = new dev.infraspec.options.ListBooksCommand(consoleManagerMock);
 

@@ -17,7 +17,7 @@ public class BookLibrary {
         menu.run();
     }
 
-    public void printWelcomeMessage() {
+    private void printWelcomeMessage() {
         consoleManager.printWelcomeMessage();
     }
 }
