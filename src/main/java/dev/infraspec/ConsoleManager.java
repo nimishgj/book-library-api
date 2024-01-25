@@ -35,7 +35,7 @@ public class ConsoleManager {
         print(EMPTY_LINE_STRING);
         System.out.printf("%-5s %-30s %-30s %-10s\n", "Id", "Title", "Author", "Year Published");
         print(LIST_MENU_SEPARATOR_STRING);
-        if (books.isEmpty()){
+        if (books.isEmpty()) {
             print("No Books are Available");
             return;
         }

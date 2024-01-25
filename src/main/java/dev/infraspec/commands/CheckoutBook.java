@@ -18,7 +18,7 @@ public class CheckoutBook implements Command {
 
     @Override
     public void execute(BookRepository bookRepository) {
-        if(bookRepository == null) {
+        if (bookRepository == null) {
             consoleManager.print(ERROR_MESSAGE);
             return;
         }

@@ -86,8 +86,8 @@ class ConsoleManagerTest {
     }
 
     @Test
-    @DisplayName("Does't print if null is provided")
-    void noPrintMessage(){
+    @DisplayName("Doesn't print if null is provided")
+    void noPrintMessage() {
         ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
         consoleManager.print(null);
 
