@@ -1,6 +1,7 @@
 package dev.infraspec;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Menu {
     private final List<Option> options;
@@ -9,6 +10,7 @@ public class Menu {
     private final String INVALID_OPTION_STRING = "Select a valid option!";
     private final String CHOICE_INPUT_OPTION_STRING = "Enter your choice: ";
     private final String MENU_OPTION_STRING = "Main Menu:";
+    private final String EMPTY_LINE_STRING = "";
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
@@ -18,10 +20,9 @@ public class Menu {
 
     public void displayOptions() {
         consoleManager.print(MENU_OPTION_STRING);
-        consoleManager.print("");
-        for (int i = 0; i < options.size(); i++) {
-            consoleManager.print((i + 1) + ". " + options.get(i).getClass().getSimpleName());
-        }
+        consoleManager.print(EMPTY_LINE_STRING);
+        IntStream.range(0, options.size())
+                .forEach(i -> consoleManager.print(String.format("%d. %s", i + 1, options.get(i).getClass().getSimpleName())));
     }
 
     private int getUserChoice() {
@@ -42,9 +43,9 @@ public class Menu {
     }
 
     private void executeUserChoiceOption(int userChoice) {
-        consoleManager.print("");
+        consoleManager.print(EMPTY_LINE_STRING);
         options.get(userChoice).execute(bookRepository);
-        consoleManager.print("");
+        consoleManager.print(EMPTY_LINE_STRING);
     }
 
     private boolean isValidUserChoice(int userChoice) {
@@ -52,7 +53,7 @@ public class Menu {
             return true;
         }
         consoleManager.print(INVALID_OPTION_STRING);
-        consoleManager.print("");
+        consoleManager.print(EMPTY_LINE_STRING);
         return false;
     }
 }
