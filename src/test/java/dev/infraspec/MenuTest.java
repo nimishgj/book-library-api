@@ -39,7 +39,7 @@ public class MenuTest {
         Menu menu = new Menu(List.of(oneOptionMock), BookRepository.defaultBookRepository(), consoleManagerMock);
         menu.run();
 
-        verify(oneOptionMock, times(1)).execute(anyList());
+        verify(oneOptionMock, times(1)).execute(any());
     }
 
     @Test

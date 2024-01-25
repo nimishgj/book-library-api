@@ -21,10 +21,10 @@ class OptionTest {
             ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
             ListBooksOption listBooksOption = new ListBooksOption(consoleManagerMock);
 
-            List<Book> books = List.of(new Book(1, "someTitle", "someAuthor", 1992));
-            listBooksOption.execute(books);
+            BookRepository bookRepository = BookRepository.defaultBookRepository();
+            listBooksOption.execute(bookRepository);
 
-            verify(consoleManagerMock).printBookList(books);
+            verify(consoleManagerMock).printBookList(bookRepository.getAllBooks());
         }
     }
 
@@ -35,7 +35,7 @@ class OptionTest {
         void textExit() {
             ExitOption exitOption = new ExitOption();
 
-            exitOption.execute(List.of());
+            exitOption.execute(BookRepository.defaultBookRepository());
         }
     }
 
@@ -49,7 +49,7 @@ class OptionTest {
 
             when(consoleManager.getIntInput()).thenReturn(1);
             Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-            checkoutOption.execute(List.of(oneBook));
+            checkoutOption.execute(new BookRepository(List.of(oneBook)));
 
             assertTrue(oneBook.checkOutStatus);
         }

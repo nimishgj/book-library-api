@@ -5,12 +5,12 @@ import java.util.List;
 public class Menu {
     private final List<Option> options;
     private final ConsoleManager consoleManager;
-    private final List<Book> books;
+    private final BookRepository bookRepository;
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
         this.options = options;
-        this.books = bookRepository.getAllBooks();
+        this.bookRepository=bookRepository;
     }
 
     public void displayOptions() {
@@ -40,7 +40,7 @@ public class Menu {
 
     private void executeUserChoiceOption(int userChoice) {
         consoleManager.print("");
-        options.get(userChoice).execute(books);
+        options.get(userChoice).execute(bookRepository);
         consoleManager.print("");
     }
 

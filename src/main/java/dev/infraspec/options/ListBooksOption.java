@@ -1,11 +1,8 @@
 package dev.infraspec.options;
 
-import dev.infraspec.Book;
+import dev.infraspec.BookRepository;
 import dev.infraspec.ConsoleManager;
 import dev.infraspec.Option;
-
-import java.util.List;
-import java.util.Scanner;
 
 public class ListBooksOption implements Option {
     private final ConsoleManager consoleManager;
@@ -15,7 +12,7 @@ public class ListBooksOption implements Option {
     }
 
     @Override
-    public void execute(List<Book> books) {
-        consoleManager.printBookList(books);
+    public void execute(BookRepository bookRepository) {
+        consoleManager.printBookList(bookRepository.getAllBooks());
     }
 }
