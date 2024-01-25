@@ -1,5 +1,5 @@
 package dev.infraspec;
 
-public interface Option {
+public interface Command {
     void execute(BookRepository bookRepository);
 }

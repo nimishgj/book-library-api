@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Menu {
-    private final List<Option> options;
+    private final List<Command> options;
     private final ConsoleManager consoleManager;
     private final BookRepository bookRepository;
     private final String INVALID_OPTION_STRING = "Select a valid option!";
@@ -12,7 +12,7 @@ public class Menu {
     private final String MENU_OPTION_STRING = "Main Menu:";
     private final String EMPTY_LINE_STRING = "";
 
-    public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
+    public Menu(List<Command> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
         this.options = options;
         this.bookRepository = bookRepository;

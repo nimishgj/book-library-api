@@ -1,6 +1,6 @@
 package dev.infraspec;
 
-import dev.infraspec.options.ListBooksOption;
+import dev.infraspec.options.ListBooksCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +11,8 @@ import java.util.Scanner;
 import static org.mockito.Mockito.*;
 
 public class MenuTest {
-    private final Option oneOption = new ListBooksOption(new ConsoleManager(new Scanner(System.in)));
-    private final List<Option> options = List.of(oneOption);
+    private final Command oneOption = new ListBooksCommand(new ConsoleManager(new Scanner(System.in)));
+    private final List<Command> options = List.of(oneOption);
 
     private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
 
@@ -21,18 +21,19 @@ public class MenuTest {
     void displayMenuOptions() {
         ConsoleManager consoleManagerSpy = spy(consoleManager);
         Menu menu = new Menu(options, BookRepository.defaultBookRepository(), consoleManagerSpy);
+        String MENU_OPTION_STRING = "Main Menu:";
+        String EMPTY_LINE_STRING = "";
 
         menu.displayOptions();
 
-        verify(consoleManagerSpy).print("Main Menu:");
-        verify(consoleManagerSpy).print("");
-        verify(consoleManagerSpy).print("1. ListBooksOption");
+        verify(consoleManagerSpy).print(MENU_OPTION_STRING);
+        verify(consoleManagerSpy).print(EMPTY_LINE_STRING);
     }
 
     @Test
     @DisplayName("Calls the options execution method")
     void callOptionExecuteMethod() {
-        Option oneOptionMock = mock(Option.class);
+        Command oneOptionMock = mock(Command.class);
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
         when(consoleManagerMock.getIntInput()).thenReturn(1).thenReturn(-99);
 
@@ -45,7 +46,7 @@ public class MenuTest {
     @Test
     @DisplayName("Display Invalid Option Provided")
     void invalidOption() {
-        Option oneOption = new ListBooksOption(new ConsoleManager(new Scanner(System.in)));
+        Command oneOption = new ListBooksCommand(new ConsoleManager(new Scanner(System.in)));
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
         when(consoleManagerMock.getIntInput()).thenReturn(-99);
 
