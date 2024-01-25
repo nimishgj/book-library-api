@@ -42,4 +42,32 @@ public class BookRepositoryTest {
 
         verify(consoleManagerMock).print("That book is not available");
     }
+
+    @Test
+    @DisplayName("Return Book")
+    void successfullyReturnBook() {
+        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
+        Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
+
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        bookRepository.checkoutBook(oneBook);
+        bookRepository.returnBookWithId(1);
+
+        verify(consoleManagerMock).print("Thank you for returning the book.");
+    }
+
+    @Test
+    @DisplayName("Return Book")
+    void unSuccessfullyReturnBook() {
+        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
+        Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
+
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        bookRepository.checkoutBook(oneBook);
+        bookRepository.returnBookWithId(2);
+
+        verify(consoleManagerMock).print("That is not a valid book to return.");
+    }
 }

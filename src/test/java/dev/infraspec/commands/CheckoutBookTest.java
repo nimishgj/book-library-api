@@ -1,5 +1,8 @@
-package dev.infraspec;
+package dev.infraspec.commands;
 
+import dev.infraspec.Book;
+import dev.infraspec.BookRepository;
+import dev.infraspec.ConsoleManager;
 import dev.infraspec.commands.CheckoutBook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +11,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-class CheckoutBookCommandTest {
+class CheckoutBookTest {
     @Test
     @DisplayName("Print Error when null is provided")
     void passingNullAsParameter() {

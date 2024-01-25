@@ -1,5 +1,7 @@
-package dev.infraspec;
+package dev.infraspec.commands;
 
+import dev.infraspec.BookRepository;
+import dev.infraspec.ConsoleManager;
 import dev.infraspec.commands.ListBooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,7 +12,7 @@ import static org.mockito.Mockito.verify;
 
 @Nested
 @DisplayName("List Books Option")
-class ListBooksCommandTest {
+class ListBooksTest {
     @Test
     void textbook() {
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
