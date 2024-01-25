@@ -9,6 +9,8 @@ import java.util.List;
 
 public class CheckoutBook implements Command {
     private final ConsoleManager consoleManager;
+    private final String ERROR_MESSAGE = "Error: Null BookRepository Provided";
+    private final String INPUT_MESSAGE = "Enter the Book Id you want to Checkout:";
 
     public CheckoutBook(ConsoleManager consoleManager) {
         this.consoleManager = consoleManager;
@@ -17,12 +19,12 @@ public class CheckoutBook implements Command {
     @Override
     public void execute(BookRepository bookRepository) {
         if(bookRepository == null) {
-            consoleManager.print("Error: Null BookRepository Provided");
+            consoleManager.print(ERROR_MESSAGE);
             return;
         }
         List<Book> allAvailableBooks = bookRepository.getAllAvailableBooks();
         consoleManager.printBookList(allAvailableBooks);
-        consoleManager.print("Enter the Book Id you want to Checkout:");
+        consoleManager.print(INPUT_MESSAGE);
 
         int choice = consoleManager.getIntInput();
 
