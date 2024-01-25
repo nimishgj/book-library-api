@@ -10,9 +10,10 @@ import java.util.Scanner;
 public class ListBooksOption implements Option {
     private final ConsoleManager consoleManager;
 
-    public ListBooksOption(ConsoleManager consoleManager){
-        this.consoleManager= consoleManager;
+    public ListBooksOption(ConsoleManager consoleManager) {
+        this.consoleManager = consoleManager;
     }
+
     @Override
     public void execute(List<Book> books) {
         consoleManager.printBookList(books);

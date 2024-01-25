@@ -8,9 +8,8 @@ import java.util.List;
 
 public class CheckoutOption implements Option {
     private final ConsoleManager consoleManager;
-
-    public CheckoutOption(ConsoleManager consoleManager){
-        this.consoleManager= consoleManager;
+    public CheckoutOption(ConsoleManager consoleManager) {
+        this.consoleManager = consoleManager;
     }
 
     @Override

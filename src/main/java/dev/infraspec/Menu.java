@@ -1,12 +1,11 @@
 package dev.infraspec;
 
 import java.util.List;
-@SuppressWarnings("ALL")
+
 public class Menu {
     private final List<Option> options;
     private final ConsoleManager consoleManager;
     private final List<Book> books;
-
 
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
@@ -36,7 +35,7 @@ public class Menu {
                 continue;
             }
             executeUserChoiceOption(userChoice);
-        } while (userChoice!=-100);
+        } while (userChoice != -100);
     }
 
     private void executeUserChoiceOption(int userChoice) {

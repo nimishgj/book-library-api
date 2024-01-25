@@ -49,8 +49,8 @@ class ConsoleManagerTest {
     void printListOfBooks() {
         ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
         List<Book> bookList = Arrays.asList(
-                new Book(1,"someTitle","someAuthor",1982),
-                new Book(2,"randomTitle","randomAuthor",1989)
+                new Book(1, "someTitle", "someAuthor", 1982),
+                new Book(2, "randomTitle", "randomAuthor", 1989)
         );
 
         displayManager.printBookList(bookList);
