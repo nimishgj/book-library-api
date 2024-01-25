@@ -1,13 +1,13 @@
-package dev.infraspec.options;
+package dev.infraspec.commands;
 
 import dev.infraspec.BookRepository;
 import dev.infraspec.ConsoleManager;
 import dev.infraspec.Command;
 
-public class ListBooksCommand implements Command {
+public class ListBooks implements Command {
     private final ConsoleManager consoleManager;
 
-    public ListBooksCommand(ConsoleManager consoleManager) {
+    public ListBooks(ConsoleManager consoleManager) {
         this.consoleManager = consoleManager;
     }
 

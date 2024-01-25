@@ -1,6 +1,6 @@
 package dev.infraspec;
 
-import dev.infraspec.options.ExitCommand;
+import dev.infraspec.commands.Exit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class ExitCommandTest {
     @Test
     void textExit() {
-        ExitCommand exitOption = new ExitCommand();
+        Exit exitOption = new Exit();
 
         exitOption.execute(BookRepository.defaultBookRepository());
     }

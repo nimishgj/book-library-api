@@ -1,6 +1,6 @@
 package dev.infraspec;
 
-import dev.infraspec.options.ListBooksCommand;
+import dev.infraspec.commands.ListBooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ import java.util.Scanner;
 import static org.mockito.Mockito.*;
 
 public class MenuTest {
-    private final Command oneOption = new ListBooksCommand(new ConsoleManager(new Scanner(System.in)));
+    private final Command oneOption = new ListBooks(new ConsoleManager(new Scanner(System.in)));
     private final List<Command> options = List.of(oneOption);
 
     private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
@@ -46,7 +46,7 @@ public class MenuTest {
     @Test
     @DisplayName("Display Invalid Option Provided")
     void invalidOption() {
-        Command oneOption = new ListBooksCommand(new ConsoleManager(new Scanner(System.in)));
+        Command oneOption = new ListBooks(new ConsoleManager(new Scanner(System.in)));
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
         when(consoleManagerMock.getIntInput()).thenReturn(-99);
 

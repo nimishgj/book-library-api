@@ -1,5 +1,6 @@
 package dev.infraspec;
 
+import dev.infraspec.commands.ListBooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class ListBooksCommandTest {
     @Test
     void textbook() {
         ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        dev.infraspec.options.ListBooksCommand listBooksOption = new dev.infraspec.options.ListBooksCommand(consoleManagerMock);
+        ListBooks listBooksOption = new ListBooks(consoleManagerMock);
 
         BookRepository bookRepository = BookRepository.defaultBookRepository();
         listBooksOption.execute(bookRepository);

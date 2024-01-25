@@ -1,4 +1,4 @@
-package dev.infraspec.options;
+package dev.infraspec.commands;
 
 import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
@@ -7,10 +7,10 @@ import dev.infraspec.Command;
 
 import java.util.List;
 
-public class CheckoutBookCommand implements Command {
+public class CheckoutBook implements Command {
     private final ConsoleManager consoleManager;
 
-    public CheckoutBookCommand(ConsoleManager consoleManager) {
+    public CheckoutBook(ConsoleManager consoleManager) {
         this.consoleManager = consoleManager;
     }
 
