@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConsoleManagerTest {
     PrintStream originalSystemOut;
     ByteArrayOutputStream outputStream;
+    private final ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
 
     @BeforeEach
     public void setup() {
@@ -27,7 +28,6 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print valid Welcome Message")
     void printWelcomeMessage() {
-        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
 
         displayManager.printWelcomeMessage();
 
@@ -37,7 +37,6 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print valid message")
     void printMessage() {
-        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
         String message = "Random Message";
 
         displayManager.print(message);

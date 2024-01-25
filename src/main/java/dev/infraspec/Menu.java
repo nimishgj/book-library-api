@@ -1,10 +1,7 @@
 package dev.infraspec;
 
 import java.util.List;
-import java.util.Scanner;
-
-import static dev.infraspec.BookRepository.defaultBookRepository;
-
+@SuppressWarnings("ALL")
 public class Menu {
     private final List<Option> options;
     private final ConsoleManager consoleManager;
@@ -32,14 +29,14 @@ public class Menu {
 
     public void run() {
         int userChoice;
-        while (true) {
+        do {
             displayOptions();
             userChoice = getUserChoice() - 1;
             if (!isValidUserChoice(userChoice)) {
                 continue;
             }
             executeUserChoiceOption(userChoice);
-        }
+        } while (userChoice!=-100);
     }
 
     private void executeUserChoiceOption(int userChoice) {

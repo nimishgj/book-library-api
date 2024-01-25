@@ -15,6 +15,6 @@ public class ListBooksOption implements Option {
     }
     @Override
     public void execute(List<Book> books) {
-        new ConsoleManager(new Scanner(System.in)).printBookList(books);
+        consoleManager.printBookList(books);
     }
 }
