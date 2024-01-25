@@ -10,7 +10,7 @@ public class Menu {
     public Menu(List<Option> options, BookRepository bookRepository, ConsoleManager displayManager) {
         this.consoleManager = displayManager;
         this.options = options;
-        this.bookRepository=bookRepository;
+        this.bookRepository = bookRepository;
     }
 
     public void displayOptions() {
