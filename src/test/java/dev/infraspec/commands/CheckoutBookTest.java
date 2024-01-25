@@ -3,7 +3,6 @@ package dev.infraspec.commands;
 import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
 import dev.infraspec.ConsoleManager;
-import dev.infraspec.commands.CheckoutBook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +46,6 @@ class CheckoutBookTest {
         BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), consoleManager));
         checkoutOption.execute(bookRepository);
 
-        verify(bookRepository).checkoutBook(oneBook);
+        verify(bookRepository).checkoutBookWithId(1);
     }
 }

@@ -2,12 +2,10 @@ package dev.infraspec;
 
 public class BookLibrary {
     private final ConsoleManager consoleManager;
-    private final BookRepository bookRepository;
     private final Menu menu;
 
-    public BookLibrary(ConsoleManager consoleManager, BookRepository bookRepository, Menu menu) {
+    public BookLibrary(ConsoleManager consoleManager, Menu menu) {
         this.consoleManager = consoleManager;
-        this.bookRepository = bookRepository;
         this.menu = menu;
     }
 

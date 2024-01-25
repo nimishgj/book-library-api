@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 public class BookLibraryTest {
     private final ConsoleManager consoleManager = mock(ConsoleManager.class);
     private final Menu menu = mock(Menu.class);
-    private final BookLibrary bookLibrary = new BookLibrary(consoleManager, BookRepository.defaultBookRepository(), menu);
+    private final BookLibrary bookLibrary = new BookLibrary(consoleManager, menu);
 
     @Test
     @DisplayName("Display Welcome Message")

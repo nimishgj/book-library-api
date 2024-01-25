@@ -1,11 +1,8 @@
 package dev.infraspec.commands;
 
-import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
-import dev.infraspec.ConsoleManager;
 import dev.infraspec.Command;
-
-import java.util.List;
+import dev.infraspec.ConsoleManager;
 
 public class CheckoutBook implements Command {
     private final ConsoleManager consoleManager;
@@ -22,14 +19,10 @@ public class CheckoutBook implements Command {
             consoleManager.print(ERROR_MESSAGE);
             return;
         }
-        List<Book> allAvailableBooks = bookRepository.getAllAvailableBooks();
-        consoleManager.printBookList(allAvailableBooks);
+        consoleManager.printBookList(bookRepository.getAllAvailableBooks());
         consoleManager.print(INPUT_MESSAGE);
-
         int choice = consoleManager.getIntInput();
 
-        allAvailableBooks.stream()
-                .filter(book -> book.matchesId(choice))
-                .forEach(bookRepository::checkoutBook);
+        bookRepository.checkoutBookWithId(choice);
     }
 }

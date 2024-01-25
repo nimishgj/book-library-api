@@ -8,7 +8,6 @@ public class ConsoleManager {
     private final Scanner scanner;
     private final String WELCOME_MESSAGE = "Welcome to the Library";
     private final String LINE_SEPARATOR_STRING = "**********************************************************************";
-
     private final String EMPTY_LINE_STRING = "";
     private final String LIST_BOOKS_STRING = "List Of Books:";
 
@@ -21,12 +20,12 @@ public class ConsoleManager {
     }
 
     public void printWelcomeMessage() {
-        printLineSeparater();
+        printLineSeparate();
         print(WELCOME_MESSAGE);
-        printLineSeparater();
+        printLineSeparate();
     }
 
-    private void printLineSeparater() {
+    private void printLineSeparate() {
         print(LINE_SEPARATOR_STRING);
     }
 
@@ -45,7 +44,7 @@ public class ConsoleManager {
             }
         }
         print(EMPTY_LINE_STRING);
-        printLineSeparater();
+        printLineSeparate();
     }
 
     public int getIntInput() {

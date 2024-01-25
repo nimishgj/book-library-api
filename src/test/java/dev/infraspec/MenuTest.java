@@ -13,7 +13,6 @@ import static org.mockito.Mockito.*;
 public class MenuTest {
     private final Command oneOption = new ListBooks(new ConsoleManager(new Scanner(System.in)));
     private final List<Command> options = List.of(oneOption);
-
     private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
 
     @Test

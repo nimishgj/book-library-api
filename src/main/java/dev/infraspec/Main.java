@@ -15,7 +15,7 @@ public class Main {
         List<Command> optionList = List.of(new ListBooks(consoleManager), new Exit(), new CheckoutBook(consoleManager), new ReturnBook(consoleManager));
         Menu menu = new Menu(optionList, bookRepository, consoleManager);
 
-        BookLibrary library = new BookLibrary(consoleManager, bookRepository, menu);
+        BookLibrary library = new BookLibrary(consoleManager, menu);
         library.startApplication();
     }
 }
