@@ -1,39 +1,45 @@
 package dev.infraspec;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class BookRepositoryTest {
-    @Nested
-    @DisplayName("Book Repository Test")
-    class bookRepository {
-        @Test
-        @DisplayName("Default Repository is not null")
-        void defaultRepository() {
-            assertNotNull(BookRepository.defaultBookRepository());
-        }
+    @Test
+    @DisplayName("Default Repository is not null")
+    void defaultRepository() {
+        assertNotNull(BookRepository.defaultBookRepository());
     }
 
-    @Nested
-    @DisplayName("Book Test")
-    class book {
-        @Test
-        @DisplayName("Book toString method Override")
-        void bookToString() {
-            Book book = new Book(1, "someTitle", "someAuthor", 1982);
+    @Test
+    @DisplayName("Successful Checkout")
+    void successfulCheckout() {
+        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
+        Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
-            assertEquals(String.format("%-5d %-30s %-30s %-10d", 1, "someTitle", "someAuthor", 1982), book.toString());
-        }
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        bookRepository.checkoutBook(oneBook);
 
-        @Test
-        @DisplayName("Check Book Id")
-        void checkBokId() {
-            Book book = new Book(1, "someTitle", "someAuthor", 1982);
+        verify(consoleManagerMock).print("Thank you! Enjoy the book");
+    }
 
-            assertTrue(book.matchesId(1));
-        }
+    @Test
+    @DisplayName("Unsuccessful Checkout")
+    void unSuccessfulCheckout() {
+        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
+        Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
+
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        bookRepository.checkoutBook(oneBook);
+        bookRepository.checkoutBook(oneBook);
+
+        verify(consoleManagerMock).print("That book is not available");
     }
 }
