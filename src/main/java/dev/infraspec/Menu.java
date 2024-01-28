@@ -33,7 +33,7 @@ public class Menu {
         do {
             displayOptions();
             userChoice = getUserChoice() - 1;
-            if (!isValidUserChoice(userChoice)) {
+            if (isValidUserChoice(userChoice)) {
                 inputOutput.print(INVALID_OPTION_MESSAGE.value);
                 inputOutput.print(EMPTY_LINE.value);
                 continue;
@@ -43,7 +43,7 @@ public class Menu {
     }
 
     private boolean exitCondition(int userChoice) {
-        if (!isValidUserChoice(userChoice)) {
+        if (isValidUserChoice(userChoice)) {
             return false;
         }
         return options.get(userChoice).getClass().getSimpleName().contains("Exit");
@@ -56,6 +56,6 @@ public class Menu {
     }
 
     private boolean isValidUserChoice(int userChoice) {
-        return userChoice >= 0 && userChoice < options.size();
+        return userChoice < 0 || userChoice >= options.size();
     }
 }

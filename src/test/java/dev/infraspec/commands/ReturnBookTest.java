@@ -31,7 +31,7 @@ class ReturnBookTest {
         when(inputOutputMock.getIntInput()).thenReturn(1);
 
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutputMock));
+        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook)));
         returnBook.execute(bookRepository);
 
         verify(bookRepository).returnBookWithId(1);

@@ -16,7 +16,6 @@ public enum Message {
     INVALID_RETURN_MESSAGE("That is not a valid book to return."),
     WELCOME_MESSAGE("Welcome to the Library"),
     RETURN_BOOK_INPUT_MESSAGE("Enter the Book Id you want to Return:");
-
     public final String value;
 
     Message(String value) {

@@ -16,7 +16,7 @@ public class BookLibraryTest {
         BookLibrary library = spy(bookLibrary);
         library.startApplication();
 
-        verify(inputOutput).printWelcomeMessage();
+        verify(inputOutput).print(Message.WELCOME_MESSAGE.value);
     }
 
     @Test

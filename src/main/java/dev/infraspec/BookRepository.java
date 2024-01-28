@@ -3,23 +3,19 @@ package dev.infraspec;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static dev.infraspec.Message.*;
-
 public class BookRepository {
     private final List<Book> bookList;
     private final List<Book> checkOutBooks;
-    private final InputOutput inputOutput;
 
     public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
                 new Book(1, "someTitle", "someAuthor", 1982),
                 new Book(2, "randomTitle", "randomAuthor", 1989)
-        ), new InputOutput(new Scanner(System.in)));
+        ));
     }
 
-    public BookRepository(List<Book> books, InputOutput inputOutput) {
+    public BookRepository(List<Book> books) {
         this.bookList = books;
-        this.inputOutput = inputOutput;
         this.checkOutBooks = new ArrayList<>();
     }
 
@@ -30,12 +26,13 @@ public class BookRepository {
     }
 
     public boolean checkoutBookWithId(int bookId) {
-        Book bookToCheckout = findBook(bookId);
-
-        if (bookToCheckout == null || isCheckedOut(bookToCheckout)) {
+        Optional<Book> optionalBook = findBook(bookId);
+        if (optionalBook.isEmpty()) {
             return false;
         }
-        if (checkOutBooks.contains(bookToCheckout)) {
+        Book bookToCheckout = optionalBook.get();
+
+        if (isCheckedOut(bookToCheckout)) {
             return false;
         }
         checkOutBooks.add(bookToCheckout);
@@ -43,20 +40,23 @@ public class BookRepository {
     }
 
     public boolean returnBookWithId(int bookId) {
-        Book bookToReturn = findBook(bookId);
+        Optional<Book> optionalBook = findBook(bookId);
+        if (optionalBook.isEmpty()) {
+            return false;
+        }
+        Book bookToReturn = optionalBook.get();
 
-        if (bookToReturn != null && isCheckedOut(bookToReturn)) {
+        if (isCheckedOut(bookToReturn)) {
             checkOutBooks.remove(bookToReturn);
             return true;
         }
         return false;
     }
 
-    private Book findBook(int bookId) {
+    private Optional<Book> findBook(int bookId) {
         return bookList.stream()
                 .filter(book -> book.matchesId(bookId))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     private boolean isCheckedOut(Book book) {

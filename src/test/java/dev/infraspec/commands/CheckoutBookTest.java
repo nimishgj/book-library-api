@@ -30,7 +30,7 @@ class CheckoutBookTest {
 
         when(inputOutput.getIntInput()).thenReturn(1);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutput));
+        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook)));
         checkoutOption.execute(bookRepository);
 
         verify(bookRepository).checkoutBookWithId(1);

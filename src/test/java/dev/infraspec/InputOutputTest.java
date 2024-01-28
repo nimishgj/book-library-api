@@ -27,15 +27,6 @@ class InputOutputTest {
     }
 
     @Test
-    @DisplayName("Print valid Welcome Message")
-    void printWelcomeMessage() {
-
-        inputOutput.printWelcomeMessage();
-
-        assertEquals("**********************************************************************\nWelcome to the Library\n**********************************************************************\n", outputStream.toString());
-    }
-
-    @Test
     @DisplayName("Print valid message")
     void printMessage() {
         String message = "Random Message";

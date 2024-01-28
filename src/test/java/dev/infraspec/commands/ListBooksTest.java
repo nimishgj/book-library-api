@@ -20,7 +20,7 @@ class ListBooksTest {
         Book oneBookSpy = new Book(1, "someTitle", "someAuthor", 1898);
         BookRepository bookRepository = new BookRepository(List.of(
                 oneBookSpy
-        ),inputOutputMock);
+        ));
 
         ListBooks listBooksOption = new ListBooks(inputOutputMock);
 
