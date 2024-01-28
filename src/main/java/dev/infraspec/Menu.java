@@ -43,7 +43,7 @@ public class Menu {
     }
 
     private boolean exitCondition(int userChoice) {
-        if(isValidUserChoice(userChoice)){
+        if (isValidUserChoice(userChoice)) {
             return !options.get(userChoice).getClass().getSimpleName().equals("Exit");
         }
         return false;
@@ -56,9 +56,6 @@ public class Menu {
     }
 
     private boolean isValidUserChoice(int userChoice) {
-        if (userChoice >= 0 && userChoice < options.size()) {
-            return true;
-        }
-        return false;
+        return userChoice >= 0 && userChoice < options.size();
     }
 }

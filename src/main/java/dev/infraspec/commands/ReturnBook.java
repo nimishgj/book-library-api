@@ -22,7 +22,7 @@ public class ReturnBook implements Command {
         inputOutput.print(RETURN_BOOK_INPUT_MESSAGE.value);
         int choice = inputOutput.getIntInput();
 
-        if(bookRepository.returnBookWithId(choice)) {
+        if (bookRepository.returnBookWithId(choice)) {
             inputOutput.print(VALID_RETURN_MESSAGE.value);
             return;
         }

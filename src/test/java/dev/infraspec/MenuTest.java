@@ -38,7 +38,7 @@ public class MenuTest {
         Command exitCommand = new Exit(inputOutputMock);
         when(inputOutputMock.getIntInput()).thenReturn(1).thenReturn(2);
 
-        Menu menu = new Menu(List.of(oneOptionMock,exitCommand), BookRepository.defaultBookRepository(), inputOutputMock);
+        Menu menu = new Menu(List.of(oneOptionMock, exitCommand), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
         verify(oneOptionMock, times(1)).execute(any());
