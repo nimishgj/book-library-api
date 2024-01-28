@@ -23,6 +23,10 @@ public class CheckoutBook implements Command {
         inputOutput.print(CHECKOUT_BOOK_INPUT_MESSAGE.value);
         int choice = inputOutput.getIntInput();
 
-        bookRepository.checkoutBookWithId(choice);
+        if(bookRepository.checkoutBookWithId(choice)) {
+            inputOutput.print(VALID_CHECKOUT_MESSAGE.value);
+            return;
+        }
+        inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
     }
 }

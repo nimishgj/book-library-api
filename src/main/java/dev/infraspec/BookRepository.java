@@ -23,40 +23,33 @@ public class BookRepository {
         this.checkOutBooks = new ArrayList<>();
     }
 
-    public void checkoutBook(Book book) {
-        if (checkOutBooks.contains(book)) {
-            inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
-            return;
-        }
-        checkOutBooks.add(book);
-        inputOutput.print(VALID_CHECKOUT_MESSAGE.value);
-    }
-
     public List<Book> getAllAvailableBooks() {
         return bookList.stream()
                 .filter(book -> !checkOutBooks.contains(book))
                 .collect(Collectors.toList());
     }
 
-    public void checkoutBookWithId(int bookId) {
+    public boolean checkoutBookWithId(int bookId) {
         Book bookToCheckout = findBook(bookId);
 
-        if (bookToCheckout != null && !isCheckedOut(bookToCheckout)) {
-            checkoutBook(bookToCheckout);
-            return;
+        if (bookToCheckout == null || isCheckedOut(bookToCheckout)) {
+            return false;
         }
-        inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
+        if (checkOutBooks.contains(bookToCheckout)) {
+            return false;
+        }
+        checkOutBooks.add(bookToCheckout);
+        return true;
     }
 
-    public void returnBookWithId(int bookId) {
+    public boolean returnBookWithId(int bookId) {
         Book bookToReturn = findBook(bookId);
 
         if (bookToReturn != null && isCheckedOut(bookToReturn)) {
             checkOutBooks.remove(bookToReturn);
-            inputOutput.print(VALID_RETURN_MESSAGE.value);
-            return;
+            return true;
         }
-        inputOutput.print(INVALID_RETURN_MESSAGE.value);
+        return false;
     }
 
     private Book findBook(int bookId) {

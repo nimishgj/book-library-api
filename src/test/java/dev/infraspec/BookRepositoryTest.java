@@ -24,9 +24,8 @@ public class BookRepositoryTest {
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
         BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
-        bookRepository.checkoutBook(oneBook);
 
-        verify(inputOutputMock).print("Thank you! Enjoy the book");
+        assertTrue(bookRepository.checkoutBookWithId(2));
     }
 
     @Test
@@ -37,10 +36,8 @@ public class BookRepositoryTest {
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
         BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
-        bookRepository.checkoutBook(oneBook);
-        bookRepository.checkoutBook(oneBook);
 
-        verify(inputOutputMock).print("That is not a valid book to checkout.");
+        assertFalse(bookRepository.checkoutBookWithId(3));
     }
 
     @Test
@@ -51,10 +48,9 @@ public class BookRepositoryTest {
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
         BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
-        bookRepository.checkoutBook(oneBook);
-        bookRepository.returnBookWithId(1);
+        bookRepository.checkoutBookWithId(1);
+        assertTrue(bookRepository.returnBookWithId(1));
 
-        verify(inputOutputMock).print("Thank you for returning the book.");
     }
 
     @Test
@@ -65,9 +61,8 @@ public class BookRepositoryTest {
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
         BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
-        bookRepository.checkoutBook(oneBook);
-        bookRepository.returnBookWithId(2);
+        bookRepository.checkoutBookWithId(1);
 
-        verify(inputOutputMock).print("That is not a valid book to return.");
+        assertFalse(bookRepository.returnBookWithId(2));
     }
 }
