@@ -27,6 +27,6 @@ public class CheckoutBook implements Command {
             inputOutput.print(VALID_CHECKOUT_MESSAGE.value);
             return;
         }
-        inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
+        inputOutput.print(INVALID_CHECKOUT_MESSAGE.value);
     }
 }

@@ -13,7 +13,6 @@ public class BookLibrary {
 
     public void startApplication() {
         inputOutput.print(WELCOME_MESSAGE.value);
-
         menu.run();
     }
 }

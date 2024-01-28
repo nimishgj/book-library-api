@@ -1,9 +1,6 @@
 package dev.infraspec;
 
-import java.util.List;
 import java.util.Scanner;
-
-import static dev.infraspec.Message.*;
 
 public class InputOutput {
     private final Scanner scanner;
