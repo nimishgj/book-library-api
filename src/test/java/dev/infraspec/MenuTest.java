@@ -1,5 +1,6 @@
 package dev.infraspec;
 
+import dev.infraspec.commands.Exit;
 import dev.infraspec.commands.ListBooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,9 +35,10 @@ public class MenuTest {
     void callOptionExecuteMethod() {
         Command oneOptionMock = mock(Command.class);
         InputOutput inputOutputMock = mock(InputOutput.class);
-        when(inputOutputMock.getIntInput()).thenReturn(1).thenReturn(-99);
+        Command exitCommand = new Exit(inputOutputMock);
+        when(inputOutputMock.getIntInput()).thenReturn(1).thenReturn(2);
 
-        Menu menu = new Menu(List.of(oneOptionMock), BookRepository.defaultBookRepository(), inputOutputMock);
+        Menu menu = new Menu(List.of(oneOptionMock,exitCommand), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
         verify(oneOptionMock, times(1)).execute(any());
@@ -47,11 +49,11 @@ public class MenuTest {
     void invalidOption() {
         Command oneOption = new ListBooks(new InputOutput(new Scanner(System.in)));
         InputOutput inputOutputMock = mock(InputOutput.class);
-        when(inputOutputMock.getIntInput()).thenReturn(-99);
+        when(inputOutputMock.getIntInput()).thenReturn(-1);
 
         Menu menu = new Menu(Collections.singletonList(oneOption), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
-        verify(inputOutputMock, times(1)).print("Select a valid option!");
+        verify(inputOutputMock).print("Select a valid option!");
     }
 }

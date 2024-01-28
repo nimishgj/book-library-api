@@ -3,14 +3,12 @@ package dev.infraspec;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static dev.infraspec.Message.*;
+
 public class Menu {
     private final List<Command> options;
     private final InputOutput inputOutput;
     private final BookRepository bookRepository;
-    private final String INVALID_OPTION_STRING = "Select a valid option!";
-    private final String CHOICE_INPUT_OPTION_STRING = "Enter your choice: ";
-    private final String MENU_OPTION_STRING = "Main Menu:";
-    private final String EMPTY_LINE_STRING = "";
 
     public Menu(List<Command> options, BookRepository bookRepository, InputOutput inputOutput) {
         this.inputOutput = inputOutput;
@@ -19,14 +17,14 @@ public class Menu {
     }
 
     public void displayOptions() {
-        inputOutput.print(MENU_OPTION_STRING);
-        inputOutput.print(EMPTY_LINE_STRING);
+        inputOutput.print(MAIN_MENU.value);
+        inputOutput.print(EMPTY_LINE.value);
         IntStream.range(0, options.size())
                 .forEach(i -> inputOutput.print(String.format("%d. %s", i + 1, options.get(i).getClass().getSimpleName())));
     }
 
     private int getUserChoice() {
-        inputOutput.print(CHOICE_INPUT_OPTION_STRING);
+        inputOutput.print(INPUT_CHOICE.value);
         return inputOutput.getIntInput();
     }
 
@@ -36,24 +34,31 @@ public class Menu {
             displayOptions();
             userChoice = getUserChoice() - 1;
             if (!isValidUserChoice(userChoice)) {
+                inputOutput.print(INVALID_OPTION_MESSAGE.value);
+                inputOutput.print(EMPTY_LINE.value);
                 continue;
             }
             executeUserChoiceOption(userChoice);
-        } while (userChoice != -100);
+        } while (exitCondition(userChoice));
+    }
+
+    private boolean exitCondition(int userChoice) {
+        if(isValidUserChoice(userChoice)){
+            return !options.get(userChoice).getClass().getSimpleName().equals("Exit");
+        }
+        return false;
     }
 
     private void executeUserChoiceOption(int userChoice) {
-        inputOutput.print(EMPTY_LINE_STRING);
+        inputOutput.print(EMPTY_LINE.value);
         options.get(userChoice).execute(bookRepository);
-        inputOutput.print(EMPTY_LINE_STRING);
+        inputOutput.print(EMPTY_LINE.value);
     }
 
     private boolean isValidUserChoice(int userChoice) {
         if (userChoice >= 0 && userChoice < options.size()) {
             return true;
         }
-        inputOutput.print(INVALID_OPTION_STRING);
-        inputOutput.print(EMPTY_LINE_STRING);
         return false;
     }
 }

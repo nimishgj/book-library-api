@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         InputOutput inputOutput = new InputOutput(new Scanner(System.in));
         BookRepository bookRepository = BookRepository.defaultBookRepository();
-        List<Command> optionList = List.of(new ListBooks(inputOutput), new Exit(), new CheckoutBook(inputOutput), new ReturnBook(inputOutput));
+        List<Command> optionList = List.of(new ListBooks(inputOutput), new Exit(inputOutput), new CheckoutBook(inputOutput), new ReturnBook(inputOutput));
         Menu menu = new Menu(optionList, bookRepository, inputOutput);
 
         BookLibrary library = new BookLibrary(inputOutput, menu);

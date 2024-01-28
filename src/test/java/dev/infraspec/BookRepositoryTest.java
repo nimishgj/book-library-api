@@ -40,7 +40,7 @@ public class BookRepositoryTest {
         bookRepository.checkoutBook(oneBook);
         bookRepository.checkoutBook(oneBook);
 
-        verify(inputOutputMock).print("That book is not available");
+        verify(inputOutputMock).print("That is not a valid book to checkout.");
     }
 
     @Test

@@ -3,6 +3,8 @@ package dev.infraspec;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static dev.infraspec.Message.*;
+
 public class BookRepository {
     private final List<Book> bookList;
     private final List<Book> checkOutBooks;
@@ -23,11 +25,11 @@ public class BookRepository {
 
     public void checkoutBook(Book book) {
         if (checkOutBooks.contains(book)) {
-            inputOutput.print("That book is not available");
+            inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
             return;
         }
         checkOutBooks.add(book);
-        inputOutput.print("Thank you! Enjoy the book");
+        inputOutput.print(VALID_CHECKOUT_MESSAGE.value);
     }
 
     public List<Book> getAllAvailableBooks() {
@@ -43,7 +45,7 @@ public class BookRepository {
             checkoutBook(bookToCheckout);
             return;
         }
-        inputOutput.print("That is not a valid book to checkout.");
+        inputOutput.print(INVALID_CHECKOUT_MESAGE.value);
     }
 
     public void returnBookWithId(int bookId) {
@@ -51,10 +53,10 @@ public class BookRepository {
 
         if (bookToReturn != null && isCheckedOut(bookToReturn)) {
             checkOutBooks.remove(bookToReturn);
-            inputOutput.print("Thank you for returning the book.");
+            inputOutput.print(VALID_RETURN_MESSAGE.value);
             return;
         }
-        inputOutput.print("That is not a valid book to return.");
+        inputOutput.print(INVALID_RETURN_MESSAGE.value);
     }
 
     private Book findBook(int bookId) {

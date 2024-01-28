@@ -3,13 +3,11 @@ package dev.infraspec;
 import java.util.List;
 import java.util.Scanner;
 
+import static dev.infraspec.Message.*;
+
 public class InputOutput {
     private static final String LIST_MENU_SEPARATOR_STRING = "-------------------------------------------------------------------------------------";
     private final Scanner scanner;
-    private final String WELCOME_MESSAGE = "Welcome to the Library";
-    private final String LINE_SEPARATOR_STRING = "**********************************************************************";
-    private final String EMPTY_LINE_STRING = "";
-    private final String LIST_BOOKS_STRING = "List Of Books:";
 
     public InputOutput(Scanner scanner) {
         this.scanner = scanner;
@@ -21,21 +19,21 @@ public class InputOutput {
 
     public void printWelcomeMessage() {
         printLineSeparate();
-        print(WELCOME_MESSAGE);
+        print(WELCOME_MESSAGE.value);
         printLineSeparate();
     }
 
     private void printLineSeparate() {
-        print(LINE_SEPARATOR_STRING);
+        print(LINE_SEPARATOR.value);
     }
 
     public void printBookList(List<Book> books) {
-        print(LIST_BOOKS_STRING);
-        print(EMPTY_LINE_STRING);
+        print(LIST_BOOKS.value);
+        print(EMPTY_LINE.value);
         System.out.printf("%-5s %-30s %-30s %-10s\n", "Id", "Title", "Author", "Year Published");
         print(LIST_MENU_SEPARATOR_STRING);
         if (books.isEmpty()) {
-            print("No Books are Available");
+            print(EMPTY_REPO_MESSAGE.value);
             return;
         }
         for (Book book : books) {
@@ -43,7 +41,7 @@ public class InputOutput {
                 print(book.toString());
             }
         }
-        print(EMPTY_LINE_STRING);
+        print(EMPTY_LINE.value);
         printLineSeparate();
     }
 
