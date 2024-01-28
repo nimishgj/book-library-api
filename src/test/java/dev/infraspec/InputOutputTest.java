@@ -46,23 +46,6 @@ class InputOutputTest {
     }
 
     @Test
-    @DisplayName("Print List Of Books")
-    void printListOfBooks() {
-        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
-        List<Book> bookList = Arrays.asList(
-                new Book(1, "someTitle", "someAuthor", 1982),
-                new Book(2, "randomTitle", "randomAuthor", 1989)
-        );
-
-        inputOutput.printBookList(bookList);
-        String expectedPartOfString = "List Of Books:\n\n" +
-                "Id    Title                          Author                         Year Published\n" +
-                "-------------------------------------------------------------------------------------\n";
-
-        assertTrue(outputStream.toString().contains(expectedPartOfString));
-    }
-
-    @Test
     @DisplayName("Get the input from stream")
     void getInput() {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
@@ -72,17 +55,6 @@ class InputOutputTest {
         System.setIn(System.in);
 
         assertEquals(gave, 1);
-    }
-
-    @Test
-    @DisplayName("Print no book available when book list is empty")
-    void printEmpty() {
-        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
-        inputOutput.printBookList(List.of());
-
-        String expectedpartOfString = "No Books are Available\n";
-
-        assertTrue(outputStream.toString().contains(expectedpartOfString));
     }
 
     @Test

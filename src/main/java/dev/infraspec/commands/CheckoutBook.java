@@ -19,7 +19,7 @@ public class CheckoutBook implements Command {
             inputOutput.print(ERROR_EMPTY_REPO_MESSAGE.value);
             return;
         }
-        inputOutput.printBookList(bookRepository.getAllAvailableBooks());
+        new ListBooks(inputOutput).execute(bookRepository);
         inputOutput.print(CHECKOUT_BOOK_INPUT_MESSAGE.value);
         int choice = inputOutput.getIntInput();
 

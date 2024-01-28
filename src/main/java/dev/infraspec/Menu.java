@@ -39,14 +39,14 @@ public class Menu {
                 continue;
             }
             executeUserChoiceOption(userChoice);
-        } while (exitCondition(userChoice));
+        } while (!exitCondition(userChoice));
     }
 
     private boolean exitCondition(int userChoice) {
-        if (isValidUserChoice(userChoice)) {
-            return !options.get(userChoice).getClass().getSimpleName().equals("Exit");
+        if (!isValidUserChoice(userChoice)) {
+            return false;
         }
-        return false;
+        return options.get(userChoice).getClass().getSimpleName().contains("Exit");
     }
 
     private void executeUserChoiceOption(int userChoice) {

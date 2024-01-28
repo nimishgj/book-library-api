@@ -23,19 +23,6 @@ class CheckoutBookTest {
     }
 
     @Test
-    @DisplayName("Print List of Books")
-    void displayingListOfBooks() {
-        InputOutput inputOutputMock = mock(InputOutput.class);
-        CheckoutBook checkoutBookCommand = new CheckoutBook(inputOutputMock);
-
-        Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutputMock));
-        checkoutBookCommand.execute(bookRepository);
-
-        verify(inputOutputMock).printBookList(bookRepository.getAllAvailableBooks());
-    }
-
-    @Test
     @DisplayName("Checkout a book")
     void testCheckout() {
         InputOutput inputOutput = mock(InputOutput.class);

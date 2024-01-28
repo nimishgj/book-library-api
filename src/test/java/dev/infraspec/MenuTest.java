@@ -33,23 +33,22 @@ public class MenuTest {
     @Test
     @DisplayName("Calls the options execution method")
     void callOptionExecuteMethod() {
-        Command oneOptionMock = mock(Command.class);
         InputOutput inputOutputMock = mock(InputOutput.class);
-        Command exitCommand = new Exit(inputOutputMock);
-        when(inputOutputMock.getIntInput()).thenReturn(1).thenReturn(2);
+        Command exitCommand = spy(new Exit(inputOutputMock));
+        when(inputOutputMock.getIntInput()).thenReturn(1);
 
-        Menu menu = new Menu(List.of(oneOptionMock, exitCommand), BookRepository.defaultBookRepository(), inputOutputMock);
+        Menu menu = new Menu(List.of(exitCommand), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
-        verify(oneOptionMock, times(1)).execute(any());
+        verify(exitCommand, times(1)).execute(any());
     }
 
     @Test
     @DisplayName("Display Invalid Option Provided")
     void invalidOption() {
-        Command oneOption = new ListBooks(new InputOutput(new Scanner(System.in)));
+        Command oneOption = new Exit(new InputOutput(new Scanner(System.in)));
         InputOutput inputOutputMock = mock(InputOutput.class);
-        when(inputOutputMock.getIntInput()).thenReturn(-1);
+        when(inputOutputMock.getIntInput()).thenReturn(-1).thenReturn(1);
 
         Menu menu = new Menu(Collections.singletonList(oneOption), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
