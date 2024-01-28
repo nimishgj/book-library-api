@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 public class BookLibraryTest {
-    private final ConsoleManager consoleManager = mock(ConsoleManager.class);
+    private final InputOutput inputOutput = mock(InputOutput.class);
     private final Menu menu = mock(Menu.class);
-    private final BookLibrary bookLibrary = new BookLibrary(consoleManager, menu);
+    private final BookLibrary bookLibrary = new BookLibrary(inputOutput, menu);
 
     @Test
     @DisplayName("Display Welcome Message")
@@ -16,7 +16,7 @@ public class BookLibraryTest {
         BookLibrary library = spy(bookLibrary);
         library.startApplication();
 
-        verify(consoleManager).printWelcomeMessage();
+        verify(inputOutput).printWelcomeMessage();
     }
 
     @Test

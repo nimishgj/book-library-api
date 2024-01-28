@@ -2,7 +2,7 @@ package dev.infraspec.commands;
 
 import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
-import dev.infraspec.ConsoleManager;
+import dev.infraspec.InputOutput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,23 +15,23 @@ class ReturnBookTest {
     @Test
     @DisplayName("Print Error when null is provided")
     void passingNullAsParameter() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        ReturnBook returnBookCommand = new ReturnBook(consoleManagerMock);
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        ReturnBook returnBookCommand = new ReturnBook(inputOutputMock);
 
         returnBookCommand.execute(null);
 
-        verify(consoleManagerMock).print("Error: Null BookRepository Provided");
+        verify(inputOutputMock).print("Error: Null BookRepository Provided");
     }
 
     @Test
     @DisplayName("Print List of Books")
     void displayingListOfBooks() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        ReturnBook returnBook = new ReturnBook(consoleManagerMock);
-        when(consoleManagerMock.getIntInput()).thenReturn(1);
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        ReturnBook returnBook = new ReturnBook(inputOutputMock);
+        when(inputOutputMock.getIntInput()).thenReturn(1);
 
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), consoleManagerMock));
+        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutputMock));
         returnBook.execute(bookRepository);
 
         verify(bookRepository).returnBookWithId(1);

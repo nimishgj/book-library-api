@@ -10,12 +10,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
+        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
         BookRepository bookRepository = BookRepository.defaultBookRepository();
-        List<Command> optionList = List.of(new ListBooks(consoleManager), new Exit(), new CheckoutBook(consoleManager), new ReturnBook(consoleManager));
-        Menu menu = new Menu(optionList, bookRepository, consoleManager);
+        List<Command> optionList = List.of(new ListBooks(inputOutput), new Exit(), new CheckoutBook(inputOutput), new ReturnBook(inputOutput));
+        Menu menu = new Menu(optionList, bookRepository, inputOutput);
 
-        BookLibrary library = new BookLibrary(consoleManager, menu);
+        BookLibrary library = new BookLibrary(inputOutput, menu);
         library.startApplication();
     }
 }

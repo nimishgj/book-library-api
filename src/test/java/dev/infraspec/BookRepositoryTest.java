@@ -19,55 +19,55 @@ public class BookRepositoryTest {
     @Test
     @DisplayName("Successful Checkout")
     void successfulCheckout() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        InputOutput inputOutputMock = mock(InputOutput.class);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
-        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
         bookRepository.checkoutBook(oneBook);
 
-        verify(consoleManagerMock).print("Thank you! Enjoy the book");
+        verify(inputOutputMock).print("Thank you! Enjoy the book");
     }
 
     @Test
     @DisplayName("Unsuccessful Checkout")
     void unSuccessfulCheckout() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        InputOutput inputOutputMock = mock(InputOutput.class);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
-        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
         bookRepository.checkoutBook(oneBook);
         bookRepository.checkoutBook(oneBook);
 
-        verify(consoleManagerMock).print("That book is not available");
+        verify(inputOutputMock).print("That book is not available");
     }
 
     @Test
     @DisplayName("Return Book")
     void successfullyReturnBook() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        InputOutput inputOutputMock = mock(InputOutput.class);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
-        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
         bookRepository.checkoutBook(oneBook);
         bookRepository.returnBookWithId(1);
 
-        verify(consoleManagerMock).print("Thank you for returning the book.");
+        verify(inputOutputMock).print("Thank you for returning the book.");
     }
 
     @Test
     @DisplayName("Return Book")
     void unSuccessfullyReturnBook() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
+        InputOutput inputOutputMock = mock(InputOutput.class);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1231);
         Book anotherBook = new Book(2, "randomTitle", "randomAuthor", 1989);
 
-        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), consoleManagerMock);
+        BookRepository bookRepository = new BookRepository(List.of(oneBook, anotherBook), inputOutputMock);
         bookRepository.checkoutBook(oneBook);
         bookRepository.returnBookWithId(2);
 
-        verify(consoleManagerMock).print("That is not a valid book to return.");
+        verify(inputOutputMock).print("That is not a valid book to return.");
     }
 }

@@ -2,7 +2,7 @@ package dev.infraspec.commands;
 
 import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
-import dev.infraspec.ConsoleManager;
+import dev.infraspec.InputOutput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,36 +14,36 @@ class CheckoutBookTest {
     @Test
     @DisplayName("Print Error when null is provided")
     void passingNullAsParameter() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        CheckoutBook checkoutBookCommand = new CheckoutBook(consoleManagerMock);
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        CheckoutBook checkoutBookCommand = new CheckoutBook(inputOutputMock);
 
         checkoutBookCommand.execute(null);
 
-        verify(consoleManagerMock).print("Error: Null BookRepository Provided");
+        verify(inputOutputMock).print("Error: Null BookRepository Provided");
     }
 
     @Test
     @DisplayName("Print List of Books")
     void displayingListOfBooks() {
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        CheckoutBook checkoutBookCommand = new CheckoutBook(consoleManagerMock);
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        CheckoutBook checkoutBookCommand = new CheckoutBook(inputOutputMock);
 
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), consoleManagerMock));
+        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutputMock));
         checkoutBookCommand.execute(bookRepository);
 
-        verify(consoleManagerMock).printBookList(bookRepository.getAllAvailableBooks());
+        verify(inputOutputMock).printBookList(bookRepository.getAllAvailableBooks());
     }
 
     @Test
     @DisplayName("Checkout a book")
     void testCheckout() {
-        ConsoleManager consoleManager = mock(ConsoleManager.class);
-        CheckoutBook checkoutOption = new CheckoutBook(consoleManager);
+        InputOutput inputOutput = mock(InputOutput.class);
+        CheckoutBook checkoutOption = new CheckoutBook(inputOutput);
 
-        when(consoleManager.getIntInput()).thenReturn(1);
+        when(inputOutput.getIntInput()).thenReturn(1);
         Book oneBook = new Book(1, "someTitle", "someAuthor", 1989);
-        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), consoleManager));
+        BookRepository bookRepository = spy(new BookRepository(List.of(oneBook), inputOutput));
         checkoutOption.execute(bookRepository);
 
         verify(bookRepository).checkoutBookWithId(1);

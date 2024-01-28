@@ -1,11 +1,11 @@
 package dev.infraspec;
 
 public class BookLibrary {
-    private final ConsoleManager consoleManager;
+    private final InputOutput inputOutput;
     private final Menu menu;
 
-    public BookLibrary(ConsoleManager consoleManager, Menu menu) {
-        this.consoleManager = consoleManager;
+    public BookLibrary(InputOutput inputOutput, Menu menu) {
+        this.inputOutput = inputOutput;
         this.menu = menu;
     }
 
@@ -16,6 +16,6 @@ public class BookLibrary {
     }
 
     private void printWelcomeMessage() {
-        consoleManager.printWelcomeMessage();
+        inputOutput.printWelcomeMessage();
     }
 }

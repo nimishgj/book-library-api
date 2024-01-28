@@ -3,7 +3,7 @@ package dev.infraspec;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleManager {
+public class InputOutput {
     private static final String LIST_MENU_SEPARATOR_STRING = "-------------------------------------------------------------------------------------";
     private final Scanner scanner;
     private final String WELCOME_MESSAGE = "Welcome to the Library";
@@ -11,7 +11,7 @@ public class ConsoleManager {
     private final String EMPTY_LINE_STRING = "";
     private final String LIST_BOOKS_STRING = "List Of Books:";
 
-    public ConsoleManager(Scanner scanner) {
+    public InputOutput(Scanner scanner) {
         this.scanner = scanner;
     }
 

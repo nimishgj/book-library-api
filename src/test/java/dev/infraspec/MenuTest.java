@@ -11,14 +11,14 @@ import java.util.Scanner;
 import static org.mockito.Mockito.*;
 
 public class MenuTest {
-    private final Command oneOption = new ListBooks(new ConsoleManager(new Scanner(System.in)));
+    private final Command oneOption = new ListBooks(new InputOutput(new Scanner(System.in)));
     private final List<Command> options = List.of(oneOption);
-    private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
+    private final InputOutput inputOutput = new InputOutput(new Scanner(System.in));
 
     @Test
     @DisplayName("Display options passed to menu")
     void displayMenuOptions() {
-        ConsoleManager consoleManagerSpy = spy(consoleManager);
+        InputOutput consoleManagerSpy = spy(inputOutput);
         Menu menu = new Menu(options, BookRepository.defaultBookRepository(), consoleManagerSpy);
         String MENU_OPTION_STRING = "Main Menu:";
         String EMPTY_LINE_STRING = "";
@@ -33,10 +33,10 @@ public class MenuTest {
     @DisplayName("Calls the options execution method")
     void callOptionExecuteMethod() {
         Command oneOptionMock = mock(Command.class);
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        when(consoleManagerMock.getIntInput()).thenReturn(1).thenReturn(-99);
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        when(inputOutputMock.getIntInput()).thenReturn(1).thenReturn(-99);
 
-        Menu menu = new Menu(List.of(oneOptionMock), BookRepository.defaultBookRepository(), consoleManagerMock);
+        Menu menu = new Menu(List.of(oneOptionMock), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
         verify(oneOptionMock, times(1)).execute(any());
@@ -45,13 +45,13 @@ public class MenuTest {
     @Test
     @DisplayName("Display Invalid Option Provided")
     void invalidOption() {
-        Command oneOption = new ListBooks(new ConsoleManager(new Scanner(System.in)));
-        ConsoleManager consoleManagerMock = mock(ConsoleManager.class);
-        when(consoleManagerMock.getIntInput()).thenReturn(-99);
+        Command oneOption = new ListBooks(new InputOutput(new Scanner(System.in)));
+        InputOutput inputOutputMock = mock(InputOutput.class);
+        when(inputOutputMock.getIntInput()).thenReturn(-99);
 
-        Menu menu = new Menu(Collections.singletonList(oneOption), BookRepository.defaultBookRepository(), consoleManagerMock);
+        Menu menu = new Menu(Collections.singletonList(oneOption), BookRepository.defaultBookRepository(), inputOutputMock);
         menu.run();
 
-        verify(consoleManagerMock, times(1)).print("Select a valid option!");
+        verify(inputOutputMock, times(1)).print("Select a valid option!");
     }
 }

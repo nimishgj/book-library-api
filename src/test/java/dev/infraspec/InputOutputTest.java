@@ -14,10 +14,10 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ConsoleManagerTest {
+class InputOutputTest {
     PrintStream originalSystemOut;
     ByteArrayOutputStream outputStream;
-    private final ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
+    private final InputOutput inputOutput = new InputOutput(new Scanner(System.in));
 
     @BeforeEach
     public void setup() {
@@ -30,7 +30,7 @@ class ConsoleManagerTest {
     @DisplayName("Print valid Welcome Message")
     void printWelcomeMessage() {
 
-        consoleManager.printWelcomeMessage();
+        inputOutput.printWelcomeMessage();
 
         assertEquals("**********************************************************************\nWelcome to the Library\n**********************************************************************\n", outputStream.toString());
     }
@@ -40,7 +40,7 @@ class ConsoleManagerTest {
     void printMessage() {
         String message = "Random Message";
 
-        consoleManager.print(message);
+        inputOutput.print(message);
 
         assertEquals(message + "\n", outputStream.toString());
     }
@@ -48,13 +48,13 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print List Of Books")
     void printListOfBooks() {
-        ConsoleManager displayManager = new ConsoleManager(new Scanner(System.in));
+        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
         List<Book> bookList = Arrays.asList(
                 new Book(1, "someTitle", "someAuthor", 1982),
                 new Book(2, "randomTitle", "randomAuthor", 1989)
         );
 
-        displayManager.printBookList(bookList);
+        inputOutput.printBookList(bookList);
         String expectedPartOfString = "List Of Books:\n\n" +
                 "Id    Title                          Author                         Year Published\n" +
                 "-------------------------------------------------------------------------------------\n";
@@ -66,9 +66,9 @@ class ConsoleManagerTest {
     @DisplayName("Get the input from stream")
     void getInput() {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("1\n".getBytes());
-        ConsoleManager displayManager = new ConsoleManager(new Scanner(inputStream));
+        InputOutput inputOutput = new InputOutput(new Scanner(inputStream));
 
-        int gave = displayManager.getIntInput();
+        int gave = inputOutput.getIntInput();
         System.setIn(System.in);
 
         assertEquals(gave, 1);
@@ -77,8 +77,8 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Print no book available when book list is empty")
     void printEmpty() {
-        ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
-        consoleManager.printBookList(List.of());
+        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
+        inputOutput.printBookList(List.of());
 
         String expectedpartOfString = "No Books are Available\n";
 
@@ -88,8 +88,8 @@ class ConsoleManagerTest {
     @Test
     @DisplayName("Doesn't print if null is provided")
     void noPrintMessage() {
-        ConsoleManager consoleManager = new ConsoleManager(new Scanner(System.in));
-        consoleManager.print(null);
+        InputOutput inputOutput = new InputOutput(new Scanner(System.in));
+        inputOutput.print(null);
 
         assertNotNull(outputStream.toString());
     }

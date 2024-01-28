@@ -6,28 +6,28 @@ import java.util.stream.Collectors;
 public class BookRepository {
     private final List<Book> bookList;
     private final List<Book> checkOutBooks;
-    private final ConsoleManager consoleManager;
+    private final InputOutput inputOutput;
 
     public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
                 new Book(1, "someTitle", "someAuthor", 1982),
                 new Book(2, "randomTitle", "randomAuthor", 1989)
-        ), new ConsoleManager(new Scanner(System.in)));
+        ), new InputOutput(new Scanner(System.in)));
     }
 
-    public BookRepository(List<Book> books, ConsoleManager consoleManager) {
+    public BookRepository(List<Book> books, InputOutput inputOutput) {
         this.bookList = books;
-        this.consoleManager = consoleManager;
+        this.inputOutput = inputOutput;
         this.checkOutBooks = new ArrayList<>();
     }
 
     public void checkoutBook(Book book) {
         if (checkOutBooks.contains(book)) {
-            consoleManager.print("That book is not available");
+            inputOutput.print("That book is not available");
             return;
         }
         checkOutBooks.add(book);
-        consoleManager.print("Thank you! Enjoy the book");
+        inputOutput.print("Thank you! Enjoy the book");
     }
 
     public List<Book> getAllAvailableBooks() {
@@ -43,7 +43,7 @@ public class BookRepository {
             checkoutBook(bookToCheckout);
             return;
         }
-        consoleManager.print("That is not a valid book to checkout.");
+        inputOutput.print("That is not a valid book to checkout.");
     }
 
     public void returnBookWithId(int bookId) {
@@ -51,10 +51,10 @@ public class BookRepository {
 
         if (bookToReturn != null && isCheckedOut(bookToReturn)) {
             checkOutBooks.remove(bookToReturn);
-            consoleManager.print("Thank you for returning the book.");
+            inputOutput.print("Thank you for returning the book.");
             return;
         }
-        consoleManager.print("That is not a valid book to return.");
+        inputOutput.print("That is not a valid book to return.");
     }
 
     private Book findBook(int bookId) {
