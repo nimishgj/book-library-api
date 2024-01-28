@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-public class BookLibraryTest {
+public class LibraryTest {
     private final InputOutput inputOutput = mock(InputOutput.class);
     private final Menu menu = mock(Menu.class);
-    private final BookLibrary bookLibrary = new BookLibrary(inputOutput, menu);
+    private final Library bookLibrary = new Library(inputOutput, menu);
 
     @Test
     @DisplayName("Display Welcome Message")
     public void printValidWelcomeMessage() {
-        BookLibrary library = spy(bookLibrary);
+        Library library = spy(bookLibrary);
         library.startApplication();
 
         verify(inputOutput).print(Message.WELCOME_MESSAGE.value);
