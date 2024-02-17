@@ -7,10 +7,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class PageNotFoundHandler implements HttpHandler {
+    private String response;
+
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "Oops!, you landed somewhere you should not";
+        this.response = "Oops!, you landed somewhere you should not";
 
+        httpExchange.sendResponseHeaders(404, response.length());
+        OutputStream responseBody = httpExchange.getResponseBody();
+        responseBody.write(response.getBytes());
+        responseBody.close();
+    }
+
+    public void handle(HttpExchange httpExchange, String response) throws IOException {
+        this.response = response;
         httpExchange.sendResponseHeaders(404, response.length());
         OutputStream responseBody = httpExchange.getResponseBody();
         responseBody.write(response.getBytes());

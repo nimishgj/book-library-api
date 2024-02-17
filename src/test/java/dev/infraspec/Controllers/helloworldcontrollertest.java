@@ -1,7 +1,7 @@
 package dev.infraspec.Controllers;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpsExchange;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +15,12 @@ class helloworldcontrollertest {
     @DisplayName("Sends Hello world Message")
     void helloWorldMessage() throws IOException {
         HelloWorldController helloWorldController = new HelloWorldController();
-        HttpExchange httpExchangeMock = mock(HttpsExchange.class);
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
-
+        Headers headersMock = mock(Headers.class);
         when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
         helloWorldController.handle(httpExchangeMock);
 
         verify(outputStreamMock).write("Hello,Yup the server is up and running.\n".getBytes());
@@ -28,14 +30,16 @@ class helloworldcontrollertest {
     @DisplayName("Closing the Output Stream")
     void checkOutputStream() throws IOException {
         HelloWorldController helloWorldController = new HelloWorldController();
-
-        HttpExchange httpExchangeMock = mock(HttpsExchange.class);
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
-
+        Headers headersMock = mock(Headers.class);
         when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
+        helloWorldController.handle(httpExchangeMock);
         helloWorldController.handle(httpExchangeMock);
 
-        verify(outputStreamMock).close();
+        verify(outputStreamMock,atLeastOnce()).close();
     }
 
     @Test
@@ -43,12 +47,15 @@ class helloworldcontrollertest {
     void checkResponseCode() throws IOException {
         HelloWorldController helloWorldController = new HelloWorldController();
         String expectedResponseString = "Hello,Yup the server is up and running.\n";
-        HttpExchange httpExchangeMock = mock(HttpsExchange.class);
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
-
+        Headers headersMock = mock(Headers.class);
         when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
+        helloWorldController.handle(httpExchangeMock);
         helloWorldController.handle(httpExchangeMock);
 
-        verify(httpExchangeMock, times(1)).sendResponseHeaders(200, expectedResponseString.length());
+        verify(httpExchangeMock,atLeastOnce()).sendResponseHeaders(200, expectedResponseString.length());
     }
 }

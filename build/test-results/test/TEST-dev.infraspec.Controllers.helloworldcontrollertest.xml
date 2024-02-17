@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.infraspec.Controllers.helloworldcontrollertest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-02-17T09:30:09" hostname="initFox" time="0.011">
+  <properties/>
+  <testcase name="Sending the Correct Response code" classname="dev.infraspec.Controllers.helloworldcontrollertest" time="0.004"/>
+  <testcase name="Sends Hello world Message" classname="dev.infraspec.Controllers.helloworldcontrollertest" time="0.002"/>
+  <testcase name="Closing the Output Stream" classname="dev.infraspec.Controllers.helloworldcontrollertest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

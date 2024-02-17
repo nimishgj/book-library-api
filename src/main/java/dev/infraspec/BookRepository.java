@@ -53,7 +53,7 @@ public class BookRepository {
         return false;
     }
 
-    private Optional<Book> findBook(int bookId) {
+    public Optional<Book> findBook(int bookId) {
         return bookList.stream()
                 .filter(book -> book.matchesId(bookId))
                 .findFirst();

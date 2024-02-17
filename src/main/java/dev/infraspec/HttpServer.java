@@ -1,5 +1,6 @@
 package dev.infraspec;
 
+import dev.infraspec.Controllers.BookByIdHandler;
 import dev.infraspec.Controllers.HelloWorldController;
 import dev.infraspec.middleware.ListBookHandler;
 
@@ -19,6 +20,7 @@ public class HttpServer {
     public void start() throws IOException {
         server.createContext("/hello", new HelloWorldController());
         server.createContext("/listBooks", new ListBookHandler());
+        server.createContext("/book/", new BookByIdHandler());
         server.setExecutor(null);
         server.start();
     }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.infraspec.MenuTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-02-17T09:30:09" hostname="initFox" time="0.028">
+  <properties/>
+  <testcase name="Calls the options execution method" classname="dev.infraspec.MenuTest" time="0.02"/>
+  <testcase name="Display Invalid Option Provided" classname="dev.infraspec.MenuTest" time="0.003"/>
+  <testcase name="Display options passed to menu" classname="dev.infraspec.MenuTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
