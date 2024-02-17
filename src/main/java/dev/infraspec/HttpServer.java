@@ -1,7 +1,7 @@
 package dev.infraspec;
 
 import dev.infraspec.Controllers.HelloWorldController;
-import dev.infraspec.Controllers.ListBooksHandler;
+import dev.infraspec.middleware.ListBookHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -18,14 +18,7 @@ public class HttpServer {
 
     public void start() throws IOException {
         server.createContext("/hello", new HelloWorldController());
-        server.createContext("/listBooks", httpExchange -> {
-            if (httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
-                new ListBooksHandler().handle(httpExchange);
-            } else {
-                httpExchange.sendResponseHeaders(405, -1);
-                httpExchange.close();
-            }
-        });
+        server.createContext("/listBooks", new ListBookHandler());
         server.setExecutor(null);
         server.start();
     }
