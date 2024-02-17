@@ -9,7 +9,7 @@ import java.io.OutputStream;
 public class ValidRequestHandler implements HttpHandler {
     private String response;
     public void handle(HttpExchange httpExchange, String response) throws IOException {
-        this.response=response;
+        this.response = response;
         handle(httpExchange);
     }
 

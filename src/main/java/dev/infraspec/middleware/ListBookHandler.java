@@ -10,10 +10,10 @@ import java.io.IOException;
 public class ListBookHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-            if (httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
-                new GETListBooksHandler().handle(httpExchange);
-            } else {
-                new PageNotFoundHandler().handle(httpExchange);
-            }
+        if (httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
+            new GETListBooksHandler().handle(httpExchange);
+        } else {
+            new PageNotFoundHandler().handle(httpExchange);
+        }
     }
 }

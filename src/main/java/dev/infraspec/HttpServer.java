@@ -13,7 +13,7 @@ public class HttpServer {
     private final int PORT;
 
     public HttpServer() throws IOException {
-        PORT=8000;
+        PORT = 8000;
         server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(PORT), 0);
     }
 

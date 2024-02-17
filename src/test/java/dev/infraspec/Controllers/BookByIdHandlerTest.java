@@ -13,7 +13,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class BookByIdHandlerTest {
@@ -51,7 +50,7 @@ class BookByIdHandlerTest {
     @DisplayName("sends Page not found for invalid format of Parameter")
     void invalidIdParameter() throws IOException, URISyntaxException {
         when(httpExchangeMock.getRequestMethod()).thenReturn("GET");
-        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/"+"?id=asdfasdf"));
+        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/" + "?id=asdfasdf"));
         bookByIdHandler.handle(httpExchangeMock);
 
         verify(outPutStreamMock).write("Provide a valid Numeric id".getBytes());
@@ -61,7 +60,7 @@ class BookByIdHandlerTest {
     @DisplayName("sends Page not found for invalid Book id")
     void invalidBookIdParameter() throws IOException, URISyntaxException {
         when(httpExchangeMock.getRequestMethod()).thenReturn("GET");
-        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/"+"?id=100"));
+        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/" + "?id=100"));
         bookByIdHandler.handle(httpExchangeMock);
 
         verify(outPutStreamMock).write("Requested Book is Not Available".getBytes());
@@ -73,10 +72,10 @@ class BookByIdHandlerTest {
         when(httpExchangeMock.getRequestMethod()).thenReturn("GET");
         Headers headersMock = mock(Headers.class);
         when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
-        doNothing().when(headersMock).set(any(),any());
-        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/"+"?id=1"));
+        doNothing().when(headersMock).set(any(), any());
+        when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/" + "?id=1"));
         Gson gson = new Gson();
-        Book book =new Book(1, "someTitle", "someAuthor", 1982);
+        Book book = new Book(1, "someTitle", "someAuthor", 1982);
 
         bookByIdHandler.handle(httpExchangeMock);
 

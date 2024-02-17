@@ -23,26 +23,26 @@ public class BookByIdHandler implements HttpHandler {
 
         if (!queryParams.containsKey("id")) {
             String response = "Please provide an id parameter";
-            new PageNotFoundHandler().handle(httpExchange,response);
+            new PageNotFoundHandler().handle(httpExchange, response);
             return;
         }
 
         String id = queryParams.get("id");
         if (!isNumeric(id)) {
             String response = "Provide a valid Numeric id";
-            new PageNotFoundHandler().handle(httpExchange,response);
+            new PageNotFoundHandler().handle(httpExchange, response);
             return;
         }
 
         BookRepository bookRepository = BookRepository.defaultBookRepository();
         Optional<Book> book = bookRepository.findBook(Integer.parseInt(id));
-        if(book.isEmpty()){
-            new PageNotFoundHandler().handle(httpExchange,"Requested Book is Not Available");
+        if (book.isEmpty()) {
+            new PageNotFoundHandler().handle(httpExchange, "Requested Book is Not Available");
             return;
         }
 
         Gson gson = new Gson();
-        new ValidRequestHandler().handle(httpExchange,gson.toJson(book.get()));
+        new ValidRequestHandler().handle(httpExchange, gson.toJson(book.get()));
     }
 
     private Map<String, String> getQueryParams(String query) {

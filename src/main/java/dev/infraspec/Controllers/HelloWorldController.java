@@ -9,7 +9,6 @@ public class HelloWorldController implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         String response = "Hello,Yup the server is up and running.\n";
-        new ValidRequestHandler().handle(httpExchange,response);
+        new ValidRequestHandler().handle(httpExchange, response);
     }
 }
-
