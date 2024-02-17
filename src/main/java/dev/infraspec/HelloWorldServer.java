@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 import dev.infraspec.Controllers.HelloWorldController;
+import dev.infraspec.Controllers.ListBooksHandler;
 
 public class HelloWorldServer {
     private final HttpServer server;
@@ -18,6 +19,7 @@ public class HelloWorldServer {
 
     public void start() throws IOException {
         server.createContext("/hello", new HelloWorldController());
+        server.createContext("/listBooks",new ListBooksHandler());
         server.setExecutor(null);
         server.start();
     }

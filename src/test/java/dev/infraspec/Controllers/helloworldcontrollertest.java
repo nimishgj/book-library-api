@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 class helloworldcontrollertest {
     @Test
-    @DisplayName("Print Hello world Message")
+    @DisplayName("Sends Hello world Message")
     void helloWorldMessage() throws IOException {
         HelloWorldController helloWorldController = new HelloWorldController();
         HttpExchange httpExchangeMock = mock(HttpsExchange.class);
