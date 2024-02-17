@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Exit Application" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-17T09:30:09" hostname="initFox" time="0.001">
-  <properties/>
-  <testcase name="textExit()" classname="dev.infraspec.commands.ExitTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

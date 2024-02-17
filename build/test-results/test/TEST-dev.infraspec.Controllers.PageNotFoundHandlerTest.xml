@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="dev.infraspec.Controllers.PageNotFoundHandlerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-02-17T09:30:09" hostname="initFox" time="0.007">
-  <properties/>
-  <testcase name="Sets Page not found Response Code" classname="dev.infraspec.Controllers.PageNotFoundHandlerTest" time="0.002"/>
-  <testcase name="Closes the Http connection" classname="dev.infraspec.Controllers.PageNotFoundHandlerTest" time="0.001"/>
-  <testcase name="Sends Error Message" classname="dev.infraspec.Controllers.PageNotFoundHandlerTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

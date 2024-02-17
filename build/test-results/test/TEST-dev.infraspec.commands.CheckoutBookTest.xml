@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="dev.infraspec.commands.CheckoutBookTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-02-17T09:30:09" hostname="initFox" time="0.024">
-  <properties/>
-  <testcase name="Checkout a book" classname="dev.infraspec.commands.CheckoutBookTest" time="0.022"/>
-  <testcase name="Print Error when null is provided" classname="dev.infraspec.commands.CheckoutBookTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

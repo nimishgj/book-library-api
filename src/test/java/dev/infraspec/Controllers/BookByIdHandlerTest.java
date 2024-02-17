@@ -75,7 +75,7 @@ class BookByIdHandlerTest {
         doNothing().when(headersMock).set(any(), any());
         when(httpExchangeMock.getRequestURI()).thenReturn(new URI("http://localhost:8080/books/" + "?id=1"));
         Gson gson = new Gson();
-        Book book = new Book(1, "someTitle", "someAuthor", 1982);
+        Book book = new Book(1, "Haunting Adeline", "adeline reilly", 1986);
 
         bookByIdHandler.handle(httpExchangeMock);
 

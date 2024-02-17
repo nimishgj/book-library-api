@@ -8,6 +8,7 @@ import dev.infraspec.BookRepository;
 import dev.infraspec.Database;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +40,13 @@ public class BookByIdHandler implements HttpHandler {
             return;
         }
 
-        BookRepository bookRepository = BookRepository.defaultBookRepository();
+        Database database = new Database("jdbc:mysql://localhost:3306/library", "root", "1234");
+        BookRepository bookRepository = null;
+        try {
+            bookRepository = new BookRepository(database);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         Optional<Book> book = bookRepository.findBook(Integer.parseInt(id));
         if (book.isEmpty()) {
             new PageNotFoundHandler().handle(httpExchange, "Requested Book is Not Available");
