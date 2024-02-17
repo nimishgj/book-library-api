@@ -1,5 +1,6 @@
 package dev.infraspec.Controllers;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.infraspec.Book;
@@ -14,17 +15,14 @@ public class ListBooksHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         BookRepository bookRepository = BookRepository.defaultBookRepository();
         List<Book> books = bookRepository.getAllAvailableBooks();
-        StringBuilder bookList = new StringBuilder();
 
-        bookList.append(String.format("%-5s %-30s %-30s %-10s\n", "Id", "Title", "Author", "Year Published"));
-        for (Book book : books) {
-            bookList.append(book);
-            bookList.append("\n");
-        }
+        Gson gson = new Gson();
+        String jsonBooks = gson.toJson(books);
+        httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+        httpExchange.sendResponseHeaders(200, jsonBooks.getBytes().length);
 
-        httpExchange.sendResponseHeaders(200, bookList.length());
         OutputStream responseBody = httpExchange.getResponseBody();
-        responseBody.write(bookList.toString().getBytes());
+        responseBody.write(jsonBooks.getBytes());
         responseBody.close();
     }
 }
