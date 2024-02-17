@@ -20,6 +20,7 @@ public class ListBooksHandler implements HttpHandler {
         String jsonBooks = gson.toJson(books);
         httpExchange.getResponseHeaders().set("Content-Type", "application/json");
         httpExchange.sendResponseHeaders(200, jsonBooks.getBytes().length);
+        System.out.println(jsonBooks.getBytes().length);
 
         OutputStream responseBody = httpExchange.getResponseBody();
         responseBody.write(jsonBooks.getBytes());

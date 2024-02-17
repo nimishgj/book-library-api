@@ -11,11 +11,11 @@ import java.net.URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HelloWorldServerTest {
-    HelloWorldServer server;
+    HttpServer server;
 
     @BeforeEach
     public void setUp() throws Exception {
-        server = new HelloWorldServer();
+        server = new HttpServer();
         server.start();
     }
 

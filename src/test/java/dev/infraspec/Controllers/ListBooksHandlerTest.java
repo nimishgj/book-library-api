@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 class ListBooksHandlerTest {
     @Test
     @DisplayName("Returns JSON form of Books")
-    void listBooks() throws IOException {
+    void listBooksBody() throws IOException {
         ListBooksHandler listBooksHandler = new ListBooksHandler();
         HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
@@ -29,5 +29,51 @@ class ListBooksHandlerTest {
         Gson gson = new Gson();
 
         verify(outputStreamMock).write(gson.toJson(bookRepository.getAllAvailableBooks()).getBytes());
+    }
+    @Test
+    @DisplayName("Sets the Headers of the Response")
+    void listBooksHeader() throws IOException {
+        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
+        OutputStream outputStreamMock = mock(OutputStream.class);
+        Headers headersMock = mock(Headers.class);
+        when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
+
+        listBooksHandler.handle(httpExchangeMock);
+
+        verify(headersMock).set("Content-Type", "application/json");
+    }
+    @Test
+    @DisplayName("Sets the Headers of the Response")
+    void listBooksStatusCode() throws IOException {
+        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
+        OutputStream outputStreamMock = mock(OutputStream.class);
+        Headers headersMock = mock(Headers.class);
+        when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
+
+        listBooksHandler.handle(httpExchangeMock);
+
+        verify(httpExchangeMock).sendResponseHeaders(200,157);
+    }
+
+    @Test
+    @DisplayName("Closes the Http connection")
+    void closeConnection() throws IOException {
+        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        HttpExchange httpExchangeMock = mock(HttpExchange.class);
+        OutputStream outputStreamMock = mock(OutputStream.class);
+        Headers headersMock = mock(Headers.class);
+        when(httpExchangeMock.getResponseBody()).thenReturn(outputStreamMock);
+        when(httpExchangeMock.getResponseHeaders()).thenReturn(headersMock);
+        doNothing().when(headersMock).set(any(),any());
+
+        listBooksHandler.handle(httpExchangeMock);
+
+        verify(outputStreamMock).close();
     }
 }
