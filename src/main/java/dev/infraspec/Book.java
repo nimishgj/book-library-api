@@ -1,10 +1,10 @@
 package dev.infraspec;
 
 public class Book {
-    private final String title;
-    private final String author;
-    private final int yearPublished;
-    private final int bookId;
+    public final String title;
+    public final String author;
+    public final int yearPublished;
+    public final int bookId;
 
     public Book(int bookId, String title, String author, int yearPublished) {
         this.bookId = bookId;

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class BookRepository {
     private final List<Book> bookList;
     private final List<Book> checkOutBooks;
+    private Connection connection;
 
     public static BookRepository defaultBookRepository() {
         return new BookRepository(Arrays.asList(
@@ -23,7 +24,8 @@ public class BookRepository {
 
     public BookRepository(Database database) throws SQLException, ClassNotFoundException {
         database.connect();
-        Connection connection = database.getConnection();
+
+        connection = database.getConnection();
         bookList = new ArrayList<>();
         try {
             Statement stmt = connection.createStatement();
@@ -96,5 +98,11 @@ public class BookRepository {
 
     private boolean isCheckedOut(Book book) {
         return checkOutBooks.contains(book);
+    }
+
+    public void addBook(Book book) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeQuery("insert into book values ("+book.title+","+book.bookId+","+book.author+","+book.yearPublished+")");
+
     }
 }
