@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.infraspec.Book;
 import dev.infraspec.BookRepository;
+import dev.infraspec.Database;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,6 +13,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class BookByIdHandler implements HttpHandler {
+    private final Database database;
+    public BookByIdHandler(){
+        this.database= new Database("jdbc:mysql://localhost:3306/library", "root", "1234");
+    }
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         if (!httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {

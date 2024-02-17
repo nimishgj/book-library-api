@@ -17,7 +17,7 @@ public class HttpServer {
         server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(PORT), 0);
     }
 
-    public void start() throws IOException {
+    public void start() {
         server.createContext("/hello", new HelloWorldController());
         server.createContext("/listBooks", new ListBookHandler());
         server.createContext("/book/", new BookByIdHandler());
@@ -25,7 +25,7 @@ public class HttpServer {
         server.start();
     }
 
-    public void stop() {
+    public void stop()  {
         server.stop(0);
     }
 }
