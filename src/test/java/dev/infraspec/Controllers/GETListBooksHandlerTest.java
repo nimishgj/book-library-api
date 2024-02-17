@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 import static org.mockito.Mockito.*;
 
-class ListBooksHandlerTest {
+class GETListBooksHandlerTest {
     @Test
     @DisplayName("Returns JSON form of Books")
     void listBooksBody() throws IOException {

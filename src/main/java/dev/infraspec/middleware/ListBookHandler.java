@@ -3,6 +3,7 @@ package dev.infraspec.middleware;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.infraspec.Controllers.GETListBooksHandler;
+import dev.infraspec.Controllers.PageNotFoundHandler;
 
 import java.io.IOException;
 
@@ -12,8 +13,7 @@ public class ListBookHandler implements HttpHandler {
             if (httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
                 new GETListBooksHandler().handle(httpExchange);
             } else {
-                httpExchange.sendResponseHeaders(405, -1);
-                httpExchange.close();
+                new PageNotFoundHandler().handle(httpExchange);
             }
     }
 }
