@@ -3,6 +3,7 @@ package dev.infraspec.Controllers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import dev.infraspec.BookRepository;
+import dev.infraspec.Database;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import com.sun.net.httpserver.Headers;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 
 import static org.mockito.Mockito.*;
 
@@ -31,9 +33,9 @@ class GETListBooksHandlerTest {
 
     @Test
     @DisplayName("Returns JSON form of Books")
-    void listBooksBody() throws IOException {
+    void listBooksBody() throws IOException, SQLException, ClassNotFoundException {
         listBooksHandler.handle(httpExchangeMock);
-        BookRepository bookRepository = BookRepository.defaultBookRepository();
+        BookRepository bookRepository = new BookRepository(new Database("jdbc:mysql://localhost:3306/library", "root", "1234"));
         Gson gson = new Gson();
 
         verify(outputStreamMock).write(gson.toJson(bookRepository.getAllAvailableBooks()).getBytes());
@@ -52,7 +54,7 @@ class GETListBooksHandlerTest {
     void listBooksStatusCode() throws IOException {
         listBooksHandler.handle(httpExchangeMock);
 
-        verify(httpExchangeMock).sendResponseHeaders(200, 157);
+        verify(httpExchangeMock).sendResponseHeaders(200, 333);
     }
 
     @Test
