@@ -16,7 +16,7 @@ class ListBooksHandlerTest {
     @Test
     @DisplayName("Returns JSON form of Books")
     void listBooksBody() throws IOException {
-        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        GETListBooksHandler listBooksHandler = new GETListBooksHandler();
         HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
         Headers headersMock = mock(Headers.class);
@@ -33,7 +33,7 @@ class ListBooksHandlerTest {
     @Test
     @DisplayName("Sets the Headers of the Response")
     void listBooksHeader() throws IOException {
-        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        GETListBooksHandler listBooksHandler = new GETListBooksHandler();
         HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
         Headers headersMock = mock(Headers.class);
@@ -48,7 +48,7 @@ class ListBooksHandlerTest {
     @Test
     @DisplayName("Sets the Headers of the Response")
     void listBooksStatusCode() throws IOException {
-        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        GETListBooksHandler listBooksHandler = new GETListBooksHandler();
         HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
         Headers headersMock = mock(Headers.class);
@@ -64,7 +64,7 @@ class ListBooksHandlerTest {
     @Test
     @DisplayName("Closes the Http connection")
     void closeConnection() throws IOException {
-        ListBooksHandler listBooksHandler = new ListBooksHandler();
+        GETListBooksHandler listBooksHandler = new GETListBooksHandler();
         HttpExchange httpExchangeMock = mock(HttpExchange.class);
         OutputStream outputStreamMock = mock(OutputStream.class);
         Headers headersMock = mock(Headers.class);

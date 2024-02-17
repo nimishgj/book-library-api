@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public class ListBooksHandler implements HttpHandler {
+public class GETListBooksHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         BookRepository bookRepository = BookRepository.defaultBookRepository();
