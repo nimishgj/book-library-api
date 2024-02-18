@@ -23,6 +23,8 @@ dependencies {
 	implementation 'org.flywaydb:flyway-mysql'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.2.0'
+
 }
 
 tasks.named('test') {
