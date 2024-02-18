@@ -2,6 +2,7 @@ package dev.infraspec.library.controllers;
 
 import dev.infraspec.library.Entities.Book;
 import dev.infraspec.library.Repository.BookRepository;
+import dev.infraspec.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,15 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    @Autowired
     private BookRepository bookRepository;
+
+    private BookService bookService;
+
+    @Autowired
+    public BookController(BookRepository bookRepository, BookService bookService) {
+        this.bookService = bookService;
+        this.bookRepository = bookRepository;
+    }
 
     @GetMapping
     public List<Book> getAllBooks() {
@@ -30,6 +38,16 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/search/{title}")
+    public ResponseEntity<Book> getBookByTitle(@PathVariable String title) {
+        Book book = bookService.searchByTitle(title);
+        if (book == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {

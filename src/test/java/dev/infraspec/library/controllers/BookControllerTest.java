@@ -26,7 +26,7 @@ public class BookControllerTest {
     private BookRepository bookRepository;
 
     @MockBean
-    private BookRepository mockBookRepository; // Use Mockito for more advanced mocking
+    private BookRepository mockBookRepository; 
 
     public Book createValidBook() {
         return new Book("Title", "Author", 2023);
