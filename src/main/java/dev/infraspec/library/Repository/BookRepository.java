@@ -1,4 +1,4 @@
-package dev.infraspec.library;
+package dev.infraspec.library.Repository;
 
 import dev.infraspec.library.Entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;

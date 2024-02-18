@@ -1,7 +1,7 @@
 package dev.infraspec.library.controllers;
 
 import dev.infraspec.library.Entities.Book;
-import dev.infraspec.library.BookRepository;
+import dev.infraspec.library.Repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
