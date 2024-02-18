@@ -13,6 +13,7 @@ public class BookTest {
         Book book = new Book();
         Long expectedId = 123L;
         book.setId(expectedId);
+
         assertEquals(expectedId, book.getId());
     }
 
@@ -21,7 +22,9 @@ public class BookTest {
     void testTitleGetterSetter() {
         Book book = new Book();
         String expectedTitle = "Sample Title";
+
         book.setTitle(expectedTitle);
+
         assertEquals(expectedTitle, book.getTitle());
     }
 
@@ -30,7 +33,9 @@ public class BookTest {
     void testAuthorGetterSetter() {
         Book book = new Book();
         String expectedAuthor = "John Doe";
+
         book.setAuthor(expectedAuthor);
+
         assertEquals(expectedAuthor, book.getAuthor());
     }
 
@@ -39,7 +44,9 @@ public class BookTest {
     void testYearPublishedGetterSetter() {
         Book book = new Book();
         int expectedYearPublished = 2022;
+
         book.setYearPublished(expectedYearPublished);
+
         assertEquals(expectedYearPublished, book.getYearPublished());
     }
 }

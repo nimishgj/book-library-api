@@ -1,94 +1,142 @@
 package dev.infraspec.library.controllers;
 
 import dev.infraspec.library.Entities.Book;
-import dev.infraspec.library.Repository.BookRepository;
+import dev.infraspec.library.service.BookService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 
-@SpringBootTest
-public class BookControllerTest {
-    @Autowired
-    private BookController bookController;
+class BookControllerTest {
+    @Nested
+    @DisplayName("Unit Testing Boot Controller")
+    class unitTesting {
+        @Test
+        @DisplayName("getAllBooks method is called")
+        public void getAllBooksIsCalled() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
 
-    @Autowired
-    private BookRepository bookRepository;
+            bookController.getAllBooks();
 
-    @MockBean
-    private BookRepository mockBookRepository; 
+            verify(bookServiceMock).getAllBooks();
+        }
 
-    public Book createValidBook() {
-        return new Book("Title", "Author", 2023);
-    }
+        @Test
+        @DisplayName("OK status code for valid book id")
+        public void getBookByIdReturnsBookWithValidId() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.getBookById(1L)).thenReturn(new Book());
 
-    @Test
-    public void getAllBooks_shouldReturnEmptyList_whenNoBooksExist() {
-        Mockito.when(bookRepository.findAll()).thenReturn(Collections.emptyList());
+            ResponseEntity<Book> responseEntity = bookController.getBookById(1L);
 
-        List<Book> actualBooks = bookController.getAllBooks();
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        }
 
-        assertThat(actualBooks).isEmpty();
-    }
+        @Test
+        @DisplayName("NOT_FOUND status code for valid book id")
+        public void getBookByIdReturnsBookWithInvalidId() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.getBookById(1L)).thenReturn(null);
 
-    @Test
-    public void getBookById_shouldReturnNotFound_whenBookDoesNotExist() {
-        Long bookId = 1L;
-        Mockito.when(bookRepository.findById(Math.toIntExact(bookId))).thenReturn(Optional.empty());
+            ResponseEntity<Book> responseEntity = bookController.getBookById(1L);
 
-        ResponseEntity<Book> response = bookController.getBookById(bookId);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
+        }
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-    }
+        @Test
+        @DisplayName("OK status code for valid book title")
+        public void getBookByTitleReturnsBookWithValidTitle() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.getBookByTitle("some title")).thenReturn(new Book());
 
-    @Test
-    public void addBook_shouldReturnInternalServerError_onException() {
-        Book book = createValidBook();
-        Mockito.doThrow(new RuntimeException()).when(bookRepository).save(book);
+            ResponseEntity<Book> responseEntity = bookController.getBookByTitle("some title");
 
-        ResponseEntity<Book> response = bookController.addBook(book);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        }
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+        @Test
+        @DisplayName("NOT_FOUND status code for invalid book title")
+        public void getBookByTitleReturnsBookWithInvalidTitle() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.getBookByTitle("some title")).thenReturn(null);
 
-    @Test
-    public void updateBook_shouldReturnNotFound_whenBookDoesNotExist() {
-        Long bookId = 1L;
-        Book updatedBook = createValidBook();
-        Mockito.when(bookRepository.findById(Math.toIntExact(bookId))).thenReturn(Optional.empty());
+            ResponseEntity<Book> responseEntity = bookController.getBookByTitle("some title");
 
-        ResponseEntity<Book> response = bookController.updateBook(bookId, updatedBook);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
+        }
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-    }
+        @Test
+        @DisplayName("INTERNAL_SERVER_ERROR status code for successful insertion of Book")
+        public void addBookReturnsThrowsExceptionWhenUnsuccessfullOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Book bookMock = mock(Book.class);
+            when(bookServiceMock.add(bookMock)).thenThrow(new RuntimeException());
 
-    @Test
-    public void deleteBook_shouldReturnNoContent_whenBookDeleted() {
-        Long bookId = 1L;
-        Mockito.doNothing().when(bookRepository).deleteById(Math.toIntExact(bookId));
+            ResponseEntity<Book> responseEntity = bookController.addBook(bookMock);
 
-        ResponseEntity<HttpStatus> response = bookController.deleteBook(bookId);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-    }
+        @Test
+        @DisplayName("CREATED status code for successful insertion of Book")
+        public void addBookReturnsBookWhenSuccessfullOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Book bookMock = mock(Book.class);
+            when(bookServiceMock.add(bookMock)).thenReturn(bookMock);
 
-    @Test
-    public void deleteBook_shouldReturnInternalServerError_onException() {
-        Long bookId = 1L;
-        Mockito.doThrow(new RuntimeException()).when(bookRepository).deleteById(Math.toIntExact(bookId));
+            ResponseEntity<Book> responseEntity = bookController.addBook(bookMock);
 
-        ResponseEntity<HttpStatus> response = bookController.deleteBook(bookId);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+        }
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        @Test
+        @DisplayName("OK status code for valid book title")
+        public void updateBookReturnsBookWithValidBookAndId() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Book bookMock = mock(Book.class);
+            when(bookServiceMock.edit(bookMock, 1L)).thenReturn(bookMock);
+
+            ResponseEntity<Book> responseEntity = bookController.updateBook(1L, bookMock);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        }
+
+        @Test
+        @DisplayName("OK status code for valid book title")
+        public void updateBookReturnsNullWithInvalidBookAndId() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Book bookMock = mock(Book.class);
+            when(bookServiceMock.edit(bookMock, 1L)).thenReturn(null);
+
+            ResponseEntity<Book> responseEntity = bookController.updateBook(1L, bookMock);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.NOT_FOUND);
+        }
+
+        @Test
+        @DisplayName("NO_CONTENT status code for successful insertion of Book")
+        public void deleteBookWhenUnsuccessfullOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            doNothing().when(bookServiceMock).deleteBookById(1L);
+
+            ResponseEntity<HttpStatus> responseEntity = bookController.deleteBook(1L);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.NO_CONTENT);
+        }
     }
 }

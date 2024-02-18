@@ -1,7 +1,6 @@
 package dev.infraspec.library.controllers;
 
 import dev.infraspec.library.Entities.Book;
-import dev.infraspec.library.Repository.BookRepository;
 import dev.infraspec.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,24 +13,22 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    private BookRepository bookRepository;
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(BookRepository bookRepository, BookService bookService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.bookRepository = bookRepository;
     }
 
     @GetMapping
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        Book book = bookRepository.findById(Math.toIntExact(id)).orElse(null);
+        Book book = bookService.getBookById(id);
         if (book != null) {
             return new ResponseEntity<>(book, HttpStatus.OK);
         } else {
@@ -41,7 +38,7 @@ public class BookController {
 
     @GetMapping("/search/{title}")
     public ResponseEntity<Book> getBookByTitle(@PathVariable String title) {
-        Book book = bookService.searchByTitle(title);
+        Book book = bookService.getBookByTitle(title);
         if (book == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -52,7 +49,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         try {
-            Book savedBook = bookRepository.save(book);
+            Book savedBook = bookService.add(book);
             return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,22 +58,17 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book existingBook = bookRepository.findById(Math.toIntExact(id)).orElse(null);
-        if (existingBook != null) {
-            existingBook.setTitle(book.getTitle());
-            existingBook.setAuthor(book.getAuthor());
-            existingBook.setYearPublished(book.getYearPublished());
-            bookRepository.save(existingBook);
-            return new ResponseEntity<>(existingBook, HttpStatus.OK);
-        } else {
+        Book editedBook = bookService.edit(book, id);
+        if (editedBook == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(editedBook, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteBook(@PathVariable Long id) {
         try {
-            bookRepository.deleteById(Math.toIntExact(id));
+            bookService.deleteBookById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

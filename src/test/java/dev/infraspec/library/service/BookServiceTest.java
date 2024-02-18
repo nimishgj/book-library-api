@@ -18,11 +18,11 @@ class BookServiceTest {
         BookService bookService = new BookService(bookRepositoryMock);
         Book expectedBook = new Book(1, "random title", "some author", 1985);
         when(bookRepositoryMock.findByTitleContaining(title)).thenReturn(expectedBook);
-        Book actualBook = bookService.searchByTitle(title);
+        Book actualBook = bookService.getBookByTitle(title);
 
         Book anotherExpectedBook = new Book(2, "another title", "another author", 1958);
         when(bookRepositoryMock.findByTitleContaining(anotherTitle)).thenReturn(anotherExpectedBook);
-        Book anotherActualBook = bookService.searchByTitle(anotherTitle);
+        Book anotherActualBook = bookService.getBookByTitle(anotherTitle);
 
         assertEquals(anotherExpectedBook, anotherActualBook);
         assertEquals(expectedBook, actualBook);
