@@ -1,0 +1,6 @@
+{
+  "timestamp": "2024-02-18T22:13:20.234+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/books"
+}

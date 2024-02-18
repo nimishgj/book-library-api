@@ -74,4 +74,13 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/checkout/{id}")
+    public ResponseEntity<Book> checkoutBook(@PathVariable long id){
+        Book checkedOutBook = bookService.checkoutBookById(id);
+        if (checkedOutBook == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(checkedOutBook, HttpStatus.OK);
+    }
 }

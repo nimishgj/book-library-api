@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Basics of something",
+    "author": "someone",
+    "yearPublished": 1987
+  },
+  {
+    "id": 2,
+    "title": "Basics of nothing",
+    "author": "no one",
+    "yearPublished": 1789
+  },
+  {
+    "id": 3,
+    "title": "Basics random thing",
+    "author": "random author",
+    "yearPublished": 2312
+  },
+  {
+    "id": 4,
+    "title": "Basics nothing",
+    "author": "random Nobody",
+    "yearPublished": 2232
+  }
+]

@@ -55,4 +55,12 @@ public class BookService {
     public void deleteBookById(Long id) {
         bookRepository.deleteBookById(id);
     }
+
+    public Book checkoutBookById(long id) {
+        int result = bookRepository.checkoutBookById(id);
+        if (result == 0) {
+            return null;
+        }
+        return bookRepository.getBookById(id);
+    }
 }

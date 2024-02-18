@@ -17,7 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM book where title like concat('%',:title,'%') limit 1")
     Book findByTitleContaining(@Param("title") String title);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM book")
+    @Query(nativeQuery = true, value = "SELECT * FROM book WHERE isCheckedOut = false")
     List<Book> getAllBooks();
 
     @Query(nativeQuery = true, value = "SELECT * FROM book WHERE id = :id")
@@ -37,4 +37,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(nativeQuery = true, value = "DELETE FROM book WHERE id = :id")
     void deleteBookById(@Param("id") Long id);
 
+    @Modifying
+    @Query(nativeQuery = true,value = "SELECT * FROM book WHERE id = :id AND isCheckedOut = false")
+    int checkoutBookById(long id);
 }

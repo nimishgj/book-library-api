@@ -1,0 +1,333 @@
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-19T034406.200.json
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-19T034320.500.json
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-19T034201.200.json
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-19T034128.200.json
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-19T034031.200.json
+
+###
+
+PUT http://localhost:7004/books/132
+Content-Type: application/json
+Content-Length: 76
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": 132,
+  "title": "asdf",
+  "author": "ag",
+  "yearPublished": 123
+}
+
+<> 2024-02-18T162326.200.json
+
+###
+
+PUT http://localhost:7004/books/132
+Content-Type: application/json
+Content-Length: 76
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": 132,
+  "title": "asdf",
+  "author": "ag",
+  "yearPublished": 123
+}
+
+<> 2024-02-18T162207.500.json
+
+###
+
+POST http://localhost:7004/books
+{:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T154654.400.html
+
+###
+
+POST http://localhost:7004/books
+Content-Type: application/json
+{:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T154644.400.html
+
+###
+
+POST http://localhost:7004/books
+Content-Type: application/json
+{:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T154453.400.html
+
+###
+
+POST http://localhost:7004/books
+-H Content-Type: application/json
+-d {:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T154427.400.html
+
+###
+
+POST http://localhost:7004/books
+-H Content-Type: application/json
+-d {:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T154339.400.html
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T153136.200.json
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T134142.200.json
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T122355.200.json
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T122119.200.json
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:7004/books/search/Docker
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:7004/books
+-H Content-Type: application/json
+-d {:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T091314.400.html
+
+###
+
+POST http://localhost:7004/books
+Content-Type: application/json
+{:
+  "id": 12,
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "yearPublished": 2024
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T083025.400.html
+
+###
+
+POST http://localhost:7004/books
+Content-Type: application/json
+{:
+  "title": "Your Book Title",
+  "author": "Author Name",
+  "published_year": 2024,
+  "genre": "Genre of the Book"
+}:
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T082818.400.html
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T065407.200.json
+
+###
+
+GET http://localhost:7004/books
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-18T064937.500.json
+
+###
+
