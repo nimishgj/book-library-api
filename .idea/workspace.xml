@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09e543f0-b91d-4c25-8308-332cc06d935e" name="Changes" comment="" />
+    <list default="true" id="09e543f0-b91d-4c25-8308-332cc06d935e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/infraspec/library/entities/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/dev/infraspec/library/constants/BookTestConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/dev/infraspec/library/entities/BookTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +34,12 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="library" type="f1a62948:ProjectNode" />
+                <item name="bootcamp-24-nimisha-book-library" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="bootcamp-24-nimisha-book-library" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -42,8 +52,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -53,6 +63,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/6.1.3/4d9bd4bd9b8bedf9ef151b45c79766b336117b9a/spring-aop-6.1.3.jar!/org/springframework/aop/framework/JdkDynamicAopProxy.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/6.1.3/cc3459b4abd436331608ddb6424886875f7086ab/spring-web-6.1.3.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/application.properties" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/dev/infraspec/library/LibraryApplicationTests.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="HttpClientSelectedEnvironments">
     <file url="file://$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" />
@@ -146,10 +159,12 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.LibraryApplication (1).executor": "Run",
+    "Spring Boot.LibraryApplication(1).executor": "Run",
     "Spring Boot.LibraryApplication.executor": "Run",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "library-api",
+    "git-widget-placeholder": "feature/get-books-from-db",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/nimisha/github/bootcamp-24-nimisha-book-library",
     "node.js.detected.package.eslint": "true",
@@ -157,11 +172,16 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "project.scopes",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="dev.infraspec.library.entities" />
       <recent name="dev.infraspec.middleware" />
       <recent name="dev.infraspec" />
       <recent name="dev.infraspec.Controllers" />
@@ -179,7 +199,7 @@
       <recent name="dev.infraspec.Controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.LibraryApplication">
+  <component name="RunManager" selected="Gradle.BookTest">
     <configuration name="BookRepositoryTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -236,7 +256,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="BookRepositoryTest.testGetAllBooks_EmptyDatabase" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="BookTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -249,7 +269,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;dev.infraspec.library.Repository.BookRepositoryTest.testGetAllBooks_EmptyDatabase&quot;" />
+            <option value="&quot;dev.infraspec.library.entities.BookTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -286,27 +306,48 @@
       <method v="2" />
     </configuration>
     <configuration name="LibraryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="library.main" />
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="bootcamp-24-nimisha-book-library" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="dev.infraspec.library.LibraryApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LibraryApplication(1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <envs>
+        <env name="DB_PASSWORD" value="1234" />
+        <env name="DB_URL" value="jdbc:mysql://${MYSQL_HOST:localhost}:3305/library" />
+        <env name="DB_USERNAME" value="root" />
+        <env name="SERVER_PORT" value="8000" />
+      </envs>
+      <module name="library.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.infraspec.library.LibraryApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.infraspec.library.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Gradle.BookTest" />
       <item itemvalue="Gradle.BookRepositoryTest" />
       <item itemvalue="Gradle.BookRepositoryTest.testAdd_ValidData" />
-      <item itemvalue="Gradle.BookRepositoryTest.testGetAllBooks_EmptyDatabase" />
       <item itemvalue="Gradle.Tests in 'library.test'" />
       <item itemvalue="HTTP Request.generated-requests | #1" />
-      <item itemvalue="Spring Boot.LibraryApplication" />
+      <item itemvalue="Spring Boot.LibraryApplication(1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.BookTest" />
         <item itemvalue="HTTP Request.generated-requests | #1" />
         <item itemvalue="Gradle.Tests in 'library.test'" />
         <item itemvalue="Gradle.BookRepositoryTest.testAdd_ValidData" />
         <item itemvalue="Gradle.BookRepositoryTest" />
-        <item itemvalue="Gradle.BookRepositoryTest.testGetAllBooks_EmptyDatabase" />
       </list>
     </recent_temporary>
   </component>
@@ -331,6 +372,13 @@
       <workItem from="1708210104389" duration="343000" />
       <workItem from="1708235832313" duration="4643000" />
       <workItem from="1708243850692" duration="16156000" />
+      <workItem from="1708295567652" duration="649000" />
+      <workItem from="1708299755357" duration="175000" />
+      <workItem from="1708299948662" duration="7000" />
+      <workItem from="1708299976056" duration="227000" />
+      <workItem from="1708300226851" duration="7000" />
+      <workItem from="1708300241962" duration="437000" />
+      <workItem from="1708301065684" duration="2460000" />
     </task>
     <servers />
   </component>
