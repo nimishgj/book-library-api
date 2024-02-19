@@ -1,8 +1,8 @@
-CREATE DATABASE library;
+CREATE DATABASE IF NOT EXISTS library;
 
 USE library;
 
-CREATE TABLE library.books(id INT, title VARCHAR(30), author VARCHAR (20),year_published INT, PRIMARY KEY(id));
+CREATE TABLE IF NOT EXISTS library.books(id INT, title VARCHAR(30), author VARCHAR (20),year_published INT, PRIMARY KEY(id));
 
 INSERT INTO books VALUES(1,"Basics of Docker","rahul",2024);
 

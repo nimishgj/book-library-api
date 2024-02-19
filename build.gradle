@@ -6,9 +6,9 @@ plugins {
 }
 
 flyway {
-	url = 'jdbc:mysql://localhost:3305/'
-	user = 'root'
-	password = '1234'
+	url = System.getenv('DB_URL')
+	user = System.getenv('DB_USERNAME')
+	password = System.getenv('DB_PASSWORD')
 	locations = ['filesystem:src/main/resources/db/migration/']
 	schemas = ['public']
 }
