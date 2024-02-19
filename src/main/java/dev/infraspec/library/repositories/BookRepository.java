@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM book")
+    @Query(nativeQuery = true, value = "SELECT * FROM books")
     List<Book> getAllBooks();
 }

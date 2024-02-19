@@ -1,5 +1,6 @@
 package dev.infraspec.library.repositories;
 
+import dev.infraspec.library.LibraryApplication;
 import dev.infraspec.library.entities.Book;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -31,7 +32,7 @@ class BookRepositoryTest {
 
     @Nested
     @DisplayName("Integration testing")
-    @SpringBootTest
+    @SpringBootTest(classes = {LibraryApplication.class})
     @ExtendWith(SpringExtension.class)
     class IntegrationTesting {
         @Autowired

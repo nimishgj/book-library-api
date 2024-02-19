@@ -2,8 +2,16 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.flywaydb.flyway' version '7.14.0'
 }
 
+flyway {
+	url = 'jdbc:mysql://localhost:3305/'
+	user = 'root'
+	password = '1234'
+	locations = ['filesystem:src/main/resources/db/migration/']
+	schemas = ['public']
+}
 group = 'dev.infraspec'
 version = '0.0.1-SNAPSHOT'
 
