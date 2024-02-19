@@ -46,12 +46,24 @@ class BookRepositoryTest {
         }
 
         @Test
-        @DisplayName("Fetches all books from db")
+        @DisplayName("Fetches all books from database")
         void getsAllBooksFromDb() {
             List<Book> bookList = bookRepository.getAllBooks();
 
             assertFalse(bookList.isEmpty());
         }
+
+        @Test
+        @DisplayName("Add a book to the database")
+        void addBookToDb() {
+            Book book = createAValidBook();
+
+            bookRepository.add(book.getId(),book.getTitle(),book.getAuthor(),book.getYear());
+            Optional<Book> retrievedBookOptional = bookRepository.findById(book.getId());
+
+            assertTrue(retrievedBookOptional.isPresent());
+        }
+
         @Test
         @DisplayName("Checks if any books exist in the database")
         void checksIfAnyBooksExistInDb() {
