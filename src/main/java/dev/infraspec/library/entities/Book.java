@@ -1,5 +1,6 @@
 package dev.infraspec.library.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,6 +12,7 @@ public class Book {
     private int id;
     private String title;
     private String author;
+    @Column(name = "year_published")
     private int year;
 
     public Book(int id, String title, String author, int year) {
