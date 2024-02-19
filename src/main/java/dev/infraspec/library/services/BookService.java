@@ -19,4 +19,9 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.getAllBooks();
     }
+
+    public boolean addBook(int id, String title, String author, int year) {
+        int result = bookRepository.add(id, title, author, year);
+        return result != 0;
+    }
 }

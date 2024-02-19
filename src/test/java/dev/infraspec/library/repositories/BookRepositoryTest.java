@@ -40,9 +40,9 @@ class BookRepositoryTest {
         @Autowired
         BookRepository bookRepository;
 
-        private Book createAValidBook(){
+        private Book createAValidBook() {
             int randomId = new Random().nextInt(10000) + 1;
-            return new Book(randomId,SOME_TITLE,SOME_AUTHOR,SOME_YEAR);
+            return new Book(randomId, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
 
         @Test
@@ -58,7 +58,7 @@ class BookRepositoryTest {
         void addBookToDb() {
             Book book = createAValidBook();
 
-            bookRepository.add(book.getId(),book.getTitle(),book.getAuthor(),book.getYear());
+            bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
             Optional<Book> retrievedBookOptional = bookRepository.findById(book.getId());
 
             assertTrue(retrievedBookOptional.isPresent());
@@ -132,7 +132,7 @@ class BookRepositoryTest {
 
             long count = bookRepository.count();
 
-            assertTrue(count>2);
+            assertTrue(count > 2);
         }
     }
 }
