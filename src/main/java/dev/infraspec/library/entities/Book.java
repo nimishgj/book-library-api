@@ -5,14 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import static dev.infraspec.library.constants.BookConstants.*;
+
 @Entity
-@Table(name = "book")
+@Table(name = BOOK_TABLE_NAME)
 public class Book {
     @Id
     private int id;
     private String title;
     private String author;
-    @Column(name = "year_published")
+    @Column(name = YEAR_PUBLISHED_COLUMN_NAME)
     private int year;
 
     public Book(int id, String title, String author, int year) {
@@ -27,6 +29,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return String.format("%-5d %-30s %-30s %-10d", id, title, author, year);
+        return String.format(BOOK_TOSTRING_FORMAT, id, title, author, year);
     }
 }

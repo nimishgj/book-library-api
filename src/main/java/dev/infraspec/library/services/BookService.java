@@ -1,6 +1,9 @@
 package dev.infraspec.library.services;
 
+import dev.infraspec.library.entities.Book;
 import dev.infraspec.library.repositories.BookRepository;
+
+import java.util.List;
 
 public class BookService {
     private final BookRepository bookRepository;
@@ -9,7 +12,7 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public void getAllBooks() {
-        bookRepository.getAllBooks();
+    public List<Book> getAllBooks() {
+        return bookRepository.getAllBooks();
     }
 }
