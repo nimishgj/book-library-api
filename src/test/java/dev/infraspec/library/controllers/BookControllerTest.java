@@ -90,6 +90,7 @@ public class BookControllerTest {
 
             assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         @Test
         @DisplayName("addBook returns status of CREATED for successful database operation")
         void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
@@ -116,7 +117,7 @@ public class BookControllerTest {
             when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
             when(mapMock.get("year")).thenReturn(SOME_YEAR);
 
-            bookController.updateBook(mapMock,SOME_ID);
+            bookController.updateBook(mapMock, SOME_ID);
 
             verify(bookServiceMock, times(1)).updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
@@ -132,7 +133,7 @@ public class BookControllerTest {
             when(mapMock.get("year")).thenReturn(SOME_YEAR);
             when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
 
-            ResponseEntity responseEntity = bookController.updateBook(mapMock,SOME_ID);
+            ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
 
             assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -160,7 +161,7 @@ public class BookControllerTest {
         void testAddBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
             String title = SOME_TITLE;
-            String author =SOME_AUTHOR;
+            String author = SOME_AUTHOR;
             int year = SOME_YEAR;
 
             mockMvc.perform(post("/books")
