@@ -22,8 +22,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -91,6 +90,52 @@ public class BookControllerTest {
 
             assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        @Test
+        @DisplayName("addBook returns status of CREATED for successful database operation")
+        void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Map mapMock = mock(Map.class);
+            when(mapMock.get("title")).thenReturn(SOME_TITLE);
+            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+            when(mapMock.get("year")).thenReturn(SOME_YEAR);
+            when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(true);
+
+            ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.ACCEPTED);
+        }
+
+        @Test
+        @DisplayName("updateBook calls method in BookService")
+        void updateBookCallsMethodInBookService() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Map mapMock = mock(Map.class);
+            when(mapMock.get("title")).thenReturn(SOME_TITLE);
+            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+            when(mapMock.get("year")).thenReturn(SOME_YEAR);
+
+            bookController.updateBook(mapMock,SOME_ID);
+
+            verify(bookServiceMock, times(1)).updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+        }
+
+        @Test
+        @DisplayName("updateBook returns status of CREATED for successful database operation")
+        void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            Map mapMock = mock(Map.class);
+            when(mapMock.get("title")).thenReturn(SOME_TITLE);
+            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+            when(mapMock.get("year")).thenReturn(SOME_YEAR);
+            when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
+
+            ResponseEntity responseEntity = bookController.updateBook(mapMock,SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Nested
@@ -122,6 +167,25 @@ public class BookControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
             ).andExpect(status().isCreated());
+
+            mockMvc.perform(get("/books"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(greaterThan(0))))
+                    .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
+        }
+
+        @Test
+        @DisplayName("updateBook returns Http status of Accepted for successful db operation")
+        void testUpdateBook() throws Exception {
+            int id = 1;
+            String title = "Updated Title";
+            String author = "Updated Author";
+            int year = 2023;
+
+            mockMvc.perform(put("/books/{id}", id)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            ).andExpect(status().isAccepted());
 
             mockMvc.perform(get("/books"))
                     .andExpect(status().isOk())

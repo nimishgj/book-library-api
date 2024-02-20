@@ -40,4 +40,18 @@ public class BookController {
         }
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@RequestBody Map<String, Object> requestBody, @PathVariable int id) {
+        String title = (String) requestBody.get("title");
+        String author = (String) requestBody.get("author");
+        int year = (int) requestBody.get("year");
+
+        boolean isBookInserted = bookService.updateBook(id, title, author, year);
+
+        if (!isBookInserted) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    }
 }
