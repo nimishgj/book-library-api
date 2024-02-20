@@ -114,17 +114,20 @@ public class BookControllerTest {
         @DisplayName("addBook returns Http status of Created for successful db operation")
         void testAddBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
+            String title = SOME_TITLE;
+            String author =SOME_AUTHOR;
+            int year = SOME_YEAR;
+
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"Test Book\", \"author\": \"Test Author\", \"year\": 2024 }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
             ).andExpect(status().isCreated());
 
             mockMvc.perform(get("/books"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(0))))
-                    .andExpect(jsonPath("$[?(@.id == 123 && @.title == 'Test Book' && @.author == 'Test Author' && @.year == 2024)]").exists());
-
-
+                    .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
         }
+
     }
 }
