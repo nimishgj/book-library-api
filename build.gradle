@@ -2,16 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
-	id 'org.flywaydb.flyway' version '7.14.0'
 }
 
-flyway {
-	url = System.getenv('DB_URL')
-	user = System.getenv('DB_USERNAME')
-	password = System.getenv('DB_PASSWORD')
-	locations = ['filesystem:src/main/resources/db/migration/']
-	schemas = ['public']
-}
 group = 'dev.infraspec'
 version = '0.0.1-SNAPSHOT'
 
@@ -31,10 +23,6 @@ dependencies {
 	implementation 'org.flywaydb:flyway-mysql'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-	testCompileOnly 'org.projectlombok:lombok:1.18.30'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
 tasks.named('test') {

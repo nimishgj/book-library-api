@@ -11,7 +11,6 @@ build/
 .idea/libraries/
 *.iws
 *.iml
-.idea/*
 *.ipr
 out/
 !**/src/main/**/out/
