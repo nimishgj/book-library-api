@@ -64,4 +64,15 @@ public class BookController {
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
+
+    @GetMapping("/checkout/{id}")
+    @ResponseBody
+    public ResponseEntity<Book> checkoutBook(@PathVariable int id) {
+        boolean isBookCheckedOut = bookService.checkoutBookById(id);
+
+        if (!isBookCheckedOut) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 }

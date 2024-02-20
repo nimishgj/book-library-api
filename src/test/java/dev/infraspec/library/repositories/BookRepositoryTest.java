@@ -100,7 +100,9 @@ class BookRepositoryTest {
         @Test
         @DisplayName("checkout a book from library")
         void checkoutBookById() {
-            int isBookCheckedOut = bookRepository.checkoutBookById(2);
+            int id = new Random().nextInt(10000) + 1;
+            bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            int isBookCheckedOut = bookRepository.checkoutBookById(id);
 
             assertTrue(isBookCheckedOut > 0);
         }
