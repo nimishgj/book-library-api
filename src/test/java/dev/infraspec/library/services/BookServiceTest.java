@@ -165,6 +165,26 @@ public class BookServiceTest {
         }
 
         @Test
+        @DisplayName("add book to database")
+        void addBookToDatabase() {
+            int id = new Random().nextInt(10000);
+            boolean result = bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("update book details in database")
+        void updateBookDetailsInDatabase() {
+            int id = new Random().nextInt(10000);
+            int year = 1093;
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, year);
+
+            assertTrue(result);
+        }
+        
+        @Test
         @DisplayName("delete book from database")
         void deleteBookFromDatabase() {
             int id = new Random().nextInt(10000) + 1014321;
