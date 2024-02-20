@@ -191,9 +191,9 @@ class BookRepositoryTest {
         @DisplayName("Counts the number of books in the database")
         void countsNumberOfBooksInDb() {
             Book book = createAValidBook();
-            Book anotherBOOK = createAValidBook();
+            Book anotherBooK = createAValidBook();
             bookRepository.save(book);
-            bookRepository.save(anotherBOOK);
+            bookRepository.save(anotherBooK);
 
             long count = bookRepository.count();
 

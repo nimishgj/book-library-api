@@ -43,7 +43,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("add method returns True for successful insertion into databaes")
+        @DisplayName("add method returns True for successful insertion into database")
         void addReturnsTrueForSuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
             BookService bookService = new BookService(bookRepositoryMock);
@@ -55,7 +55,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("add method returns True for successful insertion into databaes")
+        @DisplayName("add method returns False for unsuccessful insertion into database")
         void addReturnsFalseForUnsuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
             BookService bookService = new BookService(bookRepositoryMock);
@@ -90,7 +90,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("update method returns True for successful insertion into database")
+        @DisplayName("update method returns False for unsuccessful insertion into database")
         void updateReturnsFalseForUnsuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
             BookService bookService = new BookService(bookRepositoryMock);
@@ -125,7 +125,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("deleteBookById method returns True for successful insertion into database")
+        @DisplayName("deleteBookById method returns False for unsuccessful insertion into database")
         void deleteBookByIdReturnsFalseForUnsuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
             BookService bookService = new BookService(bookRepositoryMock);
@@ -160,7 +160,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("CheckoutBookById method returns True for successful update in database")
+        @DisplayName("CheckoutBookById method returns False for unsuccessful update in database")
         void checkoutBookByIdReturnsFalseForUnsuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
             BookService bookService = new BookService(bookRepositoryMock);
@@ -190,6 +190,10 @@ public class BookServiceTest {
     class IntegrationTesting {
         @Autowired
         BookService bookService;
+
+        private static int generateRandomId() {
+            return new Random().nextInt(10000) + 1014321;
+        }
 
         @Test
         @DisplayName("Fetches all books from db")
@@ -221,10 +225,9 @@ public class BookServiceTest {
 
         @Test
         @DisplayName("doesn't update book details if book does not exist in database")
-        void DoNotupdateBookDetailsInDatabase() {
-            int id = SOME_INVALID_ID;
+        void DoNotUpdateBookDetailsInDatabase() {
             int year = 1093;
-            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, year);
+            boolean result = bookService.updateBook(SOME_INVALID_ID, SOME_TITLE, SOME_AUTHOR, year);
 
             assertFalse(result);
         }
@@ -232,7 +235,7 @@ public class BookServiceTest {
         @Test
         @DisplayName("delete book from database")
         void deleteBookFromDatabase() {
-            int id = new Random().nextInt(10000) + 1014321;
+            int id = generateRandomId();
             bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
 
             boolean result = bookService.deleteBookById(id);
@@ -243,9 +246,7 @@ public class BookServiceTest {
         @Test
         @DisplayName("doesn't delete book if it doesn't exist in database")
         void doNotDeleteBookFromDatabase() {
-            int id = SOME_INVALID_ID;
-
-            boolean result = bookService.deleteBookById(id);
+            boolean result = bookService.deleteBookById(SOME_INVALID_ID);
 
             assertFalse(result);
         }
@@ -253,7 +254,7 @@ public class BookServiceTest {
         @Test
         @DisplayName("checkout book from database")
         void checkoutBookFromDatabase() {
-            int id = new Random().nextInt(10000) + 1014321;
+            int id = generateRandomId();
             bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
 
             boolean result = bookService.checkoutBookById(id);
@@ -264,7 +265,7 @@ public class BookServiceTest {
         @Test
         @DisplayName("doesn't checkout book from database if already checked out")
         void doNotCheckoutBookFromDatabase() {
-            int id = new Random().nextInt(10000) + 1014321;
+            int id = generateRandomId();
             bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
             bookService.checkoutBookById(id);
 

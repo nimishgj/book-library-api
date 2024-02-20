@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Map;
 import java.util.Random;
@@ -24,7 +22,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,7 +75,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("addBook returns status of CREATED for successful database operation")
+        @DisplayName("addBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
         void addBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -95,7 +92,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("addBook returns status of CREATED for successful database operation")
+        @DisplayName("addBook returns status of ACCEPTED for successful database operation")
         void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -126,7 +123,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("updateBook returns status of INTERNAL_SERVER_ERROR for successful database operation")
+        @DisplayName("updateBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
         void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -142,7 +139,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("deleteBookBYId returns status of CREATED for successful database operation")
+        @DisplayName("deleteBookBYId returns status of OK for successful database operation")
         void deleteBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -178,7 +175,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("checkoutBookById returns status of CREATED for successful database operation")
+        @DisplayName("checkoutBookById returns status of OK for successful database operation")
         void checkoutBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -272,12 +269,11 @@ public class BookControllerTest {
         @Test
         @DisplayName("updateBook returns Http status of server error for unsuccessful db operation")
         void unsuccessfulUpdateBook() throws Exception {
-            int id = SOME_INVALID_ID;
             String title = "Updated Title";
             String author = "Updated Author";
             int year = 2023;
 
-            mockMvc.perform(put("/books/{id}", id)
+            mockMvc.perform(put("/books/{id}", SOME_INVALID_ID)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
             ).andExpect(status().is5xxServerError());
@@ -288,13 +284,10 @@ public class BookControllerTest {
         @DisplayName("deleteBook returns Http status of OK for successful deletion")
         void testDeleteBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-            String title = SOME_TITLE;
-            String author = SOME_AUTHOR;
-            int year = SOME_YEAR;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
             mockMvc.perform(delete("/books/{id}", id))
@@ -305,13 +298,10 @@ public class BookControllerTest {
         @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
         void unsuccessfulDeleteBook() throws Exception {
             int id = SOME_INVALID_ID;
-            String title = SOME_TITLE;
-            String author = SOME_AUTHOR;
-            int year = SOME_YEAR;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
             mockMvc.perform(delete("/books/{id}", id))
@@ -337,7 +327,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("checkoutBook returns Http status of server for unsuccessful checkout")
+        @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
         void unsuccessfulCheckoutBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
             String title = "Some Title";

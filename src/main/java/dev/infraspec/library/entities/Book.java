@@ -27,9 +27,4 @@ public class Book {
         this.title = title;
         this.year = year;
     }
-
-    @Override
-    public String toString() {
-        return String.format(BOOK_TOSTRING_FORMAT, id, title, author, year);
-    }
 }
