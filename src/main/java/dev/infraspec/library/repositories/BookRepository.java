@@ -19,4 +19,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO library.books (id, title, author, year_published) VALUES (:id, :title, :author, :year)")
     int add(@Param("id") int id, @Param("title") String title, @Param("author") String author, @Param("year") int year);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE library.books SET title = :title, author = :author, year_published = :year WHERE id = :id")
+    int update(@Param("id") int id, @Param("title") String title, @Param("author") String author, @Param("year") int year);
 }

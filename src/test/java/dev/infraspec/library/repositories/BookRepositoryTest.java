@@ -41,7 +41,7 @@ class BookRepositoryTest {
         BookRepository bookRepository;
 
         private Book createAValidBook() {
-            int randomId = new Random().nextInt(10000) + 1;
+            int randomId = new Random().nextInt(10000) + new Random().nextInt(10000);
             return new Book(randomId, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
 
@@ -62,6 +62,18 @@ class BookRepositoryTest {
             Optional<Book> retrievedBookOptional = bookRepository.findById(book.getId());
 
             assertTrue(retrievedBookOptional.isPresent());
+        }
+
+        @Test
+        @DisplayName("Updates Book details in database using native Query")
+        void editBook() {
+            Book book = createAValidBook();
+            bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
+            int expectedResult = 1;
+
+            int isBookUpdated = bookRepository.update(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
+
+            assertEquals(expectedResult, isBookUpdated);
         }
 
         @Test
