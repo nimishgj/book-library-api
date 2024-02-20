@@ -270,9 +270,41 @@ public class BookControllerTest {
         }
 
         @Test
+        @DisplayName("updateBook returns Http status of server error for unsuccessful db operation")
+        void unsuccessfulUpdateBook() throws Exception {
+            int id = SOME_INVALID_ID;
+            String title = "Updated Title";
+            String author = "Updated Author";
+            int year = 2023;
+
+            mockMvc.perform(put("/books/{id}", id)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            ).andExpect(status().is5xxServerError());
+
+        }
+
+        @Test
         @DisplayName("deleteBook returns Http status of OK for successful deletion")
         void testDeleteBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
+            String title = SOME_TITLE;
+            String author = SOME_AUTHOR;
+            int year = SOME_YEAR;
+
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            );
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
+        void unsuccessfulDeleteBook() throws Exception {
+            int id = SOME_INVALID_ID;
             String title = SOME_TITLE;
             String author = SOME_AUTHOR;
             int year = SOME_YEAR;
@@ -302,6 +334,27 @@ public class BookControllerTest {
 
             mockMvc.perform(get("/books/checkout/{id}", id))
                     .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("checkoutBook returns Http status of server for unsuccessful checkout")
+        void unsuccessfulCheckoutBook() throws Exception {
+            int id = new Random().nextInt(10000) + 1;
+            String title = "Some Title";
+            String author = "Some Author";
+            int year = 2022;
+
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            );
+
+
+            mockMvc.perform(get("/books/checkout/{id}", id))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(get("/books/checkout/{id}", id))
+                    .andExpect(status().is5xxServerError());
         }
     }
 }
