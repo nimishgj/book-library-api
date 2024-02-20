@@ -98,6 +98,25 @@ class BookRepositoryTest {
         }
 
         @Test
+        @DisplayName("checkout a book from library")
+        void checkoutBookById() {
+            int isBookCheckedOut = bookRepository.checkoutBookById(2);
+
+            assertTrue(isBookCheckedOut > 0);
+        }
+
+        @Test
+        @DisplayName("doesn't checkout a book from library")
+        void doesNotCheckoutBookById() {
+            int expectedResult = 0;
+            bookRepository.checkoutBookById(2);
+
+            int isBookCheckedOut = bookRepository.checkoutBookById(2);
+
+            assertEquals(expectedResult, isBookCheckedOut);
+        }
+
+        @Test
         @DisplayName("Checks if any books exist in the database")
         void checksIfAnyBooksExistInDb() {
             Book book = createAValidBook();
