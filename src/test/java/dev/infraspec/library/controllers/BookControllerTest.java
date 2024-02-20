@@ -209,6 +209,42 @@ public class BookControllerTest {
 
             assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        @Test
+        @DisplayName("returnBookById returns status of OK for successful database operation")
+        void returnBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
+
+            ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        }
+
+        @Test
+        @DisplayName("returnBookById calls method in BookService")
+        void returnBookByIdCallsMethodInBookService() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
+
+            bookController.returnBook(SOME_ID);
+
+            verify(bookServiceMock, times(1)).returnBookById(SOME_ID);
+        }
+
+        @Test
+        @DisplayName("returnBookById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+        void returnBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(false);
+
+            ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Nested
@@ -346,5 +382,43 @@ public class BookControllerTest {
             mockMvc.perform(get("/books/checkout/{id}", id))
                     .andExpect(status().is5xxServerError());
         }
+
+        @Test
+        @DisplayName("returnBook returns Http status of OK for successful return")
+        void testReturnBook() throws Exception {
+            int id = new Random().nextInt(10000) + 1;
+            String title = "Some Title";
+            String author = "Some Author";
+            int year = 2022;
+
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            );
+
+            mockMvc.perform(get("/books/checkout/{id}", id))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(get("/books/return/{id}", id))
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        @DisplayName("returnBook returns Http status of server error for unsuccessful return")
+        void unsuccessfulReturnBook() throws Exception {
+            int id = new Random().nextInt(10000) + 1;
+            String title = "Some Title";
+            String author = "Some Author";
+            int year = 2022;
+
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            );
+
+            mockMvc.perform(get("/books/return/{id}", id))
+                    .andExpect(status().is5xxServerError());
+        }
+
     }
 }
