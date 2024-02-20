@@ -146,6 +146,41 @@ public class BookServiceTest {
 
             verify(bookRepositoryMock, times(1)).deleteBookById(SOME_ID);
         }
+
+        @Test
+        @DisplayName("CheckoutBookById method returns True for successful update in database")
+        void checkoutBookByIdReturnsTrueForSuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.checkoutBookById(SOME_ID)).thenReturn(1);
+
+            boolean result = bookService.checkoutBookById(SOME_ID);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("CheckoutBookById method returns True for successful update in database")
+        void checkoutBookByIdReturnsFalseForUnsuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.checkoutBookById(SOME_ID)).thenReturn(0);
+
+            boolean result = bookService.checkoutBookById(SOME_ID);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("CheckoutBookById method calls method in BookRepository ")
+        void checkoutBookByIdCallsMethodInBookRepository() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.checkoutBookById(SOME_ID);
+
+            verify(bookRepositoryMock, times(1)).checkoutBookById(SOME_ID);
+        }
     }
 
     @Nested
@@ -183,7 +218,7 @@ public class BookServiceTest {
 
             assertTrue(result);
         }
-        
+
         @Test
         @DisplayName("delete book from database")
         void deleteBookFromDatabase() {
@@ -191,6 +226,17 @@ public class BookServiceTest {
             bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
 
             boolean result = bookService.deleteBookById(id);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("checkout book from database")
+        void checkoutBookFromDatabase() {
+            int id = new Random().nextInt(10000) + 1014321;
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            boolean result = bookService.checkoutBookById(id);
 
             assertTrue(result);
         }

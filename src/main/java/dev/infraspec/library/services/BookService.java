@@ -34,4 +34,9 @@ public class BookService {
         int result = bookRepository.deleteBookById(id);
         return result > 0;
     }
+
+    public boolean checkoutBookById(int id) {
+        int result = bookRepository.checkoutBookById(id);
+        return result > 0;
+    }
 }
