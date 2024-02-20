@@ -77,6 +77,17 @@ class BookRepositoryTest {
         }
 
         @Test
+        @DisplayName("doesn't Updates Book details in database if book doesn't exist")
+        void doNotEditBook() {
+            int expectedResult = 1;
+
+            int isBookUpdated = bookRepository.update(SOME_INVALID_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertNotEquals(expectedResult, isBookUpdated);
+        }
+
+
+        @Test
         @DisplayName("Deletes Book by id for database using native query")
         void deleteBookById() {
             Book book = createAValidBook();
