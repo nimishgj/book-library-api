@@ -220,6 +220,16 @@ public class BookServiceTest {
         }
 
         @Test
+        @DisplayName("doesn't update book details if book does not exist in database")
+        void DoNotupdateBookDetailsInDatabase() {
+            int id = SOME_INVALID_ID;
+            int year = 1093;
+            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, year);
+
+            assertFalse(result);
+        }
+
+        @Test
         @DisplayName("delete book from database")
         void deleteBookFromDatabase() {
             int id = new Random().nextInt(10000) + 1014321;
@@ -231,6 +241,16 @@ public class BookServiceTest {
         }
 
         @Test
+        @DisplayName("doesn't delete book if it doesn't exist in database")
+        void doNotDeleteBookFromDatabase() {
+            int id = SOME_INVALID_ID;
+
+            boolean result = bookService.deleteBookById(id);
+
+            assertFalse(result);
+        }
+
+        @Test
         @DisplayName("checkout book from database")
         void checkoutBookFromDatabase() {
             int id = new Random().nextInt(10000) + 1014321;
@@ -239,6 +259,18 @@ public class BookServiceTest {
             boolean result = bookService.checkoutBookById(id);
 
             assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("doesn't checkout book from database if already checked out")
+        void doNotCheckoutBookFromDatabase() {
+            int id = new Random().nextInt(10000) + 1014321;
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            bookService.checkoutBookById(id);
+
+            boolean result = bookService.checkoutBookById(id);
+
+            assertFalse(result);
         }
     }
 }
