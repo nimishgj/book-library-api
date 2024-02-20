@@ -1,5 +1,5 @@
 ALTER TABLE library.books
-    ADD COLUMN isCheckedOut boolean;
+    ADD COLUMN is_checked_out boolean;
 
 UPDATE library.books
-SET isCheckedOut = false;
+SET is_checked_out = false;
