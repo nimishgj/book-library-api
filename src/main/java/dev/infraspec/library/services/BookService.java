@@ -24,4 +24,9 @@ public class BookService {
         int result = bookRepository.add(id, title, author, year);
         return result != 0;
     }
+
+    public boolean updateBook(int id, String title, String author, int year) {
+        int result = bookRepository.update(id, title, author, year);
+        return result != 0;
+    }
 }

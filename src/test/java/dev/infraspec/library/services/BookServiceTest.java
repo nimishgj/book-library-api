@@ -75,6 +75,41 @@ public class BookServiceTest {
 
             verify(bookRepositoryMock, times(1)).add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
+
+        @Test
+        @DisplayName("update method returns True for successful insertion into database")
+        void updateReturnsTrueForSuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
+
+            boolean result = bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("update method returns True for successful insertion into database")
+        void updateReturnsFalseForUnsuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(0);
+
+            boolean result = bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("update method calls method in BookRepository ")
+        void updateCallsMethodInBookRepository() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            verify(bookRepositoryMock, times(1)).update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+        }
     }
 
     @Nested
