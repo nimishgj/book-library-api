@@ -181,6 +181,41 @@ public class BookServiceTest {
 
             verify(bookRepositoryMock, times(1)).checkoutBookById(SOME_ID);
         }
+
+        @Test
+        @DisplayName("returnBookById method returns True for successful update in database")
+        void returnBookByIdReturnsTrueForSuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.returnBookById(SOME_ID)).thenReturn(1);
+
+            boolean result = bookService.returnBookById(SOME_ID);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("returnBookById method returns False for unsuccessful update in database")
+        void returnBookByIdReturnsFalseForUnsuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.returnBookById(SOME_ID)).thenReturn(0);
+
+            boolean result = bookService.returnBookById(SOME_ID);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("returnBookById method calls method in BookRepository ")
+        void returnBookByIdCallsMethodInBookRepository() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.returnBookById(SOME_ID);
+
+            verify(bookRepositoryMock, times(1)).returnBookById(SOME_ID);
+        }
     }
 
     @Nested
@@ -270,6 +305,29 @@ public class BookServiceTest {
             bookService.checkoutBookById(id);
 
             boolean result = bookService.checkoutBookById(id);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("return book from database")
+        void returnBookToDatabase() {
+            int id = generateRandomId();
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            bookService.checkoutBookById(id);
+
+            boolean result = bookService.returnBookById(id);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("doesn't return book from database if id is not valid")
+        void doNotReturnBookToDatabase() {
+            int id = generateRandomId();
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            boolean result = bookService.returnBookById(id);
 
             assertFalse(result);
         }

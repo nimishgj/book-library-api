@@ -39,4 +39,9 @@ public class BookService {
         int result = bookRepository.checkoutBookById(id);
         return result > 0;
     }
+
+    public boolean returnBookById(int id) {
+        int result = bookRepository.returnBookById(id);
+        return result > 0;
+    }
 }
