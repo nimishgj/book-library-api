@@ -31,4 +31,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE library.books SET is_checked_out = true WHERE id = :id AND is_checked_out=false")
     int checkoutBookById(@Param("id") int id);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE library.books SET is_checked_out = false WHERE id = :id AND is_checked_out=true")
+    int returnBookById(@Param("id") int id);
 }

@@ -130,6 +130,29 @@ class BookRepositoryTest {
         }
 
         @Test
+        @DisplayName("return a book to library")
+        void returnBookById() {
+            int id = new Random().nextInt(10000) + 1;
+            bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            bookRepository.checkoutBookById(id);
+
+            int isBookReturned = bookRepository.returnBookById(id);
+
+            assertTrue(isBookReturned > 0);
+        }
+
+        @Test
+        @DisplayName("doesn't return a book to library if not checked out")
+        void doesNotReturnBookById() {
+            int id = new Random().nextInt(10000) + 1;
+            bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            int isBookReturned = bookRepository.returnBookById(id);
+
+            assertFalse(isBookReturned > 0);
+        }
+
+        @Test
         @DisplayName("Checks if any books exist in the database")
         void checksIfAnyBooksExistInDb() {
             Book book = createAValidBook();
