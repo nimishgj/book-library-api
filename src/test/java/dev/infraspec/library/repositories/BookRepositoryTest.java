@@ -52,6 +52,17 @@ class BookRepositoryTest {
 
             assertFalse(bookList.isEmpty());
         }
+        @Test
+        @DisplayName("Fetches all available books from database")
+        void getsAllAvailableBooksFromDb() {
+            List<Book> bookList = bookRepository.getAllAvailableBooks();
+
+            boolean allBooksAvailable = bookList.stream()
+                    .noneMatch(Book::getIsCheckedOut);
+
+            assertTrue(allBooksAvailable);
+        }
+
 
         @Test
         @DisplayName("Add a book to the database")

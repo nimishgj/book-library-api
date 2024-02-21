@@ -20,11 +20,18 @@ public class Book {
     private String author;
     @Column(name = YEAR_PUBLISHED_COLUMN_NAME)
     private int year;
+    @Column(name = IS_CHECKOUT_COLUMN_NAME)
+    private boolean isCheckedOut;
 
     public Book(int id, String title, String author, int year) {
         this.author = author;
         this.id = id;
         this.title = title;
         this.year = year;
+        this.isCheckedOut = false;
+    }
+
+    public boolean getIsCheckedOut(){
+        return this.isCheckedOut;
     }
 }

@@ -16,6 +16,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM library.books")
     List<Book> getAllBooks();
 
+    @Query(nativeQuery = true, value = "SELECT * FROM library.books WHERE is_checked_out= false")
+    List<Book> getAllAvailableBooks();
+
     @Modifying
     @Query(nativeQuery = true, value = "INSERT INTO library.books (id, title, author, year_published, is_checked_out) VALUES (:id, :title, :author, :year, false)")
     int add(@Param("id") int id, @Param("title") String title, @Param("author") String author, @Param("year") int year);
