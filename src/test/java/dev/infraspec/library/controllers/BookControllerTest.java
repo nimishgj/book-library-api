@@ -115,7 +115,7 @@ public class BookControllerTest {
 
             ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
 
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.ACCEPTED);
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         }
 
         @Test
@@ -322,14 +322,14 @@ public class BookControllerTest {
         @DisplayName("updateBook returns Http status of Accepted for successful db operation")
         void testUpdateBook() throws Exception {
             int id = 1;
-            String title = "Updated Title";
-            String author = "Updated Author";
-            int year = 2023;
+            String title = SOME_OTHER_TITLE;
+            String author = SOME_OTHER_AUTHOR;
+            int year = SOME_OTHER_YEAR;
 
             mockMvc.perform(put("/books/{id}", id)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
-            ).andExpect(status().isAccepted());
+            ).andExpect(status().isOk());
 
             mockMvc.perform(get("/books"))
                     .andExpect(status().isOk())
@@ -340,13 +340,10 @@ public class BookControllerTest {
         @Test
         @DisplayName("updateBook returns Http status of server error for unsuccessful db operation")
         void unsuccessfulUpdateBook() throws Exception {
-            String title = "Updated Title";
-            String author = "Updated Author";
-            int year = 2023;
 
             mockMvc.perform(put("/books/{id}", SOME_INVALID_ID)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"title\": \"" + SOME_OTHER_TITLE + "\", \"author\": \"" + SOME_OTHER_AUTHOR + "\", \"year\": " + SOME_OTHER_YEAR + " }")
             ).andExpect(status().is5xxServerError());
 
         }
@@ -383,13 +380,10 @@ public class BookControllerTest {
         @DisplayName("checkoutBook returns Http status of OK for successful checkout")
         void testCheckoutBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-            String title = "Some Title";
-            String author = "Some Author";
-            int year = 2022;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
 
@@ -401,13 +395,10 @@ public class BookControllerTest {
         @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
         void unsuccessfulCheckoutBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-            String title = "Some Title";
-            String author = "Some Author";
-            int year = 2022;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
 
@@ -422,13 +413,10 @@ public class BookControllerTest {
         @DisplayName("returnBook returns Http status of OK for successful return")
         void testReturnBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-            String title = "Some Title";
-            String author = "Some Author";
-            int year = 2022;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
             mockMvc.perform(get("/books/checkout/{id}", id))
@@ -442,13 +430,10 @@ public class BookControllerTest {
         @DisplayName("returnBook returns Http status of server error for unsuccessful return")
         void unsuccessfulReturnBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-            String title = "Some Title";
-            String author = "Some Author";
-            int year = 2022;
 
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
             mockMvc.perform(get("/books/return/{id}", id))

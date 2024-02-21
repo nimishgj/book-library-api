@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+import static dev.infraspec.library.constants.BookControllerConstants.*;
+
 @RestController
 @RequestMapping("/books")
 public class BookController {
@@ -39,7 +41,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<String> addBook(@RequestBody Map<String, Object> requestBody) {
         int id = (int) requestBody.get("id");
         String title = (String) requestBody.get("title");
         String author = (String) requestBody.get("author");
@@ -48,13 +50,13 @@ public class BookController {
         boolean isBookInserted = bookService.addBook(id, title, author, year);
 
         if (!isBookInserted) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ADD_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(ADD_BOOK_SUCCESS_MESSAGE, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@RequestBody Map<String, Object> requestBody, @PathVariable int id) {
+    public ResponseEntity<String> updateBook(@RequestBody Map<String, Object> requestBody, @PathVariable int id) {
         String title = (String) requestBody.get("title");
         String author = (String) requestBody.get("author");
         int year = (int) requestBody.get("year");
@@ -62,40 +64,40 @@ public class BookController {
         boolean isBookInserted = bookService.updateBook(id, title, author, year);
 
         if (!isBookInserted) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(UPDATE_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(UPDATE_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteBook(@PathVariable int id) {
+    public ResponseEntity<String> deleteBook(@PathVariable int id) {
         boolean isBookDeleted = bookService.deleteBookById(id);
 
         if (!isBookDeleted) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(DELETE_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(DELETE_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/checkout/{id}")
     @ResponseBody
-    public ResponseEntity<Book> checkoutBook(@PathVariable int id) {
+    public ResponseEntity<String> checkoutBook(@PathVariable int id) {
         boolean isBookCheckedOut = bookService.checkoutBookById(id);
 
         if (!isBookCheckedOut) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(CHECKOUT_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(CHECKOUT_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 
     @GetMapping("/return/{id}")
     @ResponseBody
-    public ResponseEntity<Book> returnBook(@PathVariable int id) {
+    public ResponseEntity<String> returnBook(@PathVariable int id) {
         boolean isBookCheckedOut = bookService.returnBookById(id);
 
         if (!isBookCheckedOut) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(RETURN_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(RETURN_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
     }
 }
