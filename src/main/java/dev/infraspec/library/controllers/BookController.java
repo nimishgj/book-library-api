@@ -26,6 +26,12 @@ public class BookController {
         return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
     }
 
+    @GetMapping("/available")
+    @ResponseBody
+    public ResponseEntity<List<Book>> getAllAvailableBooks() {
+        return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Map<String, Object> requestBody) {
         int id = (int) requestBody.get("id");

@@ -42,6 +42,17 @@ public class BookControllerTest {
         }
 
         @Test
+        @DisplayName("Book Controller calls the Book Service's getAllAvailableBooks method")
+        void getAllAvailableBooksCallsBookServiceMethod() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+
+            bookController.getAllAvailableBooks();
+
+            verify(bookServiceMock, times(1)).getAllAvailableBooks();
+        }
+
+        @Test
         @DisplayName("addBook returns status of CREATED for successful database operation")
         void addBookReturnStatusCreatedForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
@@ -260,6 +271,14 @@ public class BookControllerTest {
         @DisplayName("getAllBooks returns a list of books")
         void testGetAllBooksReturnsListOfBooks() throws Exception {
             mockMvc.perform(get("/books"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(greaterThan(1))));
+        }
+        
+        @Test
+        @DisplayName("getAllAvailableBooks returns a list of books")
+        void testGetAllAvailableBooksReturnsListOfBooks() throws Exception {
+            mockMvc.perform(get("/books/available"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(1))));
         }
