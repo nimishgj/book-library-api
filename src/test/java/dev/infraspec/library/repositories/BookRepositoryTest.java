@@ -52,6 +52,7 @@ class BookRepositoryTest {
 
             assertFalse(bookList.isEmpty());
         }
+
         @Test
         @DisplayName("Fetches all available books from database")
         void getsAllAvailableBooksFromDb() {
@@ -63,6 +64,16 @@ class BookRepositoryTest {
             assertTrue(allBooksAvailable);
         }
 
+        @Test
+        @DisplayName("Fetches all checked out books from database")
+        void getsAllCheckedOutBooksFromDb() {
+            List<Book> bookList = bookRepository.getAllCheckedOutBooks();
+
+            boolean allBooksCheckedOut = bookList.stream()
+                    .allMatch(Book::getIsCheckedOut);
+
+            assertTrue(allBooksCheckedOut);
+        }
 
         @Test
         @DisplayName("Add a book to the database")
@@ -96,7 +107,6 @@ class BookRepositoryTest {
 
             assertNotEquals(expectedResult, isBookUpdated);
         }
-
 
         @Test
         @DisplayName("Deletes Book by id for database using native query")

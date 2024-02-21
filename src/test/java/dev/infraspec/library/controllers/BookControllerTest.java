@@ -274,11 +274,27 @@ public class BookControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(1))));
         }
-        
+
         @Test
         @DisplayName("getAllAvailableBooks returns a list of books")
         void testGetAllAvailableBooksReturnsListOfBooks() throws Exception {
             mockMvc.perform(get("/books/available"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", hasSize(greaterThan(1))));
+        }
+
+        @Test
+        @DisplayName("getAllCheckedOutBooks returns a list of books")
+        void testGetAllCheckedOutBooksReturnsListOfBooks() throws Exception {
+            int id = new Random().nextInt(10000) + 1;
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
+            ).andExpect(status().isCreated());
+            mockMvc.perform(get("/books/checkout/{id}", id));
+
+
+            mockMvc.perform(get("/books/checkedOut"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(1))));
         }

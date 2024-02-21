@@ -32,6 +32,12 @@ public class BookController {
         return new ResponseEntity<>(bookService.getAllAvailableBooks(), HttpStatus.OK);
     }
 
+    @GetMapping("/checkedOut")
+    @ResponseBody
+    public ResponseEntity<List<Book>> getAllCheckedOutBooks() {
+        return new ResponseEntity<>(bookService.getAllCheckedOutBooks(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Map<String, Object> requestBody) {
         int id = (int) requestBody.get("id");

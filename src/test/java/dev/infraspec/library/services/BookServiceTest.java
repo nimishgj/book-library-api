@@ -54,6 +54,17 @@ public class BookServiceTest {
         }
 
         @Test
+        @DisplayName("Book Service calls the BookRepository's getAllAvailableBooks method")
+        void getAllCheckedOutBooksCallsBookRepositoryMethod() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.getAllCheckedOutBooks();
+
+            verify(bookRepositoryMock, times(1)).getAllCheckedOutBooks();
+        }
+
+        @Test
         @DisplayName("add method returns True for successful insertion into database")
         void addReturnsTrueForSuccessfulDbOperation() {
             BookRepository bookRepositoryMock = mock(BookRepository.class);
@@ -256,7 +267,19 @@ public class BookServiceTest {
 
             assertFalse(bookList.isEmpty());
         }
-        
+
+        @Test
+        @DisplayName("Fetches all available books from db")
+        void getAllCheckedOutBooksFromDb() {
+            int id = new Random().nextInt(10000);
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            bookService.checkoutBookById(id);
+
+            List<Book> bookList = bookService.getAllCheckedOutBooks();
+
+            assertFalse(bookList.isEmpty());
+        }
+
         @Test
         @DisplayName("add book to database")
         void addBookToDatabase() {
