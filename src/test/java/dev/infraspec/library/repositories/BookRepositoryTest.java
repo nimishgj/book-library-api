@@ -84,6 +84,7 @@ class BookRepositoryTest {
             Optional<Book> retrievedBookOptional = bookRepository.findById(book.getId());
 
             assertTrue(retrievedBookOptional.isPresent());
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -96,6 +97,7 @@ class BookRepositoryTest {
             int isBookUpdated = bookRepository.update(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
 
             assertEquals(expectedResult, isBookUpdated);
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -117,6 +119,7 @@ class BookRepositoryTest {
             int isBookDeleted = bookRepository.deleteBookById(book.getId());
 
             assertTrue(isBookDeleted > 0);
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -137,6 +140,7 @@ class BookRepositoryTest {
             int isBookCheckedOut = bookRepository.checkoutBookById(id);
 
             assertTrue(isBookCheckedOut > 0);
+            bookRepository.deleteBookById(id);
         }
 
         @Test
@@ -160,6 +164,7 @@ class BookRepositoryTest {
             int isBookReturned = bookRepository.returnBookById(id);
 
             assertTrue(isBookReturned > 0);
+            bookRepository.deleteBookById(id);
         }
 
         @Test
@@ -171,6 +176,7 @@ class BookRepositoryTest {
             int isBookReturned = bookRepository.returnBookById(id);
 
             assertFalse(isBookReturned > 0);
+            bookRepository.deleteBookById(id);
         }
 
         @Test
@@ -182,6 +188,7 @@ class BookRepositoryTest {
             boolean anyBooksExist = bookRepository.existsById(book.getId());
 
             assertTrue(anyBooksExist);
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -192,6 +199,7 @@ class BookRepositoryTest {
 
             assertEquals(book.getTitle(), savedBook.getTitle());
             assertEquals(book.getAuthor(), savedBook.getAuthor());
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -205,6 +213,7 @@ class BookRepositoryTest {
             assertTrue(optionalBook.isPresent());
             assertEquals(savedBook.getTitle(), optionalBook.get().getTitle());
             assertEquals(savedBook.getAuthor(), optionalBook.get().getAuthor());
+            bookRepository.deleteBookById(book.getId());
         }
 
         @Test
@@ -229,19 +238,23 @@ class BookRepositoryTest {
             List<Book> bookList = bookRepository.findAll();
 
             assertFalse(bookList.isEmpty());
+            bookRepository.deleteBookById(book.getId());
+            bookRepository.deleteBookById(anotherBook.getId());
         }
 
         @Test
         @DisplayName("Counts the number of books in the database")
         void countsNumberOfBooksInDb() {
             Book book = createAValidBook();
-            Book anotherBooK = createAValidBook();
+            Book anotherBook = createAValidBook();
             bookRepository.save(book);
-            bookRepository.save(anotherBooK);
+            bookRepository.save(anotherBook);
 
             long count = bookRepository.count();
 
             assertTrue(count > 2);
+            bookRepository.deleteBookById(book.getId());
+            bookRepository.deleteBookById(anotherBook.getId());
         }
     }
 }

@@ -293,10 +293,12 @@ public class BookControllerTest {
             ).andExpect(status().isCreated());
             mockMvc.perform(get("/books/checkout/{id}", id));
 
-
             mockMvc.perform(get("/books/checkedOut"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(1))));
+                    .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
         }
 
         @Test
@@ -306,7 +308,6 @@ public class BookControllerTest {
             String title = SOME_TITLE;
             String author = SOME_AUTHOR;
             int year = SOME_YEAR;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
@@ -316,6 +317,9 @@ public class BookControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(0))))
                     .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
         }
 
         @Test
@@ -352,7 +356,6 @@ public class BookControllerTest {
         @DisplayName("deleteBook returns Http status of OK for successful deletion")
         void testDeleteBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
@@ -366,7 +369,6 @@ public class BookControllerTest {
         @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
         void unsuccessfulDeleteBook() throws Exception {
             int id = SOME_INVALID_ID;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
@@ -380,14 +382,15 @@ public class BookControllerTest {
         @DisplayName("checkoutBook returns Http status of OK for successful checkout")
         void testCheckoutBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
             );
 
-
             mockMvc.perform(get("/books/checkout/{id}", id))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(delete("/books/{id}", id))
                     .andExpect(status().isOk());
         }
 
@@ -395,7 +398,6 @@ public class BookControllerTest {
         @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
         void unsuccessfulCheckoutBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
@@ -404,16 +406,17 @@ public class BookControllerTest {
 
             mockMvc.perform(get("/books/checkout/{id}", id))
                     .andExpect(status().isOk());
-
             mockMvc.perform(get("/books/checkout/{id}", id))
                     .andExpect(status().is5xxServerError());
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
         }
 
         @Test
         @DisplayName("returnBook returns Http status of OK for successful return")
         void testReturnBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
@@ -421,8 +424,10 @@ public class BookControllerTest {
 
             mockMvc.perform(get("/books/checkout/{id}", id))
                     .andExpect(status().isOk());
-
             mockMvc.perform(get("/books/return/{id}", id))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(delete("/books/{id}", id))
                     .andExpect(status().isOk());
         }
 
@@ -430,7 +435,6 @@ public class BookControllerTest {
         @DisplayName("returnBook returns Http status of server error for unsuccessful return")
         void unsuccessfulReturnBook() throws Exception {
             int id = new Random().nextInt(10000) + 1;
-
             mockMvc.perform(post("/books")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
@@ -438,6 +442,9 @@ public class BookControllerTest {
 
             mockMvc.perform(get("/books/return/{id}", id))
                     .andExpect(status().is5xxServerError());
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
         }
 
     }

@@ -31,7 +31,7 @@ public class Book {
         this.isCheckedOut = false;
     }
 
-    public boolean getIsCheckedOut(){
+    public boolean getIsCheckedOut() {
         return this.isCheckedOut;
     }
 }

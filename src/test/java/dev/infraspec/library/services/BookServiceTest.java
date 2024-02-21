@@ -287,24 +287,24 @@ public class BookServiceTest {
             boolean result = bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
 
             assertTrue(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
         @DisplayName("update book details in database")
         void updateBookDetailsInDatabase() {
             int id = new Random().nextInt(10000);
-            int year = 1093;
             bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
-            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, year);
+            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, SOME_OTHER_YEAR);
 
             assertTrue(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
         @DisplayName("doesn't update book details if book does not exist in database")
         void DoNotUpdateBookDetailsInDatabase() {
-            int year = 1093;
-            boolean result = bookService.updateBook(SOME_INVALID_ID, SOME_TITLE, SOME_AUTHOR, year);
+            boolean result = bookService.updateBook(SOME_INVALID_ID, SOME_TITLE, SOME_AUTHOR, SOME_OTHER_YEAR);
 
             assertFalse(result);
         }
@@ -318,6 +318,7 @@ public class BookServiceTest {
             boolean result = bookService.deleteBookById(id);
 
             assertTrue(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
@@ -337,6 +338,7 @@ public class BookServiceTest {
             boolean result = bookService.checkoutBookById(id);
 
             assertTrue(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
@@ -349,6 +351,7 @@ public class BookServiceTest {
             boolean result = bookService.checkoutBookById(id);
 
             assertFalse(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
@@ -361,6 +364,7 @@ public class BookServiceTest {
             boolean result = bookService.returnBookById(id);
 
             assertTrue(result);
+            bookService.deleteBookById(id);
         }
 
         @Test
@@ -372,6 +376,7 @@ public class BookServiceTest {
             boolean result = bookService.returnBookById(id);
 
             assertFalse(result);
+            bookService.deleteBookById(id);
         }
     }
 }
