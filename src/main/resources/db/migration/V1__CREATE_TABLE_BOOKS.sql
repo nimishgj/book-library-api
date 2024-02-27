@@ -7,7 +7,10 @@ library;
 CREATE TABLE IF NOT EXISTS library.books
 (
     id
-    INT,
+    INT
+    AUTO_INCREMENT
+    PRIMARY
+    KEY,
     title
     VARCHAR
 (
@@ -17,21 +20,17 @@ CREATE TABLE IF NOT EXISTS library.books
 (
     20
 ),
-    year_published INT,
-    PRIMARY KEY
-(
-    id
-)
+    year_published INT
     );
 
-INSERT INTO books
-VALUES (1, "Basics of Docker", "rahul", 2024);
+INSERT INTO books (title, author, year_published)
+VALUES ('Basics of Docker', 'rahul', 2024);
 
-INSERT INTO books
-VALUES (2, "Basics of something", "john", 2024);
+INSERT INTO books (title, author, year_published)
+VALUES ('Basics of something', 'john', 2024);
 
-INSERT INTO books
-VALUES (3, "Basics of human", "smith", 2024);
+INSERT INTO books (title, author, year_published)
+VALUES ('Basics of human', 'smith', 2024);
 
-INSERT INTO books
-VALUES (4, "Basics of streams", "alore", 2024);
+INSERT INTO books (title, author, year_published)
+VALUES ('Basics of streams', 'alore', 2024);
