@@ -28,7 +28,12 @@ public class BookService {
     return bookRepository.getAllCheckedOutBooks();
   }
 
-  public boolean addBook(int id, String title, String author, int year) {
+  public boolean addBook(Book book) {
+
+    int id = book.getId();
+    String title = book.getTitle();
+    String author = book.getAuthor();
+    int year = book.getYear();
     int result = bookRepository.add(id, title, author, year);
     return result != 0;
   }

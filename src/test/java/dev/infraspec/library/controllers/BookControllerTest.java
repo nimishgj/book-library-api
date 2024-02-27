@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import dev.infraspec.library.entities.Book;
 import dev.infraspec.library.services.BookService;
-import java.util.Map;
 import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -72,14 +71,10 @@ public class BookControllerTest {
     void addBookReturnStatusCreatedForSuccessfulDbOperation() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("id")).thenReturn(SOME_ID);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
-      when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(true);
+      Book book = createAValidBook();
+      when(bookServiceMock.addBook(book)).thenReturn(true);
 
-      ResponseEntity responseEntity = bookController.addBook(mapMock);
+      ResponseEntity responseEntity = bookController.addBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -89,15 +84,10 @@ public class BookControllerTest {
     void addBookCallsMethodInBookService() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("id")).thenReturn(SOME_ID);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      Book book = createAValidBook();
+      bookController.addBook(book);
 
-      bookController.addBook(mapMock);
-
-      verify(bookServiceMock, times(1)).addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      verify(bookServiceMock, times(1)).addBook(book);
     }
 
     @Test
@@ -105,14 +95,10 @@ public class BookControllerTest {
     void addBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("id")).thenReturn(SOME_ID);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
-      when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
+      Book book = createAValidBook();
+      when(bookServiceMock.addBook(book)).thenReturn(false);
 
-      ResponseEntity responseEntity = bookController.addBook(mapMock);
+      ResponseEntity responseEntity = bookController.addBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

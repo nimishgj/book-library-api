@@ -14,7 +14,6 @@ import static dev.infraspec.library.constants.BookControllerConstants.UPDATE_BOO
 import dev.infraspec.library.entities.Book;
 import dev.infraspec.library.services.BookService;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,13 +57,8 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addBook(@RequestBody Map<String, Object> requestBody) {
-    int id = (int) requestBody.get("id");
-    String title = (String) requestBody.get("title");
-    String author = (String) requestBody.get("author");
-    int year = (int) requestBody.get("year");
-
-    boolean isBookInserted = bookService.addBook(id, title, author, year);
+  public ResponseEntity<String> addBook(@RequestBody Book book) {
+    boolean isBookInserted = bookService.addBook(book);
 
     if (!isBookInserted) {
       return new ResponseEntity<>(ADD_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);

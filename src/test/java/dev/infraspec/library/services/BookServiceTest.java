@@ -28,6 +28,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DisplayName("Book Service")
 public class BookServiceTest {
 
+  private final Book book = createAValidBook();
+
   private Book createAValidBook() {
     return new Book(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
   }
@@ -35,6 +37,7 @@ public class BookServiceTest {
   @Nested
   @DisplayName("Unit Testing")
   class unitTesting {
+
 
     @Test
     @DisplayName("Book Service Object is created")
@@ -85,7 +88,7 @@ public class BookServiceTest {
       BookService bookService = new BookService(bookRepositoryMock);
       when(bookRepositoryMock.add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
 
-      boolean result = bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      boolean result = bookService.addBook(book);
 
       assertTrue(result);
     }
@@ -95,9 +98,10 @@ public class BookServiceTest {
     void addReturnsFalseForUnsuccessfulDbOperation() {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
-      when(bookRepositoryMock.add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(0);
+      when(bookRepositoryMock.add(book.getId(), book.getTitle(), book.getAuthor(),
+          book.getYear())).thenReturn(0);
 
-      boolean result = bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      boolean result = bookService.addBook(book);
 
       assertFalse(result);
     }
@@ -108,9 +112,10 @@ public class BookServiceTest {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
 
-      bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      bookService.addBook(book);
 
-      verify(bookRepositoryMock, times(1)).add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      verify(bookRepositoryMock, times(1)).add(book.getId(), book.getTitle(), book.getAuthor(),
+          book.getYear());
     }
 
     @Test
@@ -288,8 +293,10 @@ public class BookServiceTest {
     @Test
     @DisplayName("Fetches all available books from db")
     void getAllCheckedOutBooksFromDb() {
-      int id = new Random().nextInt(10000);
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      int id = generateRandomId();
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
       bookService.checkoutBookById(id);
 
       List<Book> bookList = bookService.getAllCheckedOutBooks();
@@ -300,8 +307,9 @@ public class BookServiceTest {
     @Test
     @DisplayName("add book to database")
     void addBookToDatabase() {
-      int id = new Random().nextInt(10000);
-      boolean result = bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      int id = generateRandomId();
+      book.setId(id);
+      boolean result = bookService.addBook(book);
 
       assertTrue(result);
       bookService.deleteBookById(id);
@@ -310,10 +318,9 @@ public class BookServiceTest {
     @Test
     @DisplayName("update book details in database")
     void updateBookDetailsInDatabase() {
-      int id = new Random().nextInt(10000);
-      Book book = createAValidBook();
+      int id = generateRandomId();
       book.setId(id);
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      bookService.addBook(book);
 
       boolean result = bookService.updateBook(book);
 
@@ -335,7 +342,9 @@ public class BookServiceTest {
     @DisplayName("delete book from database")
     void deleteBookFromDatabase() {
       int id = generateRandomId();
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
 
       boolean result = bookService.deleteBookById(id);
 
@@ -355,7 +364,9 @@ public class BookServiceTest {
     @DisplayName("checkout book from database")
     void checkoutBookFromDatabase() {
       int id = generateRandomId();
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
 
       boolean result = bookService.checkoutBookById(id);
 
@@ -367,7 +378,9 @@ public class BookServiceTest {
     @DisplayName("doesn't checkout book from database if already checked out")
     void doNotCheckoutBookFromDatabase() {
       int id = generateRandomId();
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
       bookService.checkoutBookById(id);
 
       boolean result = bookService.checkoutBookById(id);
@@ -380,7 +393,9 @@ public class BookServiceTest {
     @DisplayName("return book from database")
     void returnBookToDatabase() {
       int id = generateRandomId();
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
       bookService.checkoutBookById(id);
 
       boolean result = bookService.returnBookById(id);
@@ -393,7 +408,9 @@ public class BookServiceTest {
     @DisplayName("doesn't return book from database if id is not valid")
     void doNotReturnBookToDatabase() {
       int id = generateRandomId();
-      bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      book.setId(id);
+      bookService.addBook(book);
 
       boolean result = bookService.returnBookById(id);
 
