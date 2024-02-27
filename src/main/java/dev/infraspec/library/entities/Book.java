@@ -6,6 +6,8 @@ import static dev.infraspec.library.constants.BookConstants.YEAR_PUBLISHED_COLUM
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class Book {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String title;
   private String author;
@@ -26,9 +29,8 @@ public class Book {
   @Column(name = IS_CHECKOUT_COLUMN_NAME)
   private boolean isCheckedOut;
 
-  public Book(int id, String title, String author, int year) {
+  public Book(String title, String author, int year) {
     this.author = author;
-    this.id = id;
     this.title = title;
     this.year = year;
     this.isCheckedOut = false;

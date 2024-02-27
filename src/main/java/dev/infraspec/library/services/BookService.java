@@ -38,6 +38,10 @@ public class BookService {
     return result != 0;
   }
 
+  public Book add(Book book) {
+    return bookRepository.save(book);
+  }
+
   public boolean updateBook(Book book) {
 
     int id = book.getId();

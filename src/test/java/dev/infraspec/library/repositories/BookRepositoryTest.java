@@ -51,7 +51,7 @@ class BookRepositoryTest {
 
     private Book createAValidBook() {
       int randomId = new Random().nextInt(10000) + new Random().nextInt(10000);
-      return new Book(randomId, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      return new Book(SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
     }
 
     @Test
@@ -89,8 +89,8 @@ class BookRepositoryTest {
     void addBookToDb() {
       Book book = createAValidBook();
 
-      bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
-      Optional<Book> retrievedBookOptional = bookRepository.findById(book.getId());
+      Book savedBook = bookRepository.save(book);
+      Optional<Book> retrievedBookOptional = bookRepository.findById(savedBook.getId());
 
       assertTrue(retrievedBookOptional.isPresent());
       bookRepository.deleteBookById(book.getId());
@@ -100,10 +100,11 @@ class BookRepositoryTest {
     @DisplayName("Updates Book details in database using native Query")
     void editBook() {
       Book book = createAValidBook();
-      bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
+      Book savedBook = bookRepository.save(book);
       int expectedResult = 1;
 
-      int isBookUpdated = bookRepository.update(book.getId(), book.getTitle(), book.getAuthor(),
+      int isBookUpdated = bookRepository.update(savedBook.getId(), book.getTitle(),
+          book.getAuthor(),
           book.getYear());
 
       assertEquals(expectedResult, isBookUpdated);
@@ -125,9 +126,9 @@ class BookRepositoryTest {
     @DisplayName("Deletes Book by id for database using native query")
     void deleteBookById() {
       Book book = createAValidBook();
-      bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
+      Book savedBook = bookRepository.save(book);
 
-      int isBookDeleted = bookRepository.deleteBookById(book.getId());
+      int isBookDeleted = bookRepository.deleteBookById(savedBook.getId());
 
       assertTrue(isBookDeleted > 0);
       bookRepository.deleteBookById(book.getId());

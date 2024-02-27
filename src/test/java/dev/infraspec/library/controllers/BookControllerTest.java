@@ -22,9 +22,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.infraspec.library.entities.Book;
 import dev.infraspec.library.services.BookService;
-import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -37,12 +37,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 public class BookControllerTest {
 
   @Nested
   @DisplayName("Unit Testing")
   class UnitTesting {
+
+    private Book createAValidBook() {
+      return new Book(SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+    }
 
     @Test
     @DisplayName("Book Controller calls the Book Service's getAllBooks method")
@@ -72,9 +77,9 @@ public class BookControllerTest {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
       Book book = createAValidBook();
-      when(bookServiceMock.addBook(book)).thenReturn(true);
+      when(bookServiceMock.add(book)).thenReturn(book);
 
-      ResponseEntity responseEntity = bookController.addBook(book);
+      ResponseEntity<Book> responseEntity = bookController.addBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -87,20 +92,7 @@ public class BookControllerTest {
       Book book = createAValidBook();
       bookController.addBook(book);
 
-      verify(bookServiceMock, times(1)).addBook(book);
-    }
-
-    @Test
-    @DisplayName("addBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-    void addBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-      BookService bookServiceMock = mock(BookService.class);
-      BookController bookController = new BookController(bookServiceMock);
-      Book book = createAValidBook();
-      when(bookServiceMock.addBook(book)).thenReturn(false);
-
-      ResponseEntity responseEntity = bookController.addBook(book);
-
-      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+      verify(bookServiceMock, times(1)).add(book);
     }
 
     @Test
@@ -115,10 +107,6 @@ public class BookControllerTest {
       ResponseEntity responseEntity = bookController.updateBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-    }
-
-    private Book createAValidBook() {
-      return new Book(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
     }
 
     @Test
@@ -285,13 +273,16 @@ public class BookControllerTest {
     @Test
     @DisplayName("getAllCheckedOutBooks returns a list of books")
     void testGetAllCheckedOutBooksReturnsListOfBooks() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      ).andExpect(status().isCreated());
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
+
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+      int id = bookResponse.getId();
       mockMvc.perform(get("/v1/books/{id}/checkout", id));
 
       mockMvc.perform(get("/v1/books/checkedOut"))
@@ -305,54 +296,47 @@ public class BookControllerTest {
     @Test
     @DisplayName("addBook returns Http status of Created for successful db operation")
     void testAddBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      String title = SOME_TITLE;
-      String author = SOME_AUTHOR;
-      int year = SOME_YEAR;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
-              + "\", \"year\": " + year + " }")
-      ).andExpect(status().isCreated());
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
 
-      mockMvc.perform(get("/v1/books"))
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(greaterThan(0))))
-          .andExpect(jsonPath(
-              "$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author
-                  + "' && @.year == " + year + ")]").exists());
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
 
-      mockMvc.perform(delete("/v1/books/{id}", id))
+      mockMvc.perform(delete("/v1/books/{id}", bookResponse.getId()))
           .andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("updateBook returns Http status of Accepted for successful db operation")
     void testUpdateBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      String title = SOME_OTHER_TITLE;
-      String author = SOME_OTHER_AUTHOR;
-      int year = SOME_OTHER_YEAR;
-      int someOtherYear = SOME_YEAR;
-
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
-              + "\", \"year\": " + year + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
 
-      mockMvc.perform(put("/v1/books/{id}", id)
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+
+      mockMvc.perform(put("/v1/books/{id}", bookResponse.getId())
           .contentType(MediaType.APPLICATION_JSON)
-          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
-              + "\", \"year\": " + someOtherYear + " }")
+          .content("{ \"id\":" + bookResponse.getId() + ", \"title\": \"" + SOME_OTHER_TITLE
+              + "\", \"author\": \"" + SOME_OTHER_AUTHOR
+              + "\", \"year\": " + SOME_OTHER_YEAR + " }")
       ).andExpect(status().isOk());
 
       mockMvc.perform(get("/v1/books"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(greaterThan(0))))
           .andExpect(jsonPath(
-              "$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author
-                  + "' && @.year == " + someOtherYear + ")]").exists());
+              "$[?(@.id == " + bookResponse.getId() + " && @.title == '" + SOME_OTHER_TITLE
+                  + "' && @.author == '" + SOME_OTHER_AUTHOR
+                  + "' && @.year == " + SOME_OTHER_YEAR + ")]").exists());
     }
 
     @Test
@@ -370,15 +354,17 @@ public class BookControllerTest {
     @Test
     @DisplayName("deleteBook returns Http status of OK for successful deletion")
     void testDeleteBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
 
-      mockMvc.perform(delete("/v1/books/{id}", id))
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+
+      mockMvc.perform(delete("/v1/books/{id}", bookResponse.getId()))
           .andExpect(status().isOk());
     }
 
@@ -386,45 +372,44 @@ public class BookControllerTest {
     @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
     void unsuccessfulDeleteBook() throws Exception {
       int id = SOME_INVALID_ID;
-      mockMvc.perform(post("/v1/books")
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
 
       mockMvc.perform(delete("/v1/books/{id}", id))
-          .andExpect(status().isOk());
+          .andExpect(status().isInternalServerError());
     }
 
     @Test
     @DisplayName("checkoutBook returns Http status of OK for successful checkout")
     void testCheckoutBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
 
-      mockMvc.perform(get("/v1/books/{id}/checkout", id))
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+
+      mockMvc.perform(get("/v1/books/{id}/checkout", bookResponse.getId()))
           .andExpect(status().isOk());
 
-      mockMvc.perform(delete("/v1/books/{id}", id))
+      mockMvc.perform(delete("/v1/books/{id}", bookResponse.getId()))
           .andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
     void unsuccessfulCheckoutBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
+
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+      int id = bookResponse.getId();
 
       mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().isOk());
@@ -438,13 +423,16 @@ public class BookControllerTest {
     @Test
     @DisplayName("returnBook returns Http status of OK for successful return")
     void testReturnBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
+
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+      int id = bookResponse.getId();
 
       mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().isOk());
@@ -458,13 +446,16 @@ public class BookControllerTest {
     @Test
     @DisplayName("returnBook returns Http status of server error for unsuccessful return")
     void unsuccessfulReturnBook() throws Exception {
-      int id = new Random().nextInt(10000) + 1;
-      mockMvc.perform(post("/v1/books")
+      MvcResult mvcResult = mockMvc.perform(post("/v1/books")
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
-                  + "\", \"year\": " + SOME_YEAR + " }")
-      );
+          .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+              + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated()).andReturn();
+
+      String responseContent = mvcResult.getResponse().getContentAsString();
+      ObjectMapper objectMapper = new ObjectMapper();
+      Book bookResponse = objectMapper.readValue(responseContent, Book.class);
+      int id = bookResponse.getId();
 
       mockMvc.perform(get("/v1/books/{id}/return", id))
           .andExpect(status().is5xxServerError());

@@ -1,7 +1,5 @@
 package dev.infraspec.library.controllers;
 
-import static dev.infraspec.library.constants.BookControllerConstants.ADD_BOOK_ERROR_MESSAGE;
-import static dev.infraspec.library.constants.BookControllerConstants.ADD_BOOK_SUCCESS_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.CHECKOUT_BOOK_ERROR_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.CHECKOUT_BOOK_SUCCESS_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.DELETE_BOOK_ERROR_MESSAGE;
@@ -57,13 +55,14 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addBook(@RequestBody Book book) {
-    boolean isBookInserted = bookService.addBook(book);
+  public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    try {
+      Book savedBook = bookService.add(book);
 
-    if (!isBookInserted) {
-      return new ResponseEntity<>(ADD_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<>(ADD_BOOK_SUCCESS_MESSAGE, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")

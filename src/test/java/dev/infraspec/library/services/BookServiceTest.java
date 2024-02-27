@@ -1,11 +1,15 @@
 package dev.infraspec.library.services;
 
 import static dev.infraspec.library.constants.BookTestConstants.SOME_AUTHOR;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_BOOK;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_ID;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_INVALID_ID;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_OTHER_BOOK;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_TITLE;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_YEAR;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -31,7 +35,7 @@ public class BookServiceTest {
   private final Book book = createAValidBook();
 
   private Book createAValidBook() {
-    return new Book(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+    return new Book(SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
   }
 
   @Nested
@@ -82,40 +86,40 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("add method returns True for successful insertion into database")
-    void addReturnsTrueForSuccessfulDbOperation() {
+    @DisplayName("add calls book repository")
+    void addMethodCallsBookRepository() {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
-      when(bookRepositoryMock.add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
 
-      boolean result = bookService.addBook(book);
+      bookService.add(book);
 
-      assertTrue(result);
+      verify(bookRepositoryMock, times(1)).save(book);
     }
 
     @Test
-    @DisplayName("add method returns False for unsuccessful insertion into database")
-    void addReturnsFalseForUnsuccessfulDbOperation() {
+    @DisplayName("add returns true if book was added to database")
+    void addMethodReturnsTrueForSuccessfulDbOperation() {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
-      when(bookRepositoryMock.add(book.getId(), book.getTitle(), book.getAuthor(),
-          book.getYear())).thenReturn(0);
+      when(bookRepositoryMock.save(SOME_BOOK)).thenReturn(SOME_BOOK);
+      Book expectedResult = SOME_BOOK;
 
-      boolean result = bookService.addBook(book);
+      Book actualResult = bookService.add(SOME_BOOK);
 
-      assertFalse(result);
+      assertEquals(expectedResult, actualResult);
     }
 
     @Test
-    @DisplayName("add method calls method in BookRepository ")
-    void addCallsMethodInBookRepository() {
+    @DisplayName("add returns false if book was added to database")
+    void addMethodReturnsFalseForUnsuccessfulDbOperation() {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
+      when(bookRepositoryMock.save(SOME_BOOK)).thenReturn(SOME_OTHER_BOOK);
+      Book expectedResult = SOME_BOOK;
 
-      bookService.addBook(book);
+      Book actualResult = bookService.add(SOME_BOOK);
 
-      verify(bookRepositoryMock, times(1)).add(book.getId(), book.getTitle(), book.getAuthor(),
-          book.getYear());
+      assertNotEquals(expectedResult, actualResult);
     }
 
     @Test
@@ -124,7 +128,8 @@ public class BookServiceTest {
       Book book = createAValidBook();
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
-      when(bookRepositoryMock.update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
+      when(bookRepositoryMock.update(book.getId(), book.getTitle(), book.getAuthor(),
+          book.getYear())).thenReturn(1);
 
       boolean result = bookService.updateBook(book);
       assertTrue(result);
@@ -152,7 +157,8 @@ public class BookServiceTest {
 
       bookService.updateBook(book);
 
-      verify(bookRepositoryMock, times(1)).update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      verify(bookRepositoryMock, times(1)).update(book.getId(), book.getTitle(), book.getAuthor(),
+          book.getYear());
     }
 
     @Test
@@ -327,6 +333,18 @@ public class BookServiceTest {
       assertTrue(result);
       bookService.deleteBookById(id);
     }
+
+    @Test
+    @DisplayName("new add method adds to the database")
+    void addBookToDb() {
+      Book suppliedBook = createAValidBook();
+      Book savedBook = bookService.add(suppliedBook);
+
+      assertEquals(suppliedBook, savedBook);
+      System.out.println(savedBook.getId());
+      assertTrue(savedBook.getId() != 0);
+    }
+
 
     @Test
     @DisplayName("doesn't update book details if book does not exist in database")
