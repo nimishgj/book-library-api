@@ -1,6 +1,30 @@
 package dev.infraspec.library.controllers;
 
+import static dev.infraspec.library.constants.BookTestConstants.SOME_AUTHOR;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_ID;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_INVALID_ID;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_OTHER_AUTHOR;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_OTHER_TITLE;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_OTHER_YEAR;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_TITLE;
+import static dev.infraspec.library.constants.BookTestConstants.SOME_YEAR;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import dev.infraspec.library.services.BookService;
+import java.util.Map;
+import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,438 +38,452 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Map;
-import java.util.Random;
-
-import static dev.infraspec.library.constants.BookTestConstants.*;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 public class BookControllerTest {
-    @Nested
-    @DisplayName("Unit Testing")
-    class UnitTesting {
-        @Test
-        @DisplayName("Book Controller calls the Book Service's getAllBooks method")
-        void bookControllerCallsBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
 
-            bookController.getAllBooks();
+  @Nested
+  @DisplayName("Unit Testing")
+  class UnitTesting {
 
-            verify(bookServiceMock, times(1)).getAllBooks();
-        }
+    @Test
+    @DisplayName("Book Controller calls the Book Service's getAllBooks method")
+    void bookControllerCallsBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
 
-        @Test
-        @DisplayName("Book Controller calls the Book Service's getAllAvailableBooks method")
-        void getAllAvailableBooksCallsBookServiceMethod() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
+      bookController.getAllBooks();
 
-            bookController.getAllAvailableBooks();
-
-            verify(bookServiceMock, times(1)).getAllAvailableBooks();
-        }
-
-        @Test
-        @DisplayName("addBook returns status of CREATED for successful database operation")
-        void addBookReturnStatusCreatedForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("id")).thenReturn(SOME_ID);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-            when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(true);
-
-            ResponseEntity responseEntity = bookController.addBook(mapMock);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
-        }
-
-        @Test
-        @DisplayName("addBook calls method in BookService")
-        void addBookCallsMethodInBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("id")).thenReturn(SOME_ID);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-
-            bookController.addBook(mapMock);
-
-            verify(bookServiceMock, times(1)).addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
-        }
-
-        @Test
-        @DisplayName("addBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-        void addBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("id")).thenReturn(SOME_ID);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-            when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
-
-            ResponseEntity responseEntity = bookController.addBook(mapMock);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        @Test
-        @DisplayName("addBook returns status of ACCEPTED for successful database operation")
-        void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-            when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(true);
-
-            ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        }
-
-        @Test
-        @DisplayName("updateBook calls method in BookService")
-        void updateBookCallsMethodInBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-
-            bookController.updateBook(mapMock, SOME_ID);
-
-            verify(bookServiceMock, times(1)).updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
-        }
-
-        @Test
-        @DisplayName("updateBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-        void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            Map mapMock = mock(Map.class);
-            when(mapMock.get("title")).thenReturn(SOME_TITLE);
-            when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-            when(mapMock.get("year")).thenReturn(SOME_YEAR);
-            when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
-
-            ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        @Test
-        @DisplayName("deleteBookBYId returns status of OK for successful database operation")
-        void deleteBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
-
-            ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        }
-
-        @Test
-        @DisplayName("deleteBooksById calls method in BookService")
-        void deleteBookByIdCallsMethodInBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
-
-            bookController.deleteBook(SOME_ID);
-
-            verify(bookServiceMock, times(1)).deleteBookById(SOME_ID);
-        }
-
-        @Test
-        @DisplayName("deleteBooksById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-        void deleteBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(false);
-
-            ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        @Test
-        @DisplayName("checkoutBookById returns status of OK for successful database operation")
-        void checkoutBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(true);
-
-            ResponseEntity responseEntity = bookController.checkoutBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        }
-
-        @Test
-        @DisplayName("checkoutBookById calls method in BookService")
-        void checkoutBookByIdCallsMethodInBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(true);
-
-            bookController.checkoutBook(SOME_ID);
-
-            verify(bookServiceMock, times(1)).checkoutBookById(SOME_ID);
-        }
-
-        @Test
-        @DisplayName("checkoutBookById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-        void checkoutBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(false);
-
-            ResponseEntity responseEntity = bookController.checkoutBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        @Test
-        @DisplayName("returnBookById returns status of OK for successful database operation")
-        void returnBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
-
-            ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        }
-
-        @Test
-        @DisplayName("returnBookById calls method in BookService")
-        void returnBookByIdCallsMethodInBookService() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
-
-            bookController.returnBook(SOME_ID);
-
-            verify(bookServiceMock, times(1)).returnBookById(SOME_ID);
-        }
-
-        @Test
-        @DisplayName("returnBookById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
-        void returnBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
-            BookService bookServiceMock = mock(BookService.class);
-            BookController bookController = new BookController(bookServiceMock);
-            when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(false);
-
-            ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
-
-            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+      verify(bookServiceMock, times(1)).getAllBooks();
     }
 
-    @Nested
-    @DisplayName("Integration Testing")
-    @ExtendWith(SpringExtension.class)
-    @SpringBootTest
-    @AutoConfigureMockMvc
-    class IntegrationTesting {
-        @Autowired
-        private MockMvc mockMvc;
+    @Test
+    @DisplayName("Book Controller calls the Book Service's getAllAvailableBooks method")
+    void getAllAvailableBooksCallsBookServiceMethod() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
 
-        @Test
-        @DisplayName("getAllBooks returns a list of books")
-        void testGetAllBooksReturnsListOfBooks() throws Exception {
-            mockMvc.perform(get("/books"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(1))));
-        }
+      bookController.getAllAvailableBooks();
 
-        @Test
-        @DisplayName("getAllAvailableBooks returns a list of books")
-        void testGetAllAvailableBooksReturnsListOfBooks() throws Exception {
-            mockMvc.perform(get("/books/available"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(1))));
-        }
+      verify(bookServiceMock, times(1)).getAllAvailableBooks();
+    }
 
-        @Test
-        @DisplayName("getAllCheckedOutBooks returns a list of books")
-        void testGetAllCheckedOutBooksReturnsListOfBooks() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            ).andExpect(status().isCreated());
-            mockMvc.perform(get("/books/checkout/{id}", id));
+    @Test
+    @DisplayName("addBook returns status of CREATED for successful database operation")
+    void addBookReturnStatusCreatedForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("id")).thenReturn(SOME_ID);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(true);
 
-            mockMvc.perform(get("/books/checkedOut"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+      ResponseEntity responseEntity = bookController.addBook(mapMock);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+    }
 
-        @Test
-        @DisplayName("addBook returns Http status of Created for successful db operation")
-        void testAddBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            String title = SOME_TITLE;
-            String author = SOME_AUTHOR;
-            int year = SOME_YEAR;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
-            ).andExpect(status().isCreated());
+    @Test
+    @DisplayName("addBook calls method in BookService")
+    void addBookCallsMethodInBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("id")).thenReturn(SOME_ID);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
 
-            mockMvc.perform(get("/books"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(0))))
-                    .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
+      bookController.addBook(mapMock);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      verify(bookServiceMock, times(1)).addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+    }
 
-        @Test
-        @DisplayName("updateBook returns Http status of Accepted for successful db operation")
-        void testUpdateBook() throws Exception {
-            int id = 1;
-            String title = SOME_OTHER_TITLE;
-            String author = SOME_OTHER_AUTHOR;
-            int year = SOME_OTHER_YEAR;
+    @Test
+    @DisplayName("addBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+    void addBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("id")).thenReturn(SOME_ID);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      when(bookServiceMock.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
 
-            mockMvc.perform(put("/books/{id}", id)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
-            ).andExpect(status().isOk());
+      ResponseEntity responseEntity = bookController.addBook(mapMock);
 
-            mockMvc.perform(get("/books"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(greaterThan(0))))
-                    .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
-        }
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-        @Test
-        @DisplayName("updateBook returns Http status of server error for unsuccessful db operation")
-        void unsuccessfulUpdateBook() throws Exception {
+    @Test
+    @DisplayName("addBook returns status of ACCEPTED for successful database operation")
+    void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(
+          true);
 
-            mockMvc.perform(put("/books/{id}", SOME_INVALID_ID)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"title\": \"" + SOME_OTHER_TITLE + "\", \"author\": \"" + SOME_OTHER_AUTHOR + "\", \"year\": " + SOME_OTHER_YEAR + " }")
-            ).andExpect(status().is5xxServerError());
+      ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
 
-        }
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
 
-        @Test
-        @DisplayName("deleteBook returns Http status of OK for successful deletion")
-        void testDeleteBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+    @Test
+    @DisplayName("updateBook calls method in BookService")
+    void updateBookCallsMethodInBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      bookController.updateBook(mapMock, SOME_ID);
 
-        @Test
-        @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
-        void unsuccessfulDeleteBook() throws Exception {
-            int id = SOME_INVALID_ID;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+      verify(bookServiceMock, times(1)).updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+    }
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+    @Test
+    @DisplayName("updateBook returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+    void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      Map mapMock = mock(Map.class);
+      when(mapMock.get("title")).thenReturn(SOME_TITLE);
+      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
+      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(
+          false);
 
-        @Test
-        @DisplayName("checkoutBook returns Http status of OK for successful checkout")
-        void testCheckoutBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+      ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
 
-            mockMvc.perform(get("/books/checkout/{id}", id))
-                    .andExpect(status().isOk());
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+    @Test
+    @DisplayName("deleteBookBYId returns status of OK for successful database operation")
+    void deleteBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
 
-        @Test
-        @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
-        void unsuccessfulCheckoutBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+      ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
 
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
 
-            mockMvc.perform(get("/books/checkout/{id}", id))
-                    .andExpect(status().isOk());
-            mockMvc.perform(get("/books/checkout/{id}", id))
-                    .andExpect(status().is5xxServerError());
+    @Test
+    @DisplayName("deleteBooksById calls method in BookService")
+    void deleteBookByIdCallsMethodInBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      bookController.deleteBook(SOME_ID);
 
-        @Test
-        @DisplayName("returnBook returns Http status of OK for successful return")
-        void testReturnBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+      verify(bookServiceMock, times(1)).deleteBookById(SOME_ID);
+    }
 
-            mockMvc.perform(get("/books/checkout/{id}", id))
-                    .andExpect(status().isOk());
-            mockMvc.perform(get("/books/return/{id}", id))
-                    .andExpect(status().isOk());
+    @Test
+    @DisplayName("deleteBooksById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+    void deleteBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(false);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
 
-        @Test
-        @DisplayName("returnBook returns Http status of server error for unsuccessful return")
-        void unsuccessfulReturnBook() throws Exception {
-            int id = new Random().nextInt(10000) + 1;
-            mockMvc.perform(post("/books")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR + "\", \"year\": " + SOME_YEAR + " }")
-            );
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-            mockMvc.perform(get("/books/return/{id}", id))
-                    .andExpect(status().is5xxServerError());
+    @Test
+    @DisplayName("checkoutBookById returns status of OK for successful database operation")
+    void checkoutBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(true);
 
-            mockMvc.perform(delete("/books/{id}", id))
-                    .andExpect(status().isOk());
-        }
+      ResponseEntity responseEntity = bookController.checkoutBook(SOME_ID);
+
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    @DisplayName("checkoutBookById calls method in BookService")
+    void checkoutBookByIdCallsMethodInBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(true);
+
+      bookController.checkoutBook(SOME_ID);
+
+      verify(bookServiceMock, times(1)).checkoutBookById(SOME_ID);
+    }
+
+    @Test
+    @DisplayName("checkoutBookById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+    void checkoutBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.checkoutBookById(SOME_ID)).thenReturn(false);
+
+      ResponseEntity responseEntity = bookController.checkoutBook(SOME_ID);
+
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Test
+    @DisplayName("returnBookById returns status of OK for successful database operation")
+    void returnBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
+
+      ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
+
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    @DisplayName("returnBookById calls method in BookService")
+    void returnBookByIdCallsMethodInBookService() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(true);
+
+      bookController.returnBook(SOME_ID);
+
+      verify(bookServiceMock, times(1)).returnBookById(SOME_ID);
+    }
+
+    @Test
+    @DisplayName("returnBookById returns status of INTERNAL_SERVER_ERROR for unsuccessful database operation")
+    void returnBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+      BookService bookServiceMock = mock(BookService.class);
+      BookController bookController = new BookController(bookServiceMock);
+      when(bookServiceMock.returnBookById(SOME_ID)).thenReturn(false);
+
+      ResponseEntity responseEntity = bookController.returnBook(SOME_ID);
+
+      assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Nested
+  @DisplayName("Integration Testing")
+  @ExtendWith(SpringExtension.class)
+  @SpringBootTest
+  @AutoConfigureMockMvc
+  class IntegrationTesting {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    @DisplayName("getAllBooks returns a list of books")
+    void testGetAllBooksReturnsListOfBooks() throws Exception {
+      mockMvc.perform(get("/books"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(greaterThan(1))));
+    }
+
+    @Test
+    @DisplayName("getAllAvailableBooks returns a list of books")
+    void testGetAllAvailableBooksReturnsListOfBooks() throws Exception {
+      mockMvc.perform(get("/books/available"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(greaterThan(1))));
+    }
+
+    @Test
+    @DisplayName("getAllCheckedOutBooks returns a list of books")
+    void testGetAllCheckedOutBooksReturnsListOfBooks() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      ).andExpect(status().isCreated());
+      mockMvc.perform(get("/books/checkout/{id}", id));
+
+      mockMvc.perform(get("/books/checkedOut"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(greaterThan(0))));
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("addBook returns Http status of Created for successful db operation")
+    void testAddBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      String title = SOME_TITLE;
+      String author = SOME_AUTHOR;
+      int year = SOME_YEAR;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
+              + "\", \"year\": " + year + " }")
+      ).andExpect(status().isCreated());
+
+      mockMvc.perform(get("/books"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(greaterThan(0))))
+          .andExpect(jsonPath(
+              "$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author
+                  + "' && @.year == " + year + ")]").exists());
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("updateBook returns Http status of Accepted for successful db operation")
+    void testUpdateBook() throws Exception {
+      int id = 1;
+      String title = SOME_OTHER_TITLE;
+      String author = SOME_OTHER_AUTHOR;
+      int year = SOME_OTHER_YEAR;
+
+      mockMvc.perform(put("/books/{id}", id)
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year
+                  + " }")
+      ).andExpect(status().isOk());
+
+      mockMvc.perform(get("/books"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(greaterThan(0))))
+          .andExpect(jsonPath(
+              "$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author
+                  + "' && @.year == " + year + ")]").exists());
+    }
+
+    @Test
+    @DisplayName("updateBook returns Http status of server error for unsuccessful db operation")
+    void unsuccessfulUpdateBook() throws Exception {
+
+      mockMvc.perform(put("/books/{id}", SOME_INVALID_ID)
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{ \"title\": \"" + SOME_OTHER_TITLE + "\", \"author\": \"" + SOME_OTHER_AUTHOR
+              + "\", \"year\": " + SOME_OTHER_YEAR + " }")
+      ).andExpect(status().is5xxServerError());
 
     }
+
+    @Test
+    @DisplayName("deleteBook returns Http status of OK for successful deletion")
+    void testDeleteBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("deleteBook returns Http status of server error for unsuccessful deletion")
+    void unsuccessfulDeleteBook() throws Exception {
+      int id = SOME_INVALID_ID;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("checkoutBook returns Http status of OK for successful checkout")
+    void testCheckoutBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(get("/books/checkout/{id}", id))
+          .andExpect(status().isOk());
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("checkoutBook returns Http status of server error for unsuccessful checkout")
+    void unsuccessfulCheckoutBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(get("/books/checkout/{id}", id))
+          .andExpect(status().isOk());
+      mockMvc.perform(get("/books/checkout/{id}", id))
+          .andExpect(status().is5xxServerError());
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("returnBook returns Http status of OK for successful return")
+    void testReturnBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(get("/books/checkout/{id}", id))
+          .andExpect(status().isOk());
+      mockMvc.perform(get("/books/return/{id}", id))
+          .andExpect(status().isOk());
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("returnBook returns Http status of server error for unsuccessful return")
+    void unsuccessfulReturnBook() throws Exception {
+      int id = new Random().nextInt(10000) + 1;
+      mockMvc.perform(post("/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(
+              "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+      );
+
+      mockMvc.perform(get("/books/return/{id}", id))
+          .andExpect(status().is5xxServerError());
+
+      mockMvc.perform(delete("/books/{id}", id))
+          .andExpect(status().isOk());
+    }
+
+  }
 }
