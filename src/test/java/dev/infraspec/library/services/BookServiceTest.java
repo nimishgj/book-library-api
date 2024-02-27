@@ -3,7 +3,6 @@ package dev.infraspec.library.services;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_AUTHOR;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_ID;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_INVALID_ID;
-import static dev.infraspec.library.constants.BookTestConstants.SOME_OTHER_YEAR;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_TITLE;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_YEAR;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,6 +27,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @DisplayName("Book Service")
 public class BookServiceTest {
+
+  private Book createAValidBook() {
+    return new Book(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+  }
 
   @Nested
   @DisplayName("Unit Testing")
@@ -113,23 +116,24 @@ public class BookServiceTest {
     @Test
     @DisplayName("update method returns True for successful insertion into database")
     void updateReturnsTrueForSuccessfulDbOperation() {
+      Book book = createAValidBook();
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
       when(bookRepositoryMock.update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
 
-      boolean result = bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
-
+      boolean result = bookService.updateBook(book);
       assertTrue(result);
     }
 
     @Test
     @DisplayName("update method returns False for unsuccessful insertion into database")
     void updateReturnsFalseForUnsuccessfulDbOperation() {
+      Book book = createAValidBook();
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
       when(bookRepositoryMock.update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(0);
 
-      boolean result = bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      boolean result = bookService.updateBook(book);
 
       assertFalse(result);
     }
@@ -139,8 +143,9 @@ public class BookServiceTest {
     void updateCallsMethodInBookRepository() {
       BookRepository bookRepositoryMock = mock(BookRepository.class);
       BookService bookService = new BookService(bookRepositoryMock);
+      Book book = createAValidBook();
 
-      bookService.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      bookService.updateBook(book);
 
       verify(bookRepositoryMock, times(1)).update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
     }
@@ -306,8 +311,11 @@ public class BookServiceTest {
     @DisplayName("update book details in database")
     void updateBookDetailsInDatabase() {
       int id = new Random().nextInt(10000);
+      Book book = createAValidBook();
+      book.setId(id);
       bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
-      boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, SOME_OTHER_YEAR);
+
+      boolean result = bookService.updateBook(book);
 
       assertTrue(result);
       bookService.deleteBookById(id);
@@ -316,8 +324,9 @@ public class BookServiceTest {
     @Test
     @DisplayName("doesn't update book details if book does not exist in database")
     void DoNotUpdateBookDetailsInDatabase() {
-      boolean result = bookService.updateBook(SOME_INVALID_ID, SOME_TITLE, SOME_AUTHOR,
-          SOME_OTHER_YEAR);
+      Book book = createAValidBook();
+      book.setId(-100);
+      boolean result = bookService.updateBook(book);
 
       assertFalse(result);
     }

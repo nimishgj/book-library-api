@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import dev.infraspec.library.entities.Book;
 import dev.infraspec.library.services.BookService;
 import java.util.Map;
 import java.util.Random;
@@ -121,16 +122,17 @@ public class BookControllerTest {
     void updateBookReturnStatusCreatedForSuccessfulDbOperation() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
-      when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(
+      Book book = createAValidBook();
+      when(bookServiceMock.updateBook(book)).thenReturn(
           true);
 
-      ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
+      ResponseEntity responseEntity = bookController.updateBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+    }
+
+    private Book createAValidBook() {
+      return new Book(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
     }
 
     @Test
@@ -138,14 +140,11 @@ public class BookControllerTest {
     void updateBookCallsMethodInBookService() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
+      Book book = createAValidBook();
 
-      bookController.updateBook(mapMock, SOME_ID);
+      bookController.updateBook(book);
 
-      verify(bookServiceMock, times(1)).updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      verify(bookServiceMock, times(1)).updateBook(book);
     }
 
     @Test
@@ -153,14 +152,11 @@ public class BookControllerTest {
     void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
       BookService bookServiceMock = mock(BookService.class);
       BookController bookController = new BookController(bookServiceMock);
-      Map mapMock = mock(Map.class);
-      when(mapMock.get("title")).thenReturn(SOME_TITLE);
-      when(mapMock.get("author")).thenReturn(SOME_AUTHOR);
-      when(mapMock.get("year")).thenReturn(SOME_YEAR);
-      when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(
+      Book book = createAValidBook();
+      when(bookServiceMock.updateBook(book)).thenReturn(
           false);
 
-      ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
+      ResponseEntity responseEntity = bookController.updateBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -347,16 +343,22 @@ public class BookControllerTest {
     @Test
     @DisplayName("updateBook returns Http status of Accepted for successful db operation")
     void testUpdateBook() throws Exception {
-      int id = 1;
+      int id = new Random().nextInt(10000) + 1;
       String title = SOME_OTHER_TITLE;
       String author = SOME_OTHER_AUTHOR;
       int year = SOME_OTHER_YEAR;
+      int someOtherYear = SOME_YEAR;
+
+      mockMvc.perform(post("/v1/books")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
+              + "\", \"year\": " + year + " }")
+      );
 
       mockMvc.perform(put("/v1/books/{id}", id)
           .contentType(MediaType.APPLICATION_JSON)
-          .content(
-              "{ \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year
-                  + " }")
+          .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author
+              + "\", \"year\": " + someOtherYear + " }")
       ).andExpect(status().isOk());
 
       mockMvc.perform(get("/v1/books"))
@@ -364,7 +366,7 @@ public class BookControllerTest {
           .andExpect(jsonPath("$", hasSize(greaterThan(0))))
           .andExpect(jsonPath(
               "$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author
-                  + "' && @.year == " + year + ")]").exists());
+                  + "' && @.year == " + someOtherYear + ")]").exists());
     }
 
     @Test

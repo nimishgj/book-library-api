@@ -33,7 +33,12 @@ public class BookService {
     return result != 0;
   }
 
-  public boolean updateBook(int id, String title, String author, int year) {
+  public boolean updateBook(Book book) {
+
+    int id = book.getId();
+    String title = book.getTitle();
+    String author = book.getAuthor();
+    int year = book.getYear();
     int result = bookRepository.update(id, title, author, year);
     return result != 0;
   }

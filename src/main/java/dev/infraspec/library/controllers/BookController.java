@@ -73,13 +73,9 @@ public class BookController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<String> updateBook(@RequestBody Map<String, Object> requestBody,
-      @PathVariable int id) {
-    String title = (String) requestBody.get("title");
-    String author = (String) requestBody.get("author");
-    int year = (int) requestBody.get("year");
+  public ResponseEntity<String> updateBook(@RequestBody Book book) {
 
-    boolean isBookInserted = bookService.updateBook(id, title, author, year);
+    boolean isBookInserted = bookService.updateBook(book);
 
     if (!isBookInserted) {
       return new ResponseEntity<>(UPDATE_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
