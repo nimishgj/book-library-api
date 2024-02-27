@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/v1/books")
 public class BookController {
 
   private final BookService bookService;
