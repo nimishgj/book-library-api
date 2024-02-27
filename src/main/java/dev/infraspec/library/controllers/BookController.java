@@ -97,7 +97,7 @@ public class BookController {
     return new ResponseEntity<>(DELETE_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
   }
 
-  @GetMapping("/checkout/{id}")
+  @GetMapping("/{id}/checkout")
   @ResponseBody
   public ResponseEntity<String> checkoutBook(@PathVariable int id) {
     boolean isBookCheckedOut = bookService.checkoutBookById(id);
@@ -108,7 +108,7 @@ public class BookController {
     return new ResponseEntity<>(CHECKOUT_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);
   }
 
-  @GetMapping("/return/{id}")
+  @GetMapping("/{id}/return")
   @ResponseBody
   public ResponseEntity<String> returnBook(@PathVariable int id) {
     boolean isBookCheckedOut = bookService.returnBookById(id);

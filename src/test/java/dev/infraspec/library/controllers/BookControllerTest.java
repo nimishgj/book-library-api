@@ -310,7 +310,7 @@ public class BookControllerTest {
               "{ \"id\":" + id + ", \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + SOME_AUTHOR
                   + "\", \"year\": " + SOME_YEAR + " }")
       ).andExpect(status().isCreated());
-      mockMvc.perform(get("/v1/books/checkout/{id}", id));
+      mockMvc.perform(get("/v1/books/{id}/checkout", id));
 
       mockMvc.perform(get("/v1/books/checkedOut"))
           .andExpect(status().isOk())
@@ -420,7 +420,7 @@ public class BookControllerTest {
                   + "\", \"year\": " + SOME_YEAR + " }")
       );
 
-      mockMvc.perform(get("/v1/books/checkout/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().isOk());
 
       mockMvc.perform(delete("/v1/books/{id}", id))
@@ -438,9 +438,9 @@ public class BookControllerTest {
                   + "\", \"year\": " + SOME_YEAR + " }")
       );
 
-      mockMvc.perform(get("/v1/books/checkout/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().isOk());
-      mockMvc.perform(get("/v1/books/checkout/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().is5xxServerError());
 
       mockMvc.perform(delete("/v1/books/{id}", id))
@@ -458,9 +458,9 @@ public class BookControllerTest {
                   + "\", \"year\": " + SOME_YEAR + " }")
       );
 
-      mockMvc.perform(get("/v1/books/checkout/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/checkout", id))
           .andExpect(status().isOk());
-      mockMvc.perform(get("/v1/books/return/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/return", id))
           .andExpect(status().isOk());
 
       mockMvc.perform(delete("/v1/books/{id}", id))
@@ -478,7 +478,7 @@ public class BookControllerTest {
                   + "\", \"year\": " + SOME_YEAR + " }")
       );
 
-      mockMvc.perform(get("/v1/books/return/{id}", id))
+      mockMvc.perform(get("/v1/books/{id}/return", id))
           .andExpect(status().is5xxServerError());
 
       mockMvc.perform(delete("/v1/books/{id}", id))
