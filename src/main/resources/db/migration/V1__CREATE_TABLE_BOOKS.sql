@@ -14,11 +14,11 @@ CREATE TABLE IF NOT EXISTS library.books
     title
     VARCHAR
 (
-    30
+    45
 ),
     author VARCHAR
 (
-    20
+    35
 ),
     year_published INT
     );

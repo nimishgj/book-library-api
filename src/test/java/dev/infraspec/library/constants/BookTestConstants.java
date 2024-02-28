@@ -6,6 +6,8 @@ public class BookTestConstants {
 
   public static final String SOME_TITLE = "some title";
   public static final String SOME_OTHER_TITLE = "some other title";
+  public static final String BAD_TITLE = "someTitleWithLengthMoreThanFortyCharacters";
+  public static final String BAD_AUTHOR = "someTitleWithLengthMoreThan30Chars";
   public static final String SOME_AUTHOR = "some author";
   public static final String SOME_OTHER_AUTHOR = "some other author";
   public static final int SOME_YEAR = 1923;

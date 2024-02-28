@@ -28,16 +28,6 @@ public class BookService {
     return bookRepository.getAllCheckedOutBooks();
   }
 
-  public boolean addBook(Book book) {
-
-    int id = book.getId();
-    String title = book.getTitle();
-    String author = book.getAuthor();
-    int year = book.getYear();
-    int result = bookRepository.add(id, title, author, year);
-    return result != 0;
-  }
-
   public Book add(Book book) {
     return bookRepository.save(book);
   }

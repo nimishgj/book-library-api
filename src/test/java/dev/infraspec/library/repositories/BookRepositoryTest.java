@@ -147,8 +147,9 @@ class BookRepositoryTest {
     @Test
     @DisplayName("checkout a book from library")
     void checkoutBookById() {
-      int id = new Random().nextInt(10000) + 1;
-      bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      Book savedBook = bookRepository.save(book);
+      int id = savedBook.getId();
       int isBookCheckedOut = bookRepository.checkoutBookById(id);
 
       assertTrue(isBookCheckedOut > 0);
@@ -169,8 +170,9 @@ class BookRepositoryTest {
     @Test
     @DisplayName("return a book to library")
     void returnBookById() {
-      int id = new Random().nextInt(10000) + 1;
-      bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      Book savedBook = bookRepository.save(book);
+      int id = savedBook.getId();
       bookRepository.checkoutBookById(id);
 
       int isBookReturned = bookRepository.returnBookById(id);
@@ -182,8 +184,9 @@ class BookRepositoryTest {
     @Test
     @DisplayName("doesn't return a book to library if not checked out")
     void doesNotReturnBookById() {
-      int id = new Random().nextInt(10000) + 1;
-      bookRepository.add(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+      Book book = createAValidBook();
+      Book savedBook = bookRepository.save(book);
+      int id = savedBook.getId();
 
       int isBookReturned = bookRepository.returnBookById(id);
 

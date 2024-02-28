@@ -1,5 +1,7 @@
 package dev.infraspec.library.controllers;
 
+import static dev.infraspec.library.constants.BookConstants.INVALID_AUTHOR_ERROR_MESSAGE;
+import static dev.infraspec.library.constants.BookConstants.INVALID_TITLE_ERROR_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.CHECKOUT_BOOK_ERROR_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.CHECKOUT_BOOK_SUCCESS_MESSAGE;
 import static dev.infraspec.library.constants.BookControllerConstants.DELETE_BOOK_ERROR_MESSAGE;
@@ -55,9 +57,19 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<Book> addBook(@RequestBody Book book) {
+  public ResponseEntity<Object> addBook(@RequestBody Book book) {
     try {
       Book savedBook = bookService.add(book);
+      String bookTitle = savedBook.getTitle();
+      String bookAuthor = savedBook.getAuthor();
+
+      if (bookTitle.length() > 40) {
+        return new ResponseEntity<>(INVALID_TITLE_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+      }
+
+      if (bookAuthor.length() >= 30) {
+        return new ResponseEntity<>(INVALID_AUTHOR_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+      }
 
       return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     } catch (Exception e) {
@@ -68,9 +80,9 @@ public class BookController {
   @PutMapping("/{id}")
   public ResponseEntity<String> updateBook(@RequestBody Book book) {
 
-    boolean isBookInserted = bookService.updateBook(book);
+    boolean isBookUpdated = bookService.updateBook(book);
 
-    if (!isBookInserted) {
+    if (!isBookUpdated) {
       return new ResponseEntity<>(UPDATE_BOOK_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(UPDATE_BOOK_SUCCESS_MESSAGE, HttpStatus.OK);

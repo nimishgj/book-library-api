@@ -1,5 +1,7 @@
 package dev.infraspec.library.controllers;
 
+import static dev.infraspec.library.constants.BookTestConstants.BAD_AUTHOR;
+import static dev.infraspec.library.constants.BookTestConstants.BAD_TITLE;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_AUTHOR;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_ID;
 import static dev.infraspec.library.constants.BookTestConstants.SOME_INVALID_ID;
@@ -79,7 +81,7 @@ public class BookControllerTest {
       Book book = createAValidBook();
       when(bookServiceMock.add(book)).thenReturn(book);
 
-      ResponseEntity<Book> responseEntity = bookController.addBook(book);
+      ResponseEntity responseEntity = bookController.addBook(book);
 
       assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
     }
@@ -308,6 +310,26 @@ public class BookControllerTest {
 
       mockMvc.perform(delete("/v1/books/{id}", bookResponse.getId()))
           .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("addBook return Http status of bad request if length of title is more than 40 characters")
+    void addBookReturnsBadRequestForInvalidTitle() throws Exception {
+      mockMvc.perform(post("/v1/books")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content("{ \"title\": \"" + BAD_TITLE + "\", \"author\": \"" + SOME_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+          ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("addBook return Http status of bad request if length of author is more than 30 characters")
+    void addBookReturnsBadRequestForInvalidAuthor() throws Exception {
+      mockMvc.perform(post("/v1/books")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content("{ \"title\": \"" + SOME_TITLE + "\", \"author\": \"" + BAD_AUTHOR
+                  + "\", \"year\": " + SOME_YEAR + " }")
+          ).andExpect(status().isBadRequest());
     }
 
     @Test

@@ -23,11 +23,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
   List<Book> getAllCheckedOutBooks();
 
   @Modifying
-  @Query(nativeQuery = true, value = "INSERT INTO library.books (id, title, author, year_published, is_checked_out) VALUES (:id, :title, :author, :year, false)")
-  int add(@Param("id") int id, @Param("title") String title, @Param("author") String author,
-      @Param("year") int year);
-
-  @Modifying
   @Query(nativeQuery = true, value = "UPDATE library.books SET title = :title, author = :author, year_published = :year WHERE id = :id")
   int update(@Param("id") int id, @Param("title") String title, @Param("author") String author,
       @Param("year") int year);

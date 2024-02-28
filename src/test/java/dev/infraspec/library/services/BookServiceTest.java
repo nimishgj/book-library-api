@@ -302,7 +302,7 @@ public class BookServiceTest {
       int id = generateRandomId();
       Book book = createAValidBook();
       book.setId(id);
-      bookService.addBook(book);
+      bookService.add(book);
       bookService.checkoutBookById(id);
 
       List<Book> bookList = bookService.getAllCheckedOutBooks();
@@ -313,20 +313,18 @@ public class BookServiceTest {
     @Test
     @DisplayName("add book to database")
     void addBookToDatabase() {
-      int id = generateRandomId();
-      book.setId(id);
-      boolean result = bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
 
-      assertTrue(result);
+      assertEquals(savedBook, book);
       bookService.deleteBookById(id);
     }
 
     @Test
     @DisplayName("update book details in database")
     void updateBookDetailsInDatabase() {
-      int id = generateRandomId();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
 
       boolean result = bookService.updateBook(book);
 
@@ -359,10 +357,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("delete book from database")
     void deleteBookFromDatabase() {
-      int id = generateRandomId();
-      Book book = createAValidBook();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
 
       boolean result = bookService.deleteBookById(id);
 
@@ -381,10 +377,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("checkout book from database")
     void checkoutBookFromDatabase() {
-      int id = generateRandomId();
-      Book book = createAValidBook();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
 
       boolean result = bookService.checkoutBookById(id);
 
@@ -395,10 +389,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("doesn't checkout book from database if already checked out")
     void doNotCheckoutBookFromDatabase() {
-      int id = generateRandomId();
-      Book book = createAValidBook();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
       bookService.checkoutBookById(id);
 
       boolean result = bookService.checkoutBookById(id);
@@ -410,10 +402,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("return book from database")
     void returnBookToDatabase() {
-      int id = generateRandomId();
-      Book book = createAValidBook();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
       bookService.checkoutBookById(id);
 
       boolean result = bookService.returnBookById(id);
@@ -425,10 +415,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("doesn't return book from database if id is not valid")
     void doNotReturnBookToDatabase() {
-      int id = generateRandomId();
-      Book book = createAValidBook();
-      book.setId(id);
-      bookService.addBook(book);
+      Book savedBook = bookService.add(book);
+      int id = savedBook.getId();
 
       boolean result = bookService.returnBookById(id);
 
