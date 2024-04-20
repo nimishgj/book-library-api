@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Random;
 
 import static dev.infraspec.library.constants.BookTestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,6 +111,41 @@ public class BookServiceTest {
 
             verify(bookRepositoryMock, times(1)).update(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
+
+        @Test
+        @DisplayName("deleteBookById method returns True for successful insertion into database")
+        void deleteBookByIdReturnsTrueForSuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.deleteBookById(SOME_ID)).thenReturn(1);
+
+            boolean result = bookService.deleteBookById(SOME_ID);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("deleteBookById method returns True for successful insertion into database")
+        void deleteBookByIdReturnsFalseForUnsuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.deleteBookById(SOME_ID)).thenReturn(0);
+
+            boolean result = bookService.deleteBookById(SOME_ID);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("deleteBookById method calls method in BookRepository ")
+        void deleteBookByIdCallsMethodInBookRepository() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.deleteBookById(SOME_ID);
+
+            verify(bookRepositoryMock, times(1)).deleteBookById(SOME_ID);
+        }
     }
 
     @Nested
@@ -126,6 +162,37 @@ public class BookServiceTest {
             List<Book> bookList = bookService.getAllBooks();
 
             assertFalse(bookList.isEmpty());
+        }
+
+        @Test
+        @DisplayName("add book to database")
+        void addBookToDatabase() {
+            int id = new Random().nextInt(10000);
+            boolean result = bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("update book details in database")
+        void updateBookDetailsInDatabase() {
+            int id = new Random().nextInt(10000);
+            int year = 1093;
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+            boolean result = bookService.updateBook(id, SOME_TITLE, SOME_AUTHOR, year);
+
+            assertTrue(result);
+        }
+        
+        @Test
+        @DisplayName("delete book from database")
+        void deleteBookFromDatabase() {
+            int id = new Random().nextInt(10000) + 1014321;
+            bookService.addBook(id, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            boolean result = bookService.deleteBookById(id);
+
+            assertTrue(result);
         }
     }
 }

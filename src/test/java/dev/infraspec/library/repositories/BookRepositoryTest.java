@@ -77,6 +77,27 @@ class BookRepositoryTest {
         }
 
         @Test
+        @DisplayName("Deletes Book by id for database using native query")
+        void deleteBookById() {
+            Book book = createAValidBook();
+            bookRepository.add(book.getId(), book.getTitle(), book.getAuthor(), book.getYear());
+
+            int isBookDeleted = bookRepository.deleteBookById(book.getId());
+
+            assertTrue(isBookDeleted > 0);
+        }
+
+        @Test
+        @DisplayName("doesn't delete if the book is not present in database")
+        void doesNotDeleteBookById() {
+            int expectedResult = 0;
+
+            int isBookDeleted = bookRepository.deleteBookById(SOME_INVALID_ID);
+
+            assertEquals(expectedResult, isBookDeleted);
+        }
+
+        @Test
         @DisplayName("Checks if any books exist in the database")
         void checksIfAnyBooksExistInDb() {
             Book book = createAValidBook();

@@ -29,4 +29,9 @@ public class BookService {
         int result = bookRepository.update(id, title, author, year);
         return result != 0;
     }
+
+    public boolean deleteBookById(int id) {
+        int result = bookRepository.deleteBookById(id);
+        return result > 0;
+    }
 }

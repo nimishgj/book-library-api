@@ -123,7 +123,7 @@ public class BookControllerTest {
         }
 
         @Test
-        @DisplayName("updateBook returns status of CREATED for successful database operation")
+        @DisplayName("updateBook returns status of INTERNAL_SERVER_ERROR for successful database operation")
         void updateBookReturnStatusInternalServerErrorForSuccessfulDbOperation() {
             BookService bookServiceMock = mock(BookService.class);
             BookController bookController = new BookController(bookServiceMock);
@@ -134,6 +134,42 @@ public class BookControllerTest {
             when(bookServiceMock.updateBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(false);
 
             ResponseEntity responseEntity = bookController.updateBook(mapMock, SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        @Test
+        @DisplayName("addBook returns status of CREATED for successful database operation")
+        void deleteBookByIdReturnStatusCreatedForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
+
+            ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
+
+            assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        }
+
+        @Test
+        @DisplayName("updateBook calls method in BookService")
+        void deleteBookByIdCallsMethodInBookService() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(true);
+
+            bookController.deleteBook(SOME_ID);
+
+            verify(bookServiceMock, times(1)).deleteBookById(SOME_ID);
+        }
+
+        @Test
+        @DisplayName("updateBook returns status of CREATED for successful database operation")
+        void deleteBookByIdReturnStatusInternalServerErrorForSuccessfulDbOperation() {
+            BookService bookServiceMock = mock(BookService.class);
+            BookController bookController = new BookController(bookServiceMock);
+            when(bookServiceMock.deleteBookById(SOME_ID)).thenReturn(false);
+
+            ResponseEntity responseEntity = bookController.deleteBook(SOME_ID);
 
             assertEquals(responseEntity.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -192,6 +228,23 @@ public class BookControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", hasSize(greaterThan(0))))
                     .andExpect(jsonPath("$[?(@.id == " + id + " && @.title == '" + title + "' && @.author == '" + author + "' && @.year == " + year + ")]").exists());
+        }
+
+        @Test
+        @DisplayName("deleteBook returns Http status of OK for successful deletion")
+        void testDeleteBook() throws Exception {
+            int id = new Random().nextInt(10000) + 1;
+            String title = SOME_TITLE;
+            String author = SOME_AUTHOR;
+            int year = SOME_YEAR;
+
+            mockMvc.perform(post("/books")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{ \"id\":" + id + ", \"title\": \"" + title + "\", \"author\": \"" + author + "\", \"year\": " + year + " }")
+            );
+
+            mockMvc.perform(delete("/books/{id}", id))
+                    .andExpect(status().isOk());
         }
 
     }
