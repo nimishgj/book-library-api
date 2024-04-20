@@ -5,12 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"dev.infraspec.library.services", "dev.infraspec.library.repositories","dev.infraspec.library.controllers"})
+@ComponentScan({"dev.infraspec.library.services", "dev.infraspec.library.repositories",
+    "dev.infraspec.library.controllers"})
 public class LibraryApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LibraryApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(LibraryApplication.class, args);
+  }
 
 }
 
