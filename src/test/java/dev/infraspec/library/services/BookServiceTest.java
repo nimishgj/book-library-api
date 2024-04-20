@@ -12,15 +12,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static dev.infraspec.library.constants.BookTestConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @DisplayName("Book Service")
 public class BookServiceTest {
     @Nested
     @DisplayName("Unit Testing")
-    class unitTesting{
+    class unitTesting {
         @Test
         @DisplayName("Book Service Object is created")
         void bookServiceClassIsNotNull() {
@@ -39,6 +39,41 @@ public class BookServiceTest {
             bookService.getAllBooks();
 
             verify(bookRepositoryMock, times(1)).getAllBooks();
+        }
+
+        @Test
+        @DisplayName("add method returns True for successful insertion into databaes")
+        void addReturnsTrueForSuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(1);
+
+            boolean result = bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("add method returns True for successful insertion into databaes")
+        void addReturnsFalseForUnsuccessfulDbOperation() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+            when(bookRepositoryMock.add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR)).thenReturn(0);
+
+            boolean result = bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            assertFalse(result);
+        }
+
+        @Test
+        @DisplayName("add method calls method in BookRepository ")
+        void addCallsMethodInBookRepository() {
+            BookRepository bookRepositoryMock = mock(BookRepository.class);
+            BookService bookService = new BookService(bookRepositoryMock);
+
+            bookService.addBook(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
+
+            verify(bookRepositoryMock, times(1)).add(SOME_ID, SOME_TITLE, SOME_AUTHOR, SOME_YEAR);
         }
     }
 
